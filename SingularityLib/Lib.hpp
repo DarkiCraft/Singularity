@@ -1,41 +1,25 @@
 #ifndef SINGULARITYLIB_LIB_HPP
 #define SINGULARITYLIB_LIB_HPP
 
-#include "DenseStorage.hpp"
 #include "Matrix.hpp"
+#include "Matrix/DenseStorage.hpp"
+#include "Matrix/SprseStorage.hpp"
 
 using size_t = unsigned long long;
 
 namespace Sglty {
 
-template <typename _Tp, size_t _rows, size_t _cols, StorageOrdr _st_ordr>
-using DenseMatrix =
-    Matrix<_Tp, _rows, _cols, StorageType::Dense, _st_ordr, DenseStorage>;
+template <typename _Tp,
+          size_t _rows,
+          size_t _cols,
+          StorageOrdr _st_ordr = StorageOrdr::RowMajor>
+using DenseMatrix = Matrix<DenseStorage<_Tp, _rows, _cols, _st_ordr>>;
 
 template <typename _Tp, size_t _rows, size_t _cols>
-using DenseRowMatrix = Matrix<_Tp,
-                              _rows,
-                              _cols,
-                              StorageType::Dense,
-                              StorageOrdr::RowMajor,
-                              DenseStorage>;
-
-template <typename _Tp, size_t _rows, size_t _cols>
-using DenseColMatrix = Matrix<_Tp,
-                              _rows,
-                              _cols,
-                              StorageType::Dense,
-                              StorageOrdr::ColMajor,
-                              DenseStorage>;
-
-template <typename _Tp, size_t _rows, size_t _cols>
-using SprseMatrix = Matrix<_Tp,
-                           _rows,
-                           _cols,
-                           StorageType::Sprse,
-                           StorageOrdr::Udefined,
-                           DenseStorage>;
+using SprseMatrix = Matrix<SprseStorage<_Tp, _rows, _cols>>;
 
 }  // namespace Sglty
 
 #endif  // SINGULARITYLIB_LIB_HPP
+
+// SingularityLib/Lib.hpp
