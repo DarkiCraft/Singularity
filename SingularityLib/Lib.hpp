@@ -2,8 +2,8 @@
 #define SINGULARITYLIB_LIB_HPP
 
 #include "Matrix.hpp"
-#include "Matrix/DenseStorage.hpp"
-#include "Matrix/SprseStorage.hpp"
+#include "Matrix/Core/Dense.hpp"
+#include "Matrix/Core/Sprse.hpp"
 
 using size_t = unsigned long long;
 
@@ -12,11 +12,11 @@ namespace Sglty {
 template <typename _Tp,
           size_t _rows,
           size_t _cols,
-          StorageOrdr _st_ordr = StorageOrdr::RowMajor>
-using DenseMatrix = Matrix<DenseStorage<_Tp, _rows, _cols, _st_ordr>>;
+          CoreOrdr _core_ordr = CoreOrdr::RowMajor>
+using DenseMatrix = Matrix<DenseCore<_Tp, _rows, _cols, _core_ordr>>;
 
 template <typename _Tp, size_t _rows, size_t _cols>
-using SprseMatrix = Matrix<SprseStorage<_Tp, _rows, _cols>>;
+using SprseMatrix = Matrix<SprseCore<_Tp, _rows, _cols>>;
 
 }  // namespace Sglty
 

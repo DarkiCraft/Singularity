@@ -1,18 +1,18 @@
-#ifndef SINGULARITYLIB_SPRSE_MATRIX_STORAGE_HPP
-#define SINGULARITYLIB_SPRSE_MATRIX_STORAGE_HPP
+#ifndef SINGULARITYLIB_MATRIX_CORE_SPRSE_HPP
+#define SINGULARITYLIB_MATRIX_CORE_SPRSE_HPP
 
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "StorageCore.hpp"
+#include "Checks.hpp"
 
 using size_t = unsigned long long;
 
 namespace Sglty {
 
 template <typename _Tp, size_t _rows, size_t _cols>
-class SprseStorage {
+class SprseCore {
  public:
   using type_traits = TypeTraits<_Tp>;
 
@@ -30,18 +30,17 @@ class SprseStorage {
     return _cols;
   }
 
-  using storage_traits = StorageTraits<StorageType::Static,
-                                       StorageMode::Sprse,
-                                       StorageOrdr::Udefined>;
+  using core_traits =
+      CoreTraits<CoreType::Static, CoreMode::Sprse, CoreOrdr::Udefined>;
 
-  static constexpr StorageType StorageType() {
-    return storage_traits::storage_type;
+  static constexpr CoreType CoreType() {
+    return core_traits::core_type;
   }
-  static constexpr StorageMode StorageMode() {
-    return storage_traits::storage_mode;
+  static constexpr CoreMode CoreMode() {
+    return core_traits::core_mode;
   }
-  static constexpr StorageOrdr StorageOrdr() {
-    return storage_traits::storage_ordr;
+  static constexpr CoreOrdr CoreOrdr() {
+    return core_traits::core_ordr;
   }
 
   constexpr inline reference At(const size_t _row, const size_t _col) {
@@ -76,6 +75,6 @@ class SprseStorage {
 
 }  // namespace Sglty
 
-#endif  // SINGULARITYLIB_MATRIX_SPRSE_STORAGE_HPP
+#endif  // SINGULARITYLIB_MATRIX_CORE_SPRSE_HPP
 
-// SinularityLib/Matrix/SprseStorage.hpp
+// SinularityLib/Matrix/Core/Sprse.hpp
