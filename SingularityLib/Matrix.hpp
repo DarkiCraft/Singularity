@@ -14,21 +14,11 @@ class Matrix {
   static_assert(is_valid_core_implementation_v<_core_impl>,
                 "Invalid Core Implementation");
 
-  static_assert(is_valid_core_traits_v<_core_impl::CoreType(),
-                                       _core_impl::CoreMode(),
-                                       _core_impl::CoreOrdr()>,
+  static_assert(is_valid_core_traits_v<typename _core_impl::core_traits>,
                 "Invalid CoreTrait<> combination");
 
  public:
-  template <
-      typename _dummy_t = _core_impl,
-      typename = std::enable_if_t<_dummy_t::CoreType() == CoreType::Static>>
-  Matrix() {}
-
-  template <
-      typename _dummy_t = _core_impl,
-      typename = std::enable_if_t<_dummy_t::CoreType() == CoreType::Dynamc>>
-  Matrix(const size_t _rows, const size_t _cols) {}
+  Matrix() = default;
 
  private:
   _core_impl _m_data;

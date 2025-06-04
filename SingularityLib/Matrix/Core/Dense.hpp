@@ -10,15 +10,8 @@ using size_t = unsigned long long;
 
 namespace Sglty {
 
-inline constexpr size_t DENSE_CORE_DYNAMIC = 0;
-
 template <typename _Tp, size_t _rows, size_t _cols, CoreOrdr _core_ordr>
 class DenseCore {
-  static constexpr bool _m_is_rows_dynamic = _rows == DENSE_CORE_DYNAMIC;
-  static constexpr bool _m_is_cols_dynamic = _cols == DENSE_CORE_DYNAMIC;
-  static constexpr bool _m_is_core_dynamic =
-      _m_is_rows_dynamic || _m_is_cols_dynamic;
-
  public:
   using type_traits = TypeTraits<_Tp>;
 
@@ -29,27 +22,23 @@ class DenseCore {
   using pointer         = typename type_traits::pointer;
   using const_pointer   = typename type_traits::const_pointer;
 
-  constexpr size_t Rows() {
-    return _m_rows;
+  using core_traits = CoreTraits<CoreMode::Dense, _core_ordr>;
+
+  DenseCore() = default;
+
+  static constexpr size_t Rows() {
+    return _rows;
   }
-  constexpr size_t Cols() {
-    return _m_cols;
+  static constexpr size_t Cols() {
+    return _cols;
   }
 
-  using core_traits =
-      CoreTraits<_m_is_core_dynamic ? CoreType::Dynamc : CoreType::Static,
-                 CoreMode::Dense,
-                 _core_ordr>;
-
-  static constexpr CoreType CoreType() {
-    return core_traits::core_type;
-  }
-  static constexpr CoreMode CoreMode() {
-    return core_traits::core_mode;
-  }
-  static constexpr CoreOrdr CoreOrdr() {
-    return core_traits::core_ordr;
-  }
+  // static constexpr CoreMode CoreMode() {
+  //   return core_traits::core_mode;
+  // }
+  // static constexpr CoreOrdr CoreOrdr() {
+  //   return core_traits::core_ordr;
+  // }
 
   constexpr inline reference At(const size_t _row, const size_t _col) {
     return _m_Get(_row, _col);
@@ -71,14 +60,7 @@ class DenseCore {
   }
 
  private:
-  using _m_ContainerType = std::conditional_t<_m_is_core_dynamic,
-                                              std::vector<_Tp>,
-                                              std::array<_Tp, _rows * _cols>>;
-
-  size_t _m_rows = _rows;
-  size_t _m_cols = _cols;
-
-  _m_ContainerType _m_data;
+  std::array<_Tp, Rows() * Cols()> _m_data;
 
   constexpr inline reference _m_Get(const size_t _row, const size_t _col) {
     if (CoreOrdr() == CoreOrdr::RowMajor) {

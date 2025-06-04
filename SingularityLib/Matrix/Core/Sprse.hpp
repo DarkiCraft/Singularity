@@ -30,12 +30,8 @@ class SprseCore {
     return _cols;
   }
 
-  using core_traits =
-      CoreTraits<CoreType::Static, CoreMode::Sprse, CoreOrdr::Udefined>;
+  using core_traits = CoreTraits<CoreMode::Sprse, CoreOrdr::Udefined>;
 
-  static constexpr CoreType CoreType() {
-    return core_traits::core_type;
-  }
   static constexpr CoreMode CoreMode() {
     return core_traits::core_mode;
   }
