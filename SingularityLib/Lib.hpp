@@ -5,7 +5,7 @@
 #include "Matrix/Core/Dense.hpp"
 #include "Matrix/Core/Sprse.hpp"
 
-using size_t = unsigned long long;
+using std::size_t;
 
 namespace Sglty {
 

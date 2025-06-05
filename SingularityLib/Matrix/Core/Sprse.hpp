@@ -7,7 +7,7 @@
 
 #include "Checks.hpp"
 
-using size_t = unsigned long long;
+using std::size_t;
 
 namespace Sglty {
 

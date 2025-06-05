@@ -2,11 +2,12 @@
 #define SINGULARITYLIB_MATRIX_CORE_DENSE_HPP
 
 #include <array>
+#include <utility>
 #include <vector>
 
 #include "Checks.hpp"
 
-using size_t = unsigned long long;
+using std::size_t;
 
 namespace Sglty {
 
@@ -41,39 +42,36 @@ class DenseCore {
   // }
 
   constexpr inline reference At(const size_t _row, const size_t _col) {
-    return _m_Get(_row, _col);
+    return const_cast<reference>(std::as_const(*this).At(_row, _col));
   }
 
   constexpr inline const_reference At(const size_t _row,
                                       const size_t _col) const {
-    return const_cast<const_reference>(
-        static_cast<const DenseCore&>(*this).At(_row, _col));
+    return _m_Get(_row, _col);
   }
 
   constexpr inline pointer Data() {
-    return _m_data.data();
+    return const_cast<pointer>(std::as_const(*this).Data());
   }
 
   constexpr inline const_pointer Data() const {
-    return const_cast<const_pointer>(
-        static_cast<const DenseCore&>(*this).Data());
+    return _m_data.data();
   }
 
  private:
   std::array<_Tp, Rows() * Cols()> _m_data;
 
   constexpr inline reference _m_Get(const size_t _row, const size_t _col) {
+    return const_cast<reference>(std::as_const(*this)._m_Get(_row, _col));
+  }
+
+  constexpr inline const_reference _m_Get(const size_t _row,
+                                          const size_t _col) const {
     if (CoreOrdr() == CoreOrdr::RowMajor) {
       return _m_data[_row * Cols() + _col];
     } else {
       return _m_data[_col * Rows() + _row];
     }
-  }
-
-  constexpr inline const_reference _m_Get(const size_t _row,
-                                          const size_t _col) const {
-    return const_cast<const_reference>(
-        static_cast<const DenseCore&>(*this)._m_Get(_row, _col));
   }
 };
 
