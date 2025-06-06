@@ -14,10 +14,9 @@ class Matrix {
   // static_assert(is_valid_core_implementation_v<_core_impl>,
   //               "Invalid Core Implementation");
 
+  static_assert(has_size_traits_v<_core_impl>, "Missing nested size_traits");
   static_assert(has_type_traits_v<_core_impl>, "Missing nested type_traits");
   static_assert(has_core_traits_v<_core_impl>, "Missing nested core_traits");
-  static_assert(has_static_functions_v<_core_impl>,
-                "Missing static Rows() or Cols() with integral return type");
   static_assert(has_member_functions_v<_core_impl>,
                 "Missing At() or Data() or wrong signature or return type");
   static_assert(is_valid_core_traits_v<typename _core_impl::core_traits>,
@@ -31,8 +30,8 @@ class Matrix {
   friend constexpr Matrix<_core> operator+(const Matrix<_core>& l,
                                            const Matrix<_core>& r) {
     Matrix<_core> result;
-    for (size_t i = 0; i < result._m_data.Rows(); i++) {
-      for (size_t j = 0; j < result._m_data.Cols(); j++) {
+    for (size_t i = 0; i < _core::size_traits::rows; i++) {
+      for (size_t j = 0; j < _core::size_traits::cols; j++) {
         result._m_data.At(i, j) = l._m_data.At(i, j) + r._m_data.At(i, j);
       }
     }

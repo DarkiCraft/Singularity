@@ -16,12 +16,26 @@ struct CoreTraits {
   static constexpr CoreOrdr core_ordr = _core_ordr;
 };
 
-template <typename core_traits>
-struct is_valid_core_traits
-    : std::bool_constant<(core_traits::core_mode == CoreMode::Dense &&
-                              (core_traits::core_ordr == CoreOrdr::RowMajor ||
-                               core_traits::core_ordr == CoreOrdr::ColMajor) ||
-                          core_traits::core_mode == CoreMode::Sprse)> {};
+// template <typename core_traits>
+// struct is_valid_core_traits
+//     : std::bool_constant<(core_traits::core_mode == CoreMode::Dense &&
+//                               (core_traits::core_ordr == CoreOrdr::RowMajor
+//                               ||
+//                                core_traits::core_ordr == CoreOrdr::ColMajor)
+//                                ||
+//                           core_traits::core_mode == CoreMode::Sprse)> {};
+
+template <typename, typename = void>
+struct is_valid_core_traits : std::false_type {};
+
+template <typename _core_traits>
+struct is_valid_core_traits<_core_traits,
+                            std::void_t<decltype(_core_traits::core_mode),
+                                        decltype(_core_traits::core_ordr)>>
+    : std::bool_constant<(_core_traits::core_mode == CoreMode::Dense &&
+                          (_core_traits::core_ordr == CoreOrdr::RowMajor ||
+                           _core_traits::core_ordr == CoreOrdr::ColMajor)) ||
+                         _core_traits::core_mode == CoreMode::Sprse> {};
 
 template <typename core_traits>
 constexpr bool is_valid_core_traits_v =
