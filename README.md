@@ -2,18 +2,25 @@
 
 (I CAN FINALLY WORK ON THIS AGAIN IN THE SUMMERS WOOHOOO!!!)
 
-SingularityLib is a C++ header-only Linear Algebra library heavily inspired by [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page) with a focus on compile-time metaprogramming.
+SingularityLib is a C++ header-only Linear Algebra library heavily inspired by [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page) with a focus on compile-time metaprogramming. It’s built as a hobby project to learn and experiment with advanced C++ techniques.
 
-## What this project aims to do:
-- Allow Linear Algebra operations on matrices, vectors, and fields.
-- Provide pluggable, user-defined storage backends (Cores) with full operation support.
-- Be a fun and educational project for me.
+## Goals:
+- Provide linear algebra operations on matrices, vectors, and fields
+- Enable pluggable user-defined storage backends ("Cores") with full operation support
+- Serve as a learning ground for exploring template metaprogramming and library design
 
-## What this project does NOT aim to do:
-- Compete with Eigen or any major Linear Algebra library. This is not production-grade and never will be.
-- Guarantee perfectly optimized runtime performance. I’m not chasing matrix optimization — this is a personal learning journey, not a benchmark contest.
+## Non-Goals
+- Competing with Eigen or any industrial-grade linear algebra library
+- Providing runtime-optimized or dynamic-memory-backed performance
+- Offering full production-grade guarantees or widespread platform portability
+
+## Known limitations:
+- All data is stack-allocated by design, for zero runtime overhead.
+  - This imposes strict practical limits on object sizes (e.g., ~256×256 matrices are typically safe).
+  - Larger sizes may result in stack overflow or crashes, depending on your system and compiler settings.
+  - If you need massive matrices, this library probably isn’t the right fit — intentionally so.
 
 ## Status:
-Haven't worked on this in a while because of exams but I intend to in the very near future.
+Working on the API :)
 
-I appreciate all criticism, and all support <3
+All feedback and criticism is welcome — I’m here to learn <3
