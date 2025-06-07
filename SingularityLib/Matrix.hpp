@@ -1,7 +1,9 @@
 #ifndef SINGULARITYLIB_MATRIX_HPP
 #define SINGULARITYLIB_MATRIX_HPP
 
+#include <iostream>
 #include <type_traits>
+#include <utility>
 
 #include "Matrix/Core/Checks.hpp"
 
@@ -23,20 +25,81 @@ class Matrix {
                 "Invalid core_traits combination");
 
  public:
-  Matrix() = default;
+  using type_traits = typename _core_impl::type_traits;
 
-  // this for testing, will be implemented correctly later
-  template <typename _core>
-  friend constexpr Matrix<_core> operator+(const Matrix<_core>& l,
-                                           const Matrix<_core>& r) {
-    Matrix<_core> result;
-    for (size_t i = 0; i < _core::size_traits::rows; i++) {
-      for (size_t j = 0; j < _core::size_traits::cols; j++) {
-        result._m_data.At(i, j) = l._m_data.At(i, j) + r._m_data.At(i, j);
+  using value_type      = typename type_traits::value_type;
+  using allocator_type  = typename type_traits::allocator_type;
+  using reference       = typename type_traits::reference;
+  using const_reference = typename type_traits::const_reference;
+  using pointer         = typename type_traits::pointer;
+  using const_pointer   = typename type_traits::const_pointer;
+
+  Matrix() {
+    std::fill(_m_data.Data(), _m_data.Data() + Rows() * Cols(), value_type());
+  }
+
+  constexpr size_t Rows() const {
+    return _core_impl::size_traits::rows;
+  }
+  constexpr size_t Cols() const {
+    return _core_impl::size_traits::rows;
+  }
+
+  constexpr reference operator()(const size_t _row, const size_t _col) {
+    return const_cast<reference>(std::as_const(*this).operator()(_row, _col));
+  }
+
+  constexpr const_reference operator()(const size_t _row,
+                                       const size_t _col) const {
+    return _m_data.At(_row, _col);
+  }
+
+  // template <typename _core>
+  // friend constexpr Matrix<_core> operator+(const Matrix<_core>& l,
+  //                                          const Matrix<_core>& r) {
+  //   Matrix<_core> result;
+  //   for (size_t i = 0; i < result.Rows(); i++) {
+  //     for (size_t j = 0; j < result.Cols(); j++) {
+  //       result(i, j) = l(i, j) + r(i, j);
+  //     }
+  //   }
+
+  //   return result;
+  // }
+
+  // template <typename _core,
+  //           typename _integral,
+  //           bool _enable = std::is_integral_v<_integral>,
+  //           typename     = std::enable_if_t<_enable>>
+  // friend constexpr Matrix<_core> operator*(const Matrix<_core>& l,
+  //                                          const _integral r) {
+  //   Matrix<_core> result;
+  //   for (size_t i = 0; i < result.Rows(); i++) {
+  //     for (size_t j = 0; j < result.Cols(); j++) {
+  //       result(i, j) = l(i, j) * r;
+  //     }
+  //   }
+
+  //   return result;
+  // }
+
+  // template <typename _core,
+  //           typename _integral,
+  //           bool _enable = std::is_integral_v<_integral>,
+  //           typename     = std::enable_if_t<_enable>>
+  // friend constexpr Matrix<_core> operator*(const _integral l,
+  //                                          const Matrix<_core>& r) {
+  //   return r * l;
+  // }
+
+  // temporary for tests
+  void Print() const {
+    for (size_t i = 0; i < Rows(); i++) {
+      for (size_t j = 0; j < Cols(); j++) {
+        std::cout << (*this)(i, j) << ' ';
       }
+      std::cout << '\n';
     }
-
-    return result;
   }
 
  private:
