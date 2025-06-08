@@ -39,7 +39,7 @@ class Matrix {
     return _core_impl::size_traits::rows;
   }
   constexpr size_t Cols() const {
-    return _core_impl::size_traits::rows;
+    return _core_impl::size_traits::cols;
   }
 
   constexpr reference operator()(const size_t _row, const size_t _col) {
