@@ -13,27 +13,25 @@ namespace Sglty {
 
 template <typename _core_impl>
 class Matrix {
-  static_assert(
-      has_size_traits_v<_core_impl>,
-      "Error: '_core_impl' must define valid nested type 'size_traits'.");
+  static_assert(has_size_traits_v<_core_impl>,
+                "Error: `_core_impl` must define nested type `size_traits`.");
 
   static_assert(has_type_traits_v<_core_impl>,
-                "Error: '_core_impl' must define nested type 'type_traits'.");
+                "Error: `_core_impl` must define nested type `type_traits`.");
 
   static_assert(has_core_traits_v<_core_impl>,
-                "Error: '_core_impl' must define nested type 'core_traits'.");
+                "Error: `_core_impl` must define nested type `core_traits`.");
 
   static_assert(_core_impl::size_traits::rows > 0 &&
                     _core_impl::size_traits::cols > 0,
-                "Error: 'size_traits' in '_core_impl' must have positive "
-                "'rows' and 'cols' (non-zero matrix size).");
+                "Error: `size_traits::rows` and `size_traits:cols` must be positive." );
 
   static_assert(is_valid_core_traits_v<typename _core_impl::core_traits>,
-                "Error: 'core_traits' in '_core_impl' is invalid.");
+                "Error: `_core_impl::core_traits` must be valid.");
 
   static_assert(has_member_functions_v<_core_impl>,
-                "Error: '_core_impl' must provide member functions 'At()' and "
-                "'Data()' with correct signatures and return types.");
+                "Error: `_core_impl` must provide member functions `At()` and "
+                "`Data()` with correct signatures and return types.");
 
  public:
   using type_traits = typename _core_impl::type_traits;
