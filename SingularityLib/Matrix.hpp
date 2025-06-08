@@ -13,16 +13,13 @@ namespace Sglty {
 
 template <typename _core_impl>
 class Matrix {
-  // static_assert(is_valid_core_implementation_v<_core_impl>,
-  //               "Invalid Core Implementation");
-
   static_assert(has_size_traits_v<_core_impl>, "Missing nested size_traits");
   static_assert(has_type_traits_v<_core_impl>, "Missing nested type_traits");
   static_assert(has_core_traits_v<_core_impl>, "Missing nested core_traits");
-  static_assert(has_member_functions_v<_core_impl>,
-                "Missing At() or Data() or wrong signature or return type");
   static_assert(is_valid_core_traits_v<typename _core_impl::core_traits>,
                 "Invalid core_traits combination");
+  static_assert(has_member_functions_v<_core_impl>,
+                "Missing At() or Data(), or wrong signature or return type");
 
  public:
   using type_traits = typename _core_impl::type_traits;
