@@ -22,9 +22,9 @@ class Matrix {
   static_assert(has_core_traits_v<_core_impl>,
                 "Error: `_core_impl` must define nested type `core_traits`.");
 
-  static_assert(_core_impl::size_traits::rows > 0 &&
-                    _core_impl::size_traits::cols > 0,
-                "Error: `size_traits::rows` and `size_traits:cols` must be positive." );
+  static_assert(
+      _core_impl::size_traits::rows > 0 && _core_impl::size_traits::cols > 0,
+      "Error: `size_traits::rows` and `size_traits:cols` must be positive.");
 
   static_assert(is_valid_core_traits_v<typename _core_impl::core_traits>,
                 "Error: `_core_impl::core_traits` must be valid.");
@@ -32,6 +32,9 @@ class Matrix {
   static_assert(has_member_functions_v<_core_impl>,
                 "Error: `_core_impl` must provide member functions `At()` and "
                 "`Data()` with correct signatures and return types.");
+
+  template <typename>
+  friend class Matrix;
 
  public:
   using type_traits = typename _core_impl::type_traits;
@@ -172,6 +175,31 @@ class Matrix {
  private:
   _core_impl _m_data;
 };
+
+template <typename _core_l, typename _core_r, typename _core_def = _core_l>
+constexpr Matrix<_core_def> operator+(const Matrix<_core_l>& l,
+                                      const Matrix<_core_r>& r) {
+  Matrix<_core_def> result(l);
+  return result += r;
+}
+
+template <typename _core_l, typename _core_r, typename _core_def = _core_l>
+constexpr Matrix<_core_def> operator-(const Matrix<_core_l>& l,
+                                      const Matrix<_core_r>& r) {
+  Matrix<_core_def> result(l);
+  return result -= r;
+}
+
+template <typename _core, typename _integral>
+constexpr Matrix<_core> operator*(const Matrix<_core>& l, const _integral r) {
+  Matrix<_core> result(l);
+  return result *= r;
+}
+
+template <typename _core, typename _integral>
+constexpr Matrix<_core> operator*(const _integral l, const Matrix<_core>& r) {
+  return r * l;
+}
 
 }  // namespace Sglty
 
