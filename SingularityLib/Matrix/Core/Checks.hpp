@@ -64,8 +64,10 @@ constexpr bool has_size_traits_v = has_size_traits<_core_impl>::value;
  * implementation.
  *
  * Checks for the definition of the following nested types:
+ * - size_type
  * - value_type
  * - allocator_type
+ * - difference_type
  * - reference
  * - const_reference
  * - pointer
@@ -88,8 +90,10 @@ template <typename _core_impl>
 struct has_type_traits<
     _core_impl,
     std::void_t<typename _core_impl::type_traits,
+                typename _core_impl::type_traits::size_type,
                 typename _core_impl::type_traits::value_type,
                 typename _core_impl::type_traits::allocator_type,
+                typename _core_impl::type_traits::difference_type,
                 typename _core_impl::type_traits::reference,
                 typename _core_impl::type_traits::const_reference,
                 typename _core_impl::type_traits::pointer,
