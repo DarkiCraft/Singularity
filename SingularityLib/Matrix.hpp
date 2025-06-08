@@ -44,7 +44,65 @@ class Matrix {
   using const_pointer   = typename type_traits::const_pointer;
 
   Matrix() {
+    static_assert(std::is_default_constructible_v<_core_impl>,
+                  "Error: attempting to default construct `_core_impl` which "
+                  "is not default constructible.");
     std::fill(_m_data.Data(), _m_data.Data() + Rows() * Cols(), value_type());
+  }
+
+  constexpr Matrix(const Matrix& _other)     = default;
+  constexpr Matrix(Matrix&& _other) noexcept = default;
+
+  template <typename _core_other,
+            bool _enable = !std::is_same_v<_core_impl, _core_other>,
+            typename     = std::enable_if_t<_enable>>
+  constexpr Matrix(const Matrix<_core_other>& _other) {
+    static_assert(
+        _core_impl::size_traits::rows == _core_other::size_traits::rows &&
+            _core_impl::size_traits::cols == _core_other::size_traits::cols,
+        "Error: dimension mismatch between `Matrix<_core_impl>` and "
+        "`Matrix<_core_other>`.");
+
+    for (size_t i = 0; i < Rows(); i++) {
+      for (size_t j = 0; j < Cols(); j++) {
+        _m_data.At(i, j) = _other._m_data.At(i, j);
+      }
+    }
+  }
+
+  constexpr Matrix& operator=(const Matrix& _other)     = default;
+  constexpr Matrix& operator=(Matrix&& _other) noexcept = default;
+
+  template <typename _core_other,
+            bool _enable = !std::is_same_v<_core_impl, _core_other>,
+            typename     = std::enable_if_t<_enable>>
+  constexpr Matrix& operator=(const Matrix<_core_other>& _other) {
+    static_assert(
+        _core_impl::size_traits::rows == _core_other::size_traits::rows &&
+            _core_impl::size_traits::cols == _core_other::size_traits::cols,
+        "Error: dimension mismatch between `Matrix<_core_impl>` and "
+        "`Matrix<_core_other>`.");
+
+    Matrix<_core_other> temp(_other);
+
+    for (size_t i = 0; i < Rows(); i++) {
+      for (size_t j = 0; j < Cols(); j++) {
+        _m_data.At(i, j) = temp._m_data.At(i, j);
+      }
+    }
+
+    return *this;
+  }
+
+  template <typename... Args,
+            bool _enable = (!std::is_constructible_v<Matrix, Args...> ||
+                            sizeof...(Args) == 0 || sizeof...(Args) > 1),
+            typename     = std::enable_if_t<_enable>>
+  constexpr explicit Matrix(Args&&... args)
+      : _m_data(std::forward<Args>(args)...) {
+    static_assert(
+        std::is_constructible_v<_core_impl, Args&&...>,
+        "Error: `_core_impl` is not constructible with the passed arguments.");
   }
 
   constexpr size_t Rows() const {
