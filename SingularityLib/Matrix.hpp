@@ -1,6 +1,7 @@
 #ifndef SINGULARITYLIB_MATRIX_HPP
 #define SINGULARITYLIB_MATRIX_HPP
 
+#include <algorithm>
 #include <iostream>
 #include <type_traits>
 #include <utility>
@@ -124,43 +125,59 @@ class Matrix {
     return _m_data.At(_row, _col);
   }
 
-  // template <typename _core>
-  // friend constexpr Matrix<_core> operator+(const Matrix<_core>& l,
-  //                                          const Matrix<_core>& r) {
-  //   Matrix<_core> result;
-  //   for (size_t i = 0; i < result.Rows(); i++) {
-  //     for (size_t j = 0; j < result.Cols(); j++) {
-  //       result(i, j) = l(i, j) + r(i, j);
-  //     }
-  //   }
+  template <typename _core_other>
+  constexpr Matrix<_core_impl> operator+=(const Matrix<_core_other>& _other) {
+    static_assert(
+        _core_impl::size_traits::rows == _core_other::size_traits::rows &&
+            _core_impl::size_traits::cols == _core_other::size_traits::cols,
+        "Error: dimension mismatch between `*this` and `Matrix<_core_other>`.");
 
-  //   return result;
-  // }
+    for (size_t i = 0; i < Rows(); i++) {
+      for (size_t j = 0; j < Cols(); j++) {
+        (*this)(i, j) += _other(i, j);
+      }
+    }
+    return (*this);
+  }
 
-  // template <typename _core,
-  //           typename _integral,
-  //           bool _enable = std::is_integral_v<_integral>,
-  //           typename     = std::enable_if_t<_enable>>
-  // friend constexpr Matrix<_core> operator*(const Matrix<_core>& l,
-  //                                          const _integral r) {
-  //   Matrix<_core> result;
-  //   for (size_t i = 0; i < result.Rows(); i++) {
-  //     for (size_t j = 0; j < result.Cols(); j++) {
-  //       result(i, j) = l(i, j) * r;
-  //     }
-  //   }
+  template <typename _integral>
+  constexpr Matrix<_core_impl> operator*=(const _integral _other) {
+    static_assert(std::is_integral_v<_integral>,
+                  "Error: non-integral value passed for `_integral`.");
 
-  //   return result;
-  // }
+    for (size_t i = 0; i < Rows(); i++) {
+      for (size_t j = 0; j < Cols(); j++) {
+        (*this)(i, j) *= _other;
+      }
+    }
+    return (*this);
+  }
 
-  // template <typename _core,
-  //           typename _integral,
-  //           bool _enable = std::is_integral_v<_integral>,
-  //           typename     = std::enable_if_t<_enable>>
-  // friend constexpr Matrix<_core> operator*(const _integral l,
-  //                                          const Matrix<_core>& r) {
-  //   return r * l;
-  // }
+  template <typename _core_other>
+  constexpr Matrix<_core_impl> operator-=(const Matrix<_core_other>& _other) {
+    static_assert(
+        _core_impl::size_traits::rows == _core_other::size_traits::rows &&
+            _core_impl::size_traits::cols == _core_other::size_traits::cols,
+        "Error: dimension mismatch between `*this` and `Matrix<_core_other>`.");
+
+    return (*this) += _other * -1;
+  }
+
+  template <typename _core_l, typename _core_r, typename _core_def>
+  friend constexpr Matrix<_core_def> operator+(const Matrix<_core_l>& l,
+                                               const Matrix<_core_r>& r);
+
+  template <typename _core_l, typename _core_r, typename _core_def>
+  friend constexpr Matrix<_core_def> operator-(const Matrix<_core_l>& l,
+                                               const Matrix<_core_r>& r);
+
+  template <typename _core, typename _integral>
+  friend constexpr Matrix<_core> operator*(const Matrix<_core>& l,
+                                           const _integral r);
+
+  template <typename _core, typename _integral>
+  friend constexpr Matrix<_core> operator*(const _integral l,
+                                           const Matrix<_core>& r);
 
   // temporary for tests
   void Print() const {
