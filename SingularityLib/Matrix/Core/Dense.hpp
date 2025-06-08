@@ -16,8 +16,8 @@ class DenseCore {
  public:
   using type_traits = TypeTraits<_Tp>;
 
-  using value_type      = typename type_traits::value_type;
   using size_type       = typename type_traits::size_type;
+  using value_type      = typename type_traits::value_type;
   using allocator_type  = typename type_traits::allocator_type;
   using difference_type = typename type_traits::difference_type;
   using reference       = typename type_traits::reference;

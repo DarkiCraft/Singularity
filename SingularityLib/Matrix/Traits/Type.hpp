@@ -30,8 +30,8 @@ template <typename _Tp,
           typename _Alloc           = std::allocator<_Tp>,
           typename _difference_type = ptrdiff_t>
 struct TypeTraits {
-  using value_type      = _Tp;
   using size_type       = _size_type;
+  using value_type      = _Tp;
   using allocator_type  = _Alloc;
   using difference_type = _difference_type;
   using reference       = value_type&;
