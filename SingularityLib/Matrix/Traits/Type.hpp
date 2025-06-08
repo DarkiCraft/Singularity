@@ -5,6 +5,20 @@
 
 namespace Sglty {
 
+/**
+ * @brief Trait to define element and allocator types with related aliases.
+ *
+ * Defines the following type members:
+ * - `value_type`
+ * - `allocator_type`
+ * - `reference`
+ * - `const_reference`
+ * - `pointer`
+ * - `const_pointer`
+ *
+ * @tparam _Tp The element type.
+ * @tparam Alloc The allocator type (default is `std::allocator<_Tp>`).
+ */
 template <typename _Tp, typename Alloc = std::allocator<_Tp>>
 struct TypeTraits {
   using value_type      = _Tp;
