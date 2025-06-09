@@ -99,9 +99,11 @@ class Matrix {
   }
 
   template <typename... Args,
-            bool _enable = (!std::is_constructible_v<Matrix, Args...> ||
-                            sizeof...(Args) == 0 || sizeof...(Args) > 1),
-            typename     = std::enable_if_t<_enable>>
+            bool _enable = sizeof...(Args) != 0 &&
+                           !(sizeof...(Args) == 1 &&
+                             (std::is_same_v<std::decay_t<Args>, Matrix> ||
+                              ...)),
+            typename = std::enable_if_t<_enable>>
   constexpr explicit Matrix(Args&&... args)
       : _m_data(std::forward<Args>(args)...) {
     static_assert(
