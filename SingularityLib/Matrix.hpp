@@ -38,6 +38,11 @@ class Matrix {
   friend class Matrix;
 
  public:
+  using size_traits = typename _core_impl::size_traits;
+
+  constexpr static size_t rows = size_traits::rows;
+  constexpr static size_t cols = size_traits::cols;
+
   using type_traits = typename _core_impl::type_traits;
 
   using value_type      = typename type_traits::value_type;
@@ -46,6 +51,11 @@ class Matrix {
   using const_reference = typename type_traits::const_reference;
   using pointer         = typename type_traits::pointer;
   using const_pointer   = typename type_traits::const_pointer;
+
+  using core_traits = typename _core_impl::core_traits;
+
+  constexpr static CoreMode core_mode = core_traits::core_mode;
+  constexpr static CoreOrdr core_ordr = core_traits::core_ordr;
 
   Matrix() {
     static_assert(std::is_default_constructible_v<_core_impl>,
@@ -61,11 +71,10 @@ class Matrix {
             bool _enable = !std::is_same_v<_core_impl, _core_other>,
             typename     = std::enable_if_t<_enable>>
   constexpr Matrix(const Matrix<_core_other>& _other) {
-    static_assert(
-        _core_impl::size_traits::rows == _core_other::size_traits::rows &&
-            _core_impl::size_traits::cols == _core_other::size_traits::cols,
-        "Error: dimension mismatch between `Matrix<_core_impl>` and "
-        "`Matrix<_core_other>`.");
+    static_assert(Matrix<_core_impl>::rows == Matrix<_core_other>::rows &&
+                      Matrix<_core_impl>::cols == Matrix<_core_other>::cols,
+                  "Error: dimension mismatch between `Matrix<_core_impl>` and "
+                  "`Matrix<_core_other>`.");
 
     for (size_t i = 0; i < Rows(); i++) {
       for (size_t j = 0; j < Cols(); j++) {
@@ -81,11 +90,10 @@ class Matrix {
             bool _enable = !std::is_same_v<_core_impl, _core_other>,
             typename     = std::enable_if_t<_enable>>
   constexpr Matrix& operator=(const Matrix<_core_other>& _other) {
-    static_assert(
-        _core_impl::size_traits::rows == _core_other::size_traits::rows &&
-            _core_impl::size_traits::cols == _core_other::size_traits::cols,
-        "Error: dimension mismatch between `Matrix<_core_impl>` and "
-        "`Matrix<_core_other>`.");
+    static_assert(Matrix<_core_impl>::rows == Matrix<_core_other>::rows &&
+                      Matrix<_core_impl>::cols == Matrix<_core_other>::cols,
+                  "Error: dimension mismatch between `Matrix<_core_impl>` and "
+                  "`Matrix<_core_other>`.");
 
     Matrix<_core_other> temp(_other);
 
@@ -112,16 +120,22 @@ class Matrix {
   }
 
   constexpr size_t Rows() const {
-    return _core_impl::size_traits::rows;
+    return rows;
   }
   constexpr size_t Cols() const {
-    return _core_impl::size_traits::cols;
+    return cols;
+  }
+
+  constexpr CoreMode CoreMode() const {
+    return core_mode;
+  }
+  constexpr CoreOrdr CoreOrdr() const {
+    return core_ordr;
   }
 
   constexpr reference operator()(const size_t _row, const size_t _col) {
     return const_cast<reference>(std::as_const(*this).operator()(_row, _col));
   }
-
   constexpr const_reference operator()(const size_t _row,
                                        const size_t _col) const {
     return _m_data.At(_row, _col);
@@ -130,8 +144,8 @@ class Matrix {
   template <typename _core_other>
   constexpr Matrix<_core_impl> operator+=(const Matrix<_core_other>& _other) {
     static_assert(
-        _core_impl::size_traits::rows == _core_other::size_traits::rows &&
-            _core_impl::size_traits::cols == _core_other::size_traits::cols,
+        Matrix<_core_impl>::rows == Matrix<_core_other>::rows &&
+            Matrix<_core_impl>::cols == Matrix<_core_other>::cols,
         "Error: dimension mismatch between `*this` and `Matrix<_core_other>`.");
 
     for (size_t i = 0; i < Rows(); i++) {
@@ -158,8 +172,8 @@ class Matrix {
   template <typename _core_other>
   constexpr Matrix<_core_impl> operator-=(const Matrix<_core_other>& _other) {
     static_assert(
-        _core_impl::size_traits::rows == _core_other::size_traits::rows &&
-            _core_impl::size_traits::cols == _core_other::size_traits::cols,
+        Matrix<_core_impl>::rows == Matrix<_core_other>::rows &&
+            Matrix<_core_impl>::cols == Matrix<_core_other>::cols,
         "Error: dimension mismatch between `*this` and `Matrix<_core_other>`.");
 
     return (*this) += _other * -1;
