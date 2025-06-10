@@ -25,7 +25,7 @@ class DenseCore {
   using pointer         = typename type_traits::pointer;
   using const_pointer   = typename type_traits::const_pointer;
 
-  using size_traits = SizeTraits<_rows, _cols>;
+  using size_traits = SizeTraits<_rows, _cols, size_type>;
 
   using core_traits = CoreTraits<CoreMode::Dense, _core_ordr>;
 

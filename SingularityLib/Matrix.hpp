@@ -38,13 +38,9 @@ class Matrix {
   friend class Matrix;
 
  public:
-  using size_traits = typename _core_impl::size_traits;
-
-  constexpr static size_t rows = size_traits::rows;
-  constexpr static size_t cols = size_traits::cols;
-
   using type_traits = typename _core_impl::type_traits;
 
+  using size_type       = typename type_traits::size_type;
   using value_type      = typename type_traits::value_type;
   using allocator_type  = typename type_traits::allocator_type;
   using reference       = typename type_traits::reference;
@@ -52,10 +48,15 @@ class Matrix {
   using pointer         = typename type_traits::pointer;
   using const_pointer   = typename type_traits::const_pointer;
 
+  using size_traits = typename _core_impl::size_traits;
+
+  constexpr static auto rows = size_traits::rows;
+  constexpr static auto cols = size_traits::cols;
+
   using core_traits = typename _core_impl::core_traits;
 
-  constexpr static CoreMode core_mode = core_traits::core_mode;
-  constexpr static CoreOrdr core_ordr = core_traits::core_ordr;
+  constexpr static auto core_mode = core_traits::core_mode;
+  constexpr static auto core_ordr = core_traits::core_ordr;
 
   Matrix() {
     static_assert(std::is_default_constructible_v<_core_impl>,

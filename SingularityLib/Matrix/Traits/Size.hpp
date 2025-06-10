@@ -16,11 +16,15 @@ namespace Sglty {
  *
  * @tparam _rows Number of rows.
  * @tparam _cols Number of columns.
+ * @tparam _size_type Type to use for `rows` and `cols`
  */
-template <size_t _rows, size_t _cols>
+template <size_t _rows, size_t _cols, typename _size_type>
 struct SizeTraits {
-  static constexpr size_t rows = _rows;
-  static constexpr size_t cols = _cols;
+  static_assert(std::is_integral_v<_size_type>,
+                "Error: Non-integral type passed for _size_type");
+
+  static constexpr _size_type rows = _rows;
+  static constexpr _size_type cols = _cols;
 };
 
 }  // namespace Sglty
