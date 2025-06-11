@@ -5,22 +5,26 @@
 SingularityLib is a C++ header-only Linear Algebra library heavily inspired by [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page) with a focus on compile-time metaprogramming. It’s built as a hobby project to learn and experiment with advanced C++ techniques.
 
 ## Goals:
-- Provide linear algebra operations on matrices, vectors, and fields
-- Enable pluggable user-defined storage backends ("Cores") with full operation support
-- Serve as a learning ground for exploring template metaprogramming and library design
+- Provide linear algebra operations on matrices, vectors, and fields.
+- Enable pluggable user-defined storage backends ("Cores") with full operation support.
+- Serve as a learning ground for exploring template metaprogramming and library design.
 
 ## Non-Goals
-- Competing with Eigen or any industrial-grade linear algebra library
-- Providing runtime-optimized or dynamic-memory-backed performance
-- Offering full production-grade guarantees or widespread platform portability
+- Competing with [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page) or any industrial-grade linear algebra library.
+- Providing runtime-optimized or dynamic-memory-backed performance.
+- Offering full production-grade guarantees or widespread platform portability.
 
 ## Known limitations:
-- All data is stack-allocated by design, for zero runtime overhead.
-  - This imposes strict practical limits on object sizes (e.g., ~256×256 matrices are typically safe).
-  - Larger sizes may result in stack overflow or crashes, depending on your system and compiler settings.
-  - If you need massive matrices, this library probably isn’t the right fit — intentionally so.
+- Stack allocation has practical limits.
+  - Matrices around 256×256 (with 4-byte types) are typically safe (~1MB).
+  - Larger sizes may lead to stack overflows or crashes depending on your system and compiler settings.
+  - If you need bigger matrices, allocate them on the heap with `new` — everything else works the same.
+
+- No dynamic sizes or resizing.
+  - All shapes are fixed at compile-time — no `resize()`, no runtime allocation logic.
+  - This is by design: SingularityLib is built for static, type-safe, zero-overhead linear algebra.
 
 ## Status:
-Working on the API :)
+Still working on the API :)
 
-All feedback and criticism is welcome — I’m here to learn <3
+Feedback and criticism are always welcome — I’m here to learn and make this better! <3
