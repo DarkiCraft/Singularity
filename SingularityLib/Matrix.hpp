@@ -6,14 +6,13 @@
 #include <type_traits>
 #include <utility>
 
+#include "Expr/Base.hpp"
 #include "Matrix/Core/Checks.hpp"
-
-using std::size_t;
 
 namespace Sglty {
 
 template <typename _core_impl>
-class Matrix {
+class Matrix : public ExprBase<Matrix<_core_impl>> {
   static_assert(has_size_traits_v<_core_impl>,
                 "Error: `_core_impl` must define nested type `size_traits`.");
 
@@ -76,8 +75,8 @@ class Matrix {
                   "Error: dimension mismatch between `Matrix<_core_impl>` and "
                   "`Matrix<_core_other>`.");
 
-    for (size_t i = 0; i < Rows(); i++) {
-      for (size_t j = 0; j < Cols(); j++) {
+    for (size_type i = 0; i < Rows(); i++) {
+      for (size_type j = 0; j < Cols(); j++) {
         _m_data.At(i, j) = _other._m_data.At(i, j);
       }
     }
@@ -97,8 +96,8 @@ class Matrix {
 
     Matrix<_core_other> temp(_other);
 
-    for (size_t i = 0; i < Rows(); i++) {
-      for (size_t j = 0; j < Cols(); j++) {
+    for (size_type i = 0; i < Rows(); i++) {
+      for (size_type j = 0; j < Cols(); j++) {
         _m_data.At(i, j) = temp._m_data.At(i, j);
       }
     }
@@ -119,10 +118,10 @@ class Matrix {
         "Error: `_core_impl` is not constructible with the passed arguments.");
   }
 
-  constexpr size_t Rows() const {
+  constexpr size_type Rows() const {
     return rows;
   }
-  constexpr size_t Cols() const {
+  constexpr size_type Cols() const {
     return cols;
   }
 
@@ -133,11 +132,11 @@ class Matrix {
     return core_ordr;
   }
 
-  constexpr reference operator()(const size_t _row, const size_t _col) {
+  constexpr reference operator()(const size_type _row, const size_type _col) {
     return const_cast<reference>(std::as_const(*this).operator()(_row, _col));
   }
-  constexpr const_reference operator()(const size_t _row,
-                                       const size_t _col) const {
+  constexpr const_reference operator()(const size_type _row,
+                                       const size_type _col) const {
     return _m_data.At(_row, _col);
   }
 
@@ -148,8 +147,8 @@ class Matrix {
             Matrix<_core_impl>::cols == Matrix<_core_other>::cols,
         "Error: dimension mismatch between `*this` and `Matrix<_core_other>`.");
 
-    for (size_t i = 0; i < Rows(); i++) {
-      for (size_t j = 0; j < Cols(); j++) {
+    for (size_type i = 0; i < Rows(); i++) {
+      for (size_type j = 0; j < Cols(); j++) {
         (*this)(i, j) += _other(i, j);
       }
     }
@@ -161,8 +160,8 @@ class Matrix {
     static_assert(std::is_integral_v<_integral>,
                   "Error: non-integral value passed for `_integral`.");
 
-    for (size_t i = 0; i < Rows(); i++) {
-      for (size_t j = 0; j < Cols(); j++) {
+    for (size_type i = 0; i < Rows(); i++) {
+      for (size_type j = 0; j < Cols(); j++) {
         (*this)(i, j) *= _other;
       }
     }
@@ -203,8 +202,8 @@ class Matrix {
 
   // temporary for tests
   void Print() const {
-    for (size_t i = 0; i < Rows(); i++) {
-      for (size_t j = 0; j < Cols(); j++) {
+    for (size_type i = 0; i < Rows(); i++) {
+      for (size_type j = 0; j < Cols(); j++) {
         std::cout << (*this)(i, j) << ' ';
       }
       std::cout << '\n';
@@ -248,17 +247,19 @@ operator*(const Matrix<_core_l>& l, const Matrix<_core_r>& r) {
                 "Error: dimension mismatch between `Matrix<_core_l>` and "
                 "`Matrix<_core_r>`.");
 
-  constexpr size_t R = _core_l::size_traits::rows;
-  constexpr size_t C = _core_r::size_traits::cols;
-  constexpr size_t K = _core_l::size_traits::cols;
+  using size_type = typename Matrix<_core_def>::size_type;
+
+  constexpr size_type R = _core_l::size_traits::rows;
+  constexpr size_type C = _core_r::size_traits::cols;
+  constexpr size_type K = _core_l::size_traits::cols;
 
   using _result_core = typename _core_def::core_rebind<R, C>;
   Matrix<_result_core> result{};  // Zero-initialized to avoid garbage
 
-  for (size_t i = 0; i < R; i++) {
-    for (size_t k = 0; k < K; k++) {
+  for (size_type i = 0; i < R; i++) {
+    for (size_type k = 0; k < K; k++) {
       auto sum = l(i, k);
-      for (size_t j = 0; j < C; j++) {
+      for (size_type j = 0; j < C; j++) {
         result(i, j) += sum * r(k, j);
       }
     }
