@@ -58,11 +58,10 @@ class Matrix {
   constexpr static auto core_mode = core_traits::core_mode;
   constexpr static auto core_ordr = core_traits::core_ordr;
 
-  Matrix() {
+  Matrix() : _m_data{} {
     static_assert(std::is_default_constructible_v<_core_impl>,
                   "Error: attempting to default construct `_core_impl` which "
                   "is not default constructible.");
-    std::fill(_m_data.Data(), _m_data.Data() + Rows() * Cols(), value_type());
   }
 
   constexpr Matrix(const Matrix& _other)     = default;
@@ -249,24 +248,22 @@ operator*(const Matrix<_core_l>& l, const Matrix<_core_r>& r) {
                 "Error: dimension mismatch between `Matrix<_core_l>` and "
                 "`Matrix<_core_r>`.");
 
-  // need to optimize this further, this is temporary
-
   constexpr size_t R = _core_l::size_traits::rows;
   constexpr size_t C = _core_r::size_traits::cols;
   constexpr size_t K = _core_l::size_traits::cols;
 
-  using result_core = typename _core_def::core_rebind<R, C>;
-  Matrix<result_core> result;
+  using _result_core = typename _core_def::core_rebind<R, C>;
+  Matrix<_result_core> result{};  // Zero-initialized to avoid garbage
 
   for (size_t i = 0; i < R; i++) {
-    for (size_t j = 0; j < C; j++) {
-      auto sum = decltype(l(0, 0) * r(0, 0)){};
-      for (size_t k = 0; k < K; k++) {
-        sum += l(i, k) * r(k, j);
+    for (size_t k = 0; k < K; k++) {
+      auto sum = l(i, k);
+      for (size_t j = 0; j < C; j++) {
+        result(i, j) += sum * r(k, j);
       }
-      result(i, j) = sum;
     }
   }
+
   return result;
 }
 
