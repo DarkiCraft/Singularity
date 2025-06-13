@@ -1,5 +1,5 @@
-#ifndef SINGULARITYLIB_MATRIX_CORE_CHECKS_HPP
-#define SINGULARITYLIB_MATRIX_CORE_CHECKS_HPP
+#ifndef SINGULARITY_MATRIX_CORE_CHECKS_HPP
+#define SINGULARITY_MATRIX_CORE_CHECKS_HPP
 
 #include <type_traits>
 
@@ -300,6 +300,6 @@ constexpr bool has_member_functions_v = has_member_functions<_core_impl>::value;
 
 }  // namespace Sglty
 
-#endif  // SINGULARITYLIB_MATRIX_CORE_CHECKS_HPP
+#endif  // SINGULARITY_MATRIX_CORE_CHECKS_HPP
 
-// SingularityLib/Matrix/Core/Checks.hpp
+// Singularity/Matrix/Core/Checks.hpp

@@ -1,5 +1,5 @@
-#ifndef SINGULARITYLIB_MATRIX_TRAITS_SIZE_HPP
-#define SINGULARITYLIB_MATRIX_TRAITS_SIZE_HPP
+#ifndef SINGULARITY_MATRIX_TRAITS_SIZE_HPP
+#define SINGULARITY_MATRIX_TRAITS_SIZE_HPP
 
 #include <type_traits>
 
@@ -29,6 +29,6 @@ struct SizeTraits {
 
 }  // namespace Sglty
 
-#endif  // SINGULARITYLIB_MATRIX_TRAITS_SIZE_HPP
+#endif  // SINGULARITY_MATRIX_TRAITS_SIZE_HPP
 
-// SingularityLib/Matrix/Traits/Size.hpp
+// Singularity/Matrix/Traits/Size.hpp

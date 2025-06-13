@@ -1,5 +1,5 @@
-#ifndef SINGULARITYLIB_MATRIX_TRAITS_TYPE_HPP
-#define SINGULARITYLIB_MATRIX_TRAITS_TYPE_HPP
+#ifndef SINGULARITY_MATRIX_TRAITS_TYPE_HPP
+#define SINGULARITY_MATRIX_TRAITS_TYPE_HPP
 
 #include <cstddef>
 #include <memory>
@@ -36,6 +36,6 @@ struct TypeTraits {
 
 }  // namespace Sglty
 
-#endif  // SINGULARITYLIB_MATRIX_TRAITS_TYPE_HPP
+#endif  // SINGULARITY_MATRIX_TRAITS_TYPE_HPP
 
-// SingularityLib/Matrix/Traits/Type.hpp
+// Singularity/Matrix/Traits/Type.hpp

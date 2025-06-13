@@ -1,5 +1,5 @@
-#ifndef SINGULARITYLIB_LIB_HPP
-#define SINGULARITYLIB_LIB_HPP
+#ifndef SINGULARITY__HPP
+#define SINGULARITY__HPP
 
 #include "Matrix.hpp"
 #include "Matrix/Core/Dense.hpp"
@@ -20,6 +20,6 @@ using SprseMatrix = Matrix<SprseCore<_Tp, _rows, _cols>>;
 
 }  // namespace Sglty
 
-#endif  // SINGULARITYLIB_LIB_HPP
+#endif  // SINGULARITY__HPP
 
-// SingularityLib/Lib.hpp
+// Singularity/.hpp

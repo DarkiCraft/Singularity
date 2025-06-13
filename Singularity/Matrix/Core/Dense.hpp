@@ -1,5 +1,5 @@
-#ifndef SINGULARITYLIB_MATRIX_CORE_DENSE_HPP
-#define SINGULARITYLIB_MATRIX_CORE_DENSE_HPP
+#ifndef SINGULARITY_MATRIX_CORE_DENSE_HPP
+#define SINGULARITY_MATRIX_CORE_DENSE_HPP
 
 #include <array>
 #include <utility>
@@ -71,6 +71,6 @@ class DenseCore {
 
 }  // namespace Sglty
 
-#endif  // SINGULARITYLIB_MATRIX_CORE_DENSE_HPP
+#endif  // SINGULARITY_MATRIX_CORE_DENSE_HPP
 
-// SingularityLib/Matrix/Core/Dense.hpp
+// Singularity/Matrix/Core/Dense.hpp

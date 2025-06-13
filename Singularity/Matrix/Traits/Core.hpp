@@ -1,5 +1,5 @@
-#ifndef SINGULARITYLIB_MATRIX_TRAITS_CORE_HPP
-#define SINGULARITYLIB_MATRIX_TRAITS_CORE_HPP
+#ifndef SINGULARITY_MATRIX_TRAITS_CORE_HPP
+#define SINGULARITY_MATRIX_TRAITS_CORE_HPP
 
 #include <type_traits>
 
@@ -91,6 +91,6 @@ constexpr bool is_valid_core_traits_v =
 
 }  // namespace Sglty
 
-#endif  // SINGULARITYLIB_MATRIX_TRAITS_CORE_HPP
+#endif  // SINGULARITY_MATRIX_TRAITS_CORE_HPP
 
-// SingularityLib/Matrix/Traits/Core.hpp
+// Singularity/Matrix/Traits/Core.hpp

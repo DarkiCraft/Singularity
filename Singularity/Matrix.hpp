@@ -1,5 +1,5 @@
-#ifndef SINGULARITYLIB_MATRIX_HPP
-#define SINGULARITYLIB_MATRIX_HPP
+#ifndef SINGULARITY_MATRIX_HPP
+#define SINGULARITY_MATRIX_HPP
 
 #include <algorithm>
 #include <iostream>
@@ -104,6 +104,8 @@ class Matrix : public ExprBase<Matrix<_core_impl>> {
 
     return *this;
   }
+
+  // expression constructor here
 
   template <typename... Args,
             bool _enable = sizeof...(Args) != 0 &&
@@ -270,6 +272,6 @@ operator*(const Matrix<_core_l>& l, const Matrix<_core_r>& r) {
 
 }  // namespace Sglty
 
-#endif  // SINGULARITYLIB_MATRIX_HPP
+#endif  // SINGULARITY_MATRIX_HPP
 
-// SingularityLib/Matrix.hpp
+// Singularity/Matrix.hpp

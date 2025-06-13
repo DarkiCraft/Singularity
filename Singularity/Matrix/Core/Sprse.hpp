@@ -1,5 +1,5 @@
-#ifndef SINGULARITYLIB_MATRIX_CORE_SPRSE_HPP
-#define SINGULARITYLIB_MATRIX_CORE_SPRSE_HPP
+#ifndef SINGULARITY_MATRIX_CORE_SPRSE_HPP
+#define SINGULARITY_MATRIX_CORE_SPRSE_HPP
 
 #include <unordered_map>
 #include <utility>
@@ -71,6 +71,6 @@ class SprseCore {
 
 }  // namespace Sglty
 
-#endif  // SINGULARITYLIB_MATRIX_CORE_SPRSE_HPP
+#endif  // SINGULARITY_MATRIX_CORE_SPRSE_HPP
 
-// SinularityLib/Matrix/Core/Sprse.hpp
+// Sinularity/Matrix/Core/Sprse.hpp
