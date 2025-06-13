@@ -177,11 +177,14 @@ struct is_rebindable : std::false_type {};
  * @brief Specialization that checks if `Rebind<0, 0>` is a valid expression.
  */
 template <typename _core_impl>
-struct is_rebindable<_core_impl,
-                     std::enable_if_t<std::is_same_v<
-                         typename _core_impl::core_base,
-                         typename _core_impl::template core_rebind<0, 0>>>>
-    : std::true_type {};
+struct is_rebindable<
+    _core_impl,
+    std::void_t<typename _core_impl::core_base,
+                decltype(std::declval<
+                         typename _core_impl::template core_rebind<0, 0>>())>>
+    : std::bool_constant<
+          std::is_same_v<typename _core_impl::core_base,
+                         typename _core_impl::template core_rebind<0, 0>>> {};
 
 /**
  * @brief Convenience variable template to check if a type has a valid Rebind
