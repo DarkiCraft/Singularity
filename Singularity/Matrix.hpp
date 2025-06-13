@@ -6,13 +6,12 @@
 #include <type_traits>
 #include <utility>
 
-#include "Expr/Base.hpp"
 #include "Matrix/Core/Checks.hpp"
 
 namespace Sglty {
 
 template <typename _core_impl>
-class Matrix : public ExprBase<Matrix<_core_impl>> {
+class Matrix {
   static_assert(has_size_traits_v<_core_impl>,
                 "Error: `_core_impl` must define nested type `size_traits`.");
 
@@ -104,8 +103,6 @@ class Matrix : public ExprBase<Matrix<_core_impl>> {
 
     return *this;
   }
-
-  // expression constructor here
 
   template <typename... Args,
             bool _enable = sizeof...(Args) != 0 &&
