@@ -1,8 +1,8 @@
-# SingularityLib
+# Singularity
 
 (I CAN FINALLY WORK ON THIS AGAIN IN THE SUMMERS WOOHOOO!!!)
 
-SingularityLib is a C++ header-only Linear Algebra library heavily inspired by [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page) with a focus on compile-time metaprogramming. It’s built as a hobby project to learn and experiment with advanced C++ techniques.
+Singularity is a C++ header-only Linear Algebra library heavily inspired by [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page) with a focus on compile-time metaprogramming. It’s built as a hobby project to learn and experiment with advanced C++ techniques.
 
 ## Goals:
 - Provide linear algebra operations on matrices, vectors, and fields.
