@@ -1,7 +1,7 @@
 #ifndef SINGULARITYLIB_EXPR_EVALUATOR_HPP
 #define SINGULARITYLIB_EXPR_EVALUATOR_HPP
 
-#include "../Matrix.hpp"
+#include "../Matrix/Core/Checks.hpp"
 #include "Base.hpp"
 #include "Extractor.hpp"
 
@@ -67,9 +67,11 @@ auto EvaluateExpr(const _expr& _e) -> std::enable_if_t<
   using size_type = typename ret_type::size_type;
 
   ret_type result;
-  for (size_type i = 0; i < result.Rows(); ++i)
-    for (size_type j = 0; j < result.Cols(); ++j) result(i, j) = _e(i, j);
-
+  for (size_type i = 0; i < result.Rows(); i++) {
+    for (size_type j = 0; j < result.Cols(); j++) {
+      result(i, j) = _e(i, j);
+    }
+  }
   return result;
 }
 

@@ -17,12 +17,10 @@ struct ExprBase {
   }
 };
 
-template <typename Expr>
-struct get_leftmost_core {
-  using type = typename Expr::core_type;  // matrix exposes core_type
-};
-
-
+// template <typename Expr>
+// struct get_leftmost_core {
+//   using type = typename Expr::core_type;  // matrix exposes core_type
+// };
 
 }  // namespace Sglty
 

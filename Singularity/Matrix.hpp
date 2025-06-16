@@ -6,8 +6,8 @@
 #include <type_traits>
 #include <utility>
 
-// #include "Arithmetic.hpp"
 #include "Expr/Base.hpp"
+#include "Expr/Extractor.hpp"  // this temporary, move traits somewhere else pls
 #include "Matrix/Core/Checks.hpp"
 
 namespace Sglty {

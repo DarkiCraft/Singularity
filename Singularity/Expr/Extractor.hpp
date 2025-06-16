@@ -3,10 +3,13 @@
 
 #include <type_traits>
 
-#include "../Matrix.hpp"
+// #include "../Matrix.hpp"
 #include "Base.hpp"
 
 namespace Sglty {
+
+template <typename>
+class Matrix;  // declaration?
 
 struct NoMatrixFound {};
 

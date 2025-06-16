@@ -1,8 +1,6 @@
 #ifndef SINGULARITY_ARITHMETIC_EXPR_MUL_HPP
 #define SINGULARITY_ARITHMETIC_EXPR_MUL_HPP
 
-#include <type_traits>
-
 #include "../../Expr/Base.hpp"
 
 namespace Sglty {
