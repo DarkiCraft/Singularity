@@ -22,7 +22,7 @@ Singularity is a C++ header-only Linear Algebra library heavily inspired by [Eig
 
 - No dynamic sizes or resizing.
   - All shapes are fixed at compile-time — no `resize()`, no runtime allocation logic.
-  - This is by design: SingularityLib is built for static, type-safe, zero-overhead linear algebra.
+  - This is by design: Singularity is built for static, type-safe, minimal-overhead linear algebra operations.
 
 ## Status:
 Still working on the API :)

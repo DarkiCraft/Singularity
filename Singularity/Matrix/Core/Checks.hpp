@@ -285,16 +285,17 @@ constexpr bool has_member_functions_v = has_member_functions<_core_impl>::value;
 
 /*===========================================================================*/
 
-// template <typename _core_impl>
-// struct is_valid_core_implementation
-//     : std::conjunction<has_type_traits<_core_impl>,
-//                        has_core_traits<_core_impl>,
-//                        has_static_methods<_core_impl>,
-//                        has_member_functions<_core_impl>> {};
+template <typename _core_impl>
+struct is_valid_core_implementation
+    : std::conjunction<has_size_traits<_core_impl>,
+                       has_type_traits<_core_impl>,
+                       has_core_traits<_core_impl>,
+                       is_rebindable<_core_impl>,
+                       has_member_functions<_core_impl>> {};
 
-// template <typename _core_impl>
-// constexpr bool is_valid_core_implementation_v =
-//     is_valid_core_implementation<_core_impl>::value;
+template <typename _core_impl>
+constexpr bool is_valid_core_implementation_v =
+    is_valid_core_implementation<_core_impl>::value;
 
 /*===========================================================================*/
 
