@@ -25,6 +25,8 @@ Singularity is a C++ header-only Linear Algebra library heavily inspired by [Eig
   - This is by design: Singularity is built for static, type-safe, minimal-overhead linear algebra operations.
 
 ## Status:
-Foundations for expressions done! Now need to reorganize internals, and remove bloat from `Sglty::` :)
+Foundations are now in place... gonna take a 1 day break and go on... general operations I think :)
+
+---
 
 Feedback and criticism are always welcome — I’m here to learn and make this better! <3
