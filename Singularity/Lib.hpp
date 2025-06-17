@@ -1,11 +1,11 @@
 #ifndef SINGULARITY__HPP
 #define SINGULARITY__HPP
 
-#include "Arithmetic.hpp"
-#include "Core.hpp"
-#include "Expr.hpp"
-#include "Matrix.hpp"
-#include "Traits.hpp"
+#include "Lib/Arithmetic.hpp"
+#include "Lib/Core.hpp"
+#include "Lib/Expr.hpp"
+#include "Lib/Matrix.hpp"
+#include "Lib/Traits.hpp"
 
 namespace Sglty {
 
