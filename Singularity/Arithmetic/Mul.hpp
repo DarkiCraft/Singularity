@@ -3,51 +3,35 @@
 
 #include <type_traits>
 
-#include "../Expr/Extractor.hpp"
-#include "Expr/Mul.hpp"
+#include "../Expr/Arithmetic/Mul.hpp"
+#include "../Traits/Expr.hpp"
 
 namespace Sglty {
 
 namespace Arthm {
 
-// template <typename _lhs,
-//           typename _rhs,
-//           typename = std::enable_if_t<Sglty::is_expression_v<_lhs> &&
-//                                       std::is_arithmetic_v<_rhs>>>
-// constexpr auto Mul(const _lhs& _l, const _rhs& _r) {
-//   return ExprMulScalar<_lhs, _rhs>(_l, _r);
-// }
-
-// template <typename _lhs,
-//           typename _rhs,
-//           typename = std::enable_if_t<Sglty::is_expression_v<_rhs> &&
-//                                       std::is_arithmetic_v<_lhs>>>
-// constexpr auto Mul(const _lhs& _l, const _rhs& _r) {
-//   return ExprMul<_rhs, _lhs>(_r, _l);
-// }
-
 template <typename _lhs, typename _rhs>
 constexpr auto Mul(const _lhs& _l, const _rhs& _r)
     -> std::enable_if_t<Sglty::is_expression_v<_lhs> &&
                             std::is_arithmetic_v<_rhs>,
-                        ExprMulScalar<_lhs, _rhs> > {
-  return ExprMulScalar<_lhs, _rhs>(_l, _r);
+                        Expr::MulScalar<_lhs, _rhs> > {
+  return Expr::MulScalar<_lhs, _rhs>(_l, _r);
 }
 
 template <typename _lhs, typename _rhs>
 constexpr auto Mul(const _lhs& _l, const _rhs& _r)
     -> std::enable_if_t<Sglty::is_expression_v<_rhs> &&
                             std::is_arithmetic_v<_lhs>,
-                        ExprMulScalar<_rhs, _lhs> > {
-  return ExprMulScalar<_rhs, _lhs>(_r, _l);
+                        Expr::MulScalar<_rhs, _lhs> > {
+  return Expr::MulScalar<_rhs, _lhs>(_r, _l);
 }
 
 template <typename _lhs, typename _rhs>
 constexpr auto Mul(const _lhs& _l, const _rhs& _r)
     -> std::enable_if_t<Sglty::is_expression_v<_lhs> &&
                             Sglty::is_expression_v<_rhs>,
-                        ExprMulMatrix<_lhs, _rhs> > {
-  return ExprMulMatrix<_lhs, _rhs>(_l, _r);
+                        Expr::MulMatrix<_lhs, _rhs> > {
+  return Expr::MulMatrix<_lhs, _rhs>(_l, _r);
 }
 
 }  // namespace Arthm

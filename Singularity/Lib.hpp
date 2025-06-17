@@ -1,22 +1,24 @@
 #ifndef SINGULARITY__HPP
 #define SINGULARITY__HPP
 
+#include "Arithmetic.hpp"
+#include "Core.hpp"
+#include "Expr.hpp"
 #include "Matrix.hpp"
-#include "Matrix/Core/Dense.hpp"
-#include "Matrix/Core/Sprse.hpp"
-
-using std::size_t;
+#include "Traits.hpp"
 
 namespace Sglty {
+
+using std::size_t;
 
 template <typename _Tp,
           size_t _rows,
           size_t _cols,
-          CoreOrdr _core_ordr = CoreOrdr::RowMajor>
-using DenseMatrix = Matrix<DenseCore<_Tp, _rows, _cols, _core_ordr>>;
+          Core::Order _core_order = Core::Order::RowMajor>
+using DenseMatrix = Matrix<Core::Dense<_Tp, _rows, _cols, _core_order>>;
 
-template <typename _Tp, size_t _rows, size_t _cols>
-using SprseMatrix = Matrix<SprseCore<_Tp, _rows, _cols>>;
+// template <typename _Tp, size_t _rows, size_t _cols>
+// using SparseMatrix = Matrix<SparseCore<_Tp, _rows, _cols>>;
 
 }  // namespace Sglty
 

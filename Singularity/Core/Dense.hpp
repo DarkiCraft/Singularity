@@ -1,5 +1,5 @@
-#ifndef SINGULARITY_MATRIX_CORE_DENSE_HPP
-#define SINGULARITY_MATRIX_CORE_DENSE_HPP
+#ifndef SINGULARITY_CORE_DENSE_HPP
+#define SINGULARITY_CORE_DENSE_HPP
 
 #include <array>
 #include <utility>
@@ -7,14 +7,16 @@
 
 #include "Checks.hpp"
 
-using std::size_t;
-
 namespace Sglty {
 
-template <typename _Tp, size_t _rows, size_t _cols, CoreOrdr _core_ordr>
-class DenseCore {
+using std::size_t;
+
+namespace Core {
+
+template <typename _Tp, size_t _rows, size_t _cols, Core::Order _core_order>
+class Dense {
  public:
-  using type_traits = TypeTraits<_Tp>;
+  using type_traits = Traits::Type<_Tp>;
 
   using size_type       = typename type_traits::size_type;
   using value_type      = typename type_traits::value_type;
@@ -25,17 +27,17 @@ class DenseCore {
   using pointer         = typename type_traits::pointer;
   using const_pointer   = typename type_traits::const_pointer;
 
-  using size_traits = SizeTraits<_rows, _cols, size_type>;
+  using size_traits = Traits::Size<_rows, _cols, size_type>;
 
-  using core_traits = CoreTraits<CoreMode::Dense, _core_ordr>;
+  using core_traits = Traits::Core<Core::Mode::Dense, _core_order>;
 
   template <size_type _rebind_rows, size_type _rebind_cols>
   using core_rebind =
-      DenseCore<_Tp, _rebind_rows, _rebind_cols, core_traits::core_ordr>;
+      Dense<_Tp, _rebind_rows, _rebind_cols, core_traits::core_order>;
 
-  using core_base = DenseCore<_Tp, 0, 0, core_traits::core_ordr>;
+  using core_base = Dense<_Tp, 0, 0, core_traits::core_order>;
 
-  DenseCore() = default;
+  Dense() = default;
 
   constexpr reference At(const size_type _row, const size_type _col) {
     return const_cast<reference>(std::as_const(*this).At(_row, _col));
@@ -61,7 +63,7 @@ class DenseCore {
   }
   constexpr inline const_reference _m_Get(const size_type _row,
                                           const size_type _col) const {
-    if (core_traits::core_ordr == CoreOrdr::RowMajor) {
+    if (core_traits::core_order == Core::Order::RowMajor) {
       return _m_data[_row * _cols + _col];
     } else {
       return _m_data[_col * _rows + _row];
@@ -69,8 +71,10 @@ class DenseCore {
   }
 };
 
+}  // namespace Core
+
 }  // namespace Sglty
 
-#endif  // SINGULARITY_MATRIX_CORE_DENSE_HPP
+#endif  // SINGULARITY_CORE_DENSE_HPP
 
-// Singularity/Matrix/Core/Dense.hpp
+// Singularity/Core/Dense.hpp

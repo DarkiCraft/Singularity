@@ -3,8 +3,9 @@
 
 namespace Sglty {
 
+namespace Expr {
 template <typename _derived>
-struct ExprBase {
+struct Base {
   constexpr const _derived& Derived() const {
     return static_cast<const _derived&>(*this);
   }
@@ -17,10 +18,7 @@ struct ExprBase {
   }
 };
 
-// template <typename Expr>
-// struct get_leftmost_core {
-//   using type = typename Expr::core_type;  // matrix exposes core_type
-// };
+}  // namespace Expr
 
 }  // namespace Sglty
 

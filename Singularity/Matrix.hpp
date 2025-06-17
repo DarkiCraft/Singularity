@@ -6,31 +6,31 @@
 #include <type_traits>
 #include <utility>
 
+#include "Core/Checks.hpp"
 #include "Expr/Base.hpp"
-#include "Expr/Extractor.hpp"  // this temporary, move traits somewhere else pls
-#include "Matrix/Core/Checks.hpp"
+#include "Traits/Expr.hpp"
 
 namespace Sglty {
 
 template <typename _core_impl>
-class Matrix : public ExprBase<Matrix<_core_impl>> {
-  static_assert(has_size_traits_v<_core_impl>,
+class Matrix : public Expr::Base<Matrix<_core_impl>> {
+  static_assert(Core::has_size_traits_v<_core_impl>,
                 "Error: `_core_impl` must define nested type `size_traits`.");
 
-  static_assert(has_type_traits_v<_core_impl>,
+  static_assert(Core::has_type_traits_v<_core_impl>,
                 "Error: `_core_impl` must define nested type `type_traits`.");
 
-  static_assert(has_core_traits_v<_core_impl>,
+  static_assert(Core::has_core_traits_v<_core_impl>,
                 "Error: `_core_impl` must define nested type `core_traits`.");
 
   static_assert(
       _core_impl::size_traits::rows > 0 && _core_impl::size_traits::cols > 0,
       "Error: `size_traits::rows` and `size_traits:cols` must be positive.");
 
-  static_assert(is_valid_core_traits_v<typename _core_impl::core_traits>,
+  static_assert(Traits::is_valid_core_v<typename _core_impl::core_traits>,
                 "Error: `_core_impl::core_traits` must be valid.");
 
-  static_assert(has_member_functions_v<_core_impl>,
+  static_assert(Core::has_member_functions_v<_core_impl>,
                 "Error: `_core_impl` must provide member functions `At()` and "
                 "`Data()` with correct signatures and return types.");
 
@@ -55,8 +55,8 @@ class Matrix : public ExprBase<Matrix<_core_impl>> {
 
   using core_traits = typename _core_impl::core_traits;
 
-  constexpr static auto core_mode = core_traits::core_mode;
-  constexpr static auto core_ordr = core_traits::core_ordr;
+  constexpr static auto core_mode  = core_traits::core_mode;
+  constexpr static auto core_order = core_traits::core_order;
 
   using core_type = _core_impl;
 
@@ -137,11 +137,11 @@ class Matrix : public ExprBase<Matrix<_core_impl>> {
     return cols;
   }
 
-  constexpr CoreMode CoreMode() const {
+  constexpr Core::Mode Mode() const {
     return core_mode;
   }
-  constexpr CoreOrdr CoreOrdr() const {
-    return core_ordr;
+  constexpr Core::Order Order() const {
+    return core_order;
   }
 
   constexpr reference operator()(const size_type _row, const size_type _col) {
@@ -151,23 +151,6 @@ class Matrix : public ExprBase<Matrix<_core_impl>> {
                                        const size_type _col) const {
     return _m_data.At(_row, _col);
   }
-
-  // template <typename _core_other>
-  // constexpr Matrix<_core_impl> operator+=(const Matrix<_core_other>& _other)
-  // {
-  //   static_assert(
-  //       Matrix<_core_impl>::rows == Matrix<_core_other>::rows &&
-  //           Matrix<_core_impl>::cols == Matrix<_core_other>::cols,
-  //       "Error: dimension mismatch between `*this` and
-  //       `Matrix<_core_other>`.");
-
-  //   for (size_type i = 0; i < Rows(); i++) {
-  //     for (size_type j = 0; j < Cols(); j++) {
-  //       (*this)(i, j) += _other(i, j);
-  //     }
-  //   }
-  //   return (*this);
-  // }
 
   template <typename _expr>
   constexpr Matrix& operator+=(const _expr& _e) {
@@ -196,18 +179,6 @@ class Matrix : public ExprBase<Matrix<_core_impl>> {
     return (*this);
   }
 
-  // template <typename _core_other>
-  // constexpr Matrix<_core_impl>& operator-=(const Matrix<_core_other>& _other)
-  // {
-  //   static_assert(
-  //       Matrix<_core_impl>::rows == Matrix<_core_other>::rows &&
-  //           Matrix<_core_impl>::cols == Matrix<_core_other>::cols,
-  //       "Error: dimension mismatch between `*this` and
-  //       `Matrix<_core_other>`.");
-
-  //   return (*this) += _other * -1;
-  // }
-
   template <typename _expr>
   constexpr Matrix& operator-=(const _expr& _e) {
     static_assert(is_expression_v<_expr>, "Error: non-expression passed");
@@ -216,28 +187,6 @@ class Matrix : public ExprBase<Matrix<_core_impl>> {
 
     return (*this) += _e * -1;
   }
-
-  // template <typename _core_l, typename _core_r, typename _core_def>
-  // friend constexpr Matrix<_core_def> operator+(const Matrix<_core_l>& l,
-  //                                              const Matrix<_core_r>& r);
-
-  // template <typename _core_l, typename _core_r, typename _core_def>
-  // friend constexpr Matrix<_core_def> operator-(const Matrix<_core_l>& l,
-  //                                              const Matrix<_core_r>& r);
-
-  // template <typename _core, typename _integral>
-  // friend constexpr Matrix<_core> operator*(const Matrix<_core>& l,
-  //                                          const _integral r);
-
-  // template <typename _core, typename _integral>
-  // friend constexpr Matrix<_core> operator*(const _integral l,
-  //                                          const Matrix<_core>& r);
-
-  // template <typename _core_l, typename _core_r, typename _core_def>
-  // friend constexpr Matrix<
-  //     typename _core_def::core_rebind<_core_l::size_traits::rows,
-  //                                     _core_l::size_traits::cols>>
-  // operator*(const Matrix<_core_l>& l, const Matrix<_core_r>& r);
 
   // temporary for tests
   void Print() const {
@@ -252,62 +201,6 @@ class Matrix : public ExprBase<Matrix<_core_impl>> {
  private:
   _core_impl _m_data;
 };
-
-// template <typename _core_l, typename _core_r, typename _core_def = _core_l>
-// constexpr Matrix<_core_def> operator+(const Matrix<_core_l>& l,
-//                                       const Matrix<_core_r>& r) {
-//   Matrix<_core_def> result(l);
-//   return result += r;
-// }
-
-// template <typename _core_l, typename _core_r, typename _core_def = _core_l>
-// constexpr Matrix<_core_def> operator-(const Matrix<_core_l>& l,
-//                                       const Matrix<_core_r>& r) {
-//   Matrix<_core_def> result(l);
-//   return result -= r;
-// }
-
-// template <typename _core, typename _integral>
-// constexpr Matrix<_core> operator*(const Matrix<_core>& l, const _integral r)
-// {
-//   Matrix<_core> result(l);
-//   return result *= r;
-// }
-
-// template <typename _core, typename _integral>
-// constexpr Matrix<_core> operator*(const _integral l, const Matrix<_core>& r)
-// {
-//   return r * l;
-// }
-
-// template <typename _core_l, typename _core_r, typename _core_def = _core_l>
-// constexpr Matrix<typename _core_def::core_rebind<_core_l::size_traits::rows,
-//                                                  _core_r::size_traits::cols>>
-// operator*(const Matrix<_core_l>& l, const Matrix<_core_r>& r) {
-//   static_assert(_core_l::size_traits::cols == _core_r::size_traits::rows,
-//                 "Error: dimension mismatch between `Matrix<_core_l>` and "
-//                 "`Matrix<_core_r>`.");
-
-//   using size_type = typename Matrix<_core_def>::size_type;
-
-//   constexpr size_type R = _core_l::size_traits::rows;
-//   constexpr size_type C = _core_r::size_traits::cols;
-//   constexpr size_type K = _core_l::size_traits::cols;
-
-//   using _result_core = typename _core_def::core_rebind<R, C>;
-//   Matrix<_result_core> result{};  // Zero-initialized to avoid garbage
-
-//   for (size_type i = 0; i < R; i++) {
-//     for (size_type k = 0; k < K; k++) {
-//       auto sum = l(i, k);
-//       for (size_type j = 0; j < C; j++) {
-//         result(i, j) += sum * r(k, j);
-//       }
-//     }
-//   }
-
-//   return result;
-// }
 
 }  // namespace Sglty
 
