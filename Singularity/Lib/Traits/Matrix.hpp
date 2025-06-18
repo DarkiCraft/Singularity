@@ -3,9 +3,12 @@
 
 #include <type_traits>
 
-#include "../Matrix.hpp"
+// #include "../Matrix.hpp" // this breaks, using forward declaration for now
 
 namespace Sglty {
+
+template <typename _core>
+class Matrix;  // forward declaration
 
 template <typename>
 struct IsMatrix : std::false_type {};

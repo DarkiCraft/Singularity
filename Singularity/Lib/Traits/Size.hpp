@@ -8,6 +8,7 @@ namespace Sglty {
 using std::size_t;
 
 namespace Traits {
+
 template <size_t _rows, size_t _cols, typename _size_type>
 struct Size {
   static_assert(std::is_integral_v<_size_type>,
