@@ -11,7 +11,7 @@ namespace Sglty {
 namespace Expr {
 
 template <typename _expr>
-auto Evaluate(const _expr& _e) -> std::enable_if_t<
+constexpr auto Evaluate(const _expr& _e) -> std::enable_if_t<
     is_expression_v<_expr>,
     Matrix<typename Traits::Extract<
         _expr>::template core_rebind<_expr::rows, _expr::cols>>> {
@@ -32,7 +32,7 @@ auto Evaluate(const _expr& _e) -> std::enable_if_t<
 }
 
 template <typename _core_ret, typename _expr>
-auto Evaluate(const _expr& _e) -> std::enable_if_t<
+constexpr auto Evaluate(const _expr& _e) -> std::enable_if_t<
     Core::is_valid_implementation_v<_core_ret> && is_expression_v<_expr>,
     Matrix<
         typename _core_ret::template core_rebind<_expr::rows, _expr::cols>>> {

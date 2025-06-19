@@ -60,7 +60,7 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
 
   using core_type = _core_impl;
 
-  Matrix() : _m_data{} {
+  constexpr Matrix() : _m_data{} {
     static_assert(std::is_default_constructible_v<_core_impl>,
                   "Error: attempting to default construct `_core_impl` which "
                   "is not default constructible.");
@@ -72,7 +72,7 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
   template <typename _core_other,
             bool _enable = !std::is_same_v<_core_impl, _core_other>,
             typename     = std::enable_if_t<_enable>>
-  constexpr explicit Matrix(const Matrix<_core_other>& _other) {
+  constexpr Matrix(const Matrix<_core_other>& _other) {
     static_assert(Matrix<_core_impl>::rows == Matrix<_core_other>::rows &&
                       Matrix<_core_impl>::cols == Matrix<_core_other>::cols,
                   "Error: dimension mismatch between `Matrix<_core_impl>` and "
@@ -81,8 +81,10 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
     TraverseIndices([&](size_t i, size_t j) { (*this)(i, j) = _other(i, j); });
   }
 
-  template <typename _expr>
-  constexpr explicit Matrix(const _expr& _e) {
+  template <typename _expr,
+            bool _enable = is_expression_v<std::decay_t<_expr>>,
+            typename     = std::enable_if_t<_enable>>
+  constexpr Matrix(const _expr& _e) {
     TraverseIndices([&](size_t i, size_t j) { (*this)(i, j) = _e(i, j); });
   }
 
@@ -105,10 +107,23 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
     return *this;
   }
 
+  template <typename _expr,
+            bool _enable = is_expression_v<std::decay_t<_expr>>,
+            typename     = std::enable_if_t<_enable>>
+  constexpr Matrix& operator=(const _expr& _e) {
+    static_assert(rows == _expr::rows && cols == _expr::cols,
+                  "Error: dimension mismatch between `*this` and `_expr`.");
+
+    TraverseIndices([&](size_t i, size_t j) { (*this)(i, j) = _e(i, j); });
+
+    return *this;
+  }
+
   template <typename... Args,
             bool _enable = sizeof...(Args) != 0 &&
                            !(sizeof...(Args) == 1 &&
-                             (std::is_same_v<std::decay_t<Args>, Matrix> ||
+                             ((std::is_same_v<std::decay_t<Args>, Matrix> ||
+                               Sglty::is_expression_v<std::decay_t<Args>>) ||
                               ...)),
             typename = std::enable_if_t<_enable>>
   constexpr explicit Matrix(Args&&... args)

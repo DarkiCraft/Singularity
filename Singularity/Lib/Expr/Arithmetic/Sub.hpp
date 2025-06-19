@@ -16,8 +16,8 @@ struct Sub : public Expr::Base<Sub<_lhs, _rhs>> {
   using lhs_type = _lhs;
   using rhs_type = _rhs;
 
-  const lhs_type& _l;
-  const rhs_type& _r;
+  const lhs_type _l;
+  const rhs_type _r;
 
   constexpr static size_t rows = lhs_type::rows;  // doesn't matter if it's
   constexpr static size_t cols = rhs_type::cols;  // lhs or rhs, it's equal

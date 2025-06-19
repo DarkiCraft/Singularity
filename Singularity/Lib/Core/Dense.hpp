@@ -55,7 +55,7 @@ class Dense {
   }
 
  private:
-  std::array<_Tp, _rows * _cols> _m_data;
+  std::array<_Tp, _rows * _cols> _m_data{};
 
   constexpr inline reference _m_Get(const size_type _row,
                                     const size_type _col) {

@@ -12,8 +12,8 @@ struct MulScalar : public Expr::Base<MulScalar<_lhs, _rhs>> {
   using lhs_type = _lhs;  // expression
   using rhs_type = _rhs;  // scalar
 
-  const lhs_type& _l;
-  const rhs_type& _r;
+  const lhs_type _l;
+  const rhs_type _r;
 
   constexpr static size_t rows = lhs_type::rows;  // doesn't matter if it's
   constexpr static size_t cols = lhs_type::cols;  // lhs or rhs, it's equal
