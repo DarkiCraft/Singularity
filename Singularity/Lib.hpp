@@ -1,6 +1,7 @@
 #ifndef SINGULARITY__HPP
 #define SINGULARITY__HPP
 
+#include "Lib/Algebra.hpp"
 #include "Lib/Arithmetic.hpp"
 #include "Lib/Core.hpp"
 #include "Lib/Expr.hpp"
