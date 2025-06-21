@@ -1,28 +1,27 @@
-#ifndef SINGULARITY__HPP
-#define SINGULARITY__HPP
+#pragma once
 
-#include "Lib/Algebra.hpp"
-#include "Lib/Arithmetic.hpp"
-#include "Lib/Core.hpp"
-#include "Lib/Expr.hpp"
-#include "Lib/Matrix.hpp"
-#include "Lib/Traits.hpp"
+// Core interfaces (if you want to expose them — otherwise skip)
+#include "Core/Checks.hpp"
+#include "Core/Dense.hpp"
+#include "Core/Enums.hpp"
 
-namespace Sglty {
+// Expression machinery
+#include "Expr/Base.hpp"
+#include "Expr/Evaluate.hpp"
 
-using std::size_t;
+// Traits — you may or may not want to expose these at top level
+#include "Traits/Core.hpp"
+#include "Traits/Expr.hpp"
+#include "Traits/Matrix.hpp"
+#include "Traits/Size.hpp"
+#include "Traits/Type.hpp"
 
-template <typename _Tp,
-          size_t _rows,
-          size_t _cols,
-          Core::Order _core_order = Core::Order::RowMajor>
-using DenseMatrix = Matrix<Core::Dense<_Tp, _rows, _cols, _core_order>>;
+// Types (main user-facing types)
+#include "Types/Matrix.hpp"
+// #include "Types/Vector.hpp" // future
 
-// template <typename _Tp, size_t _rows, size_t _cols>
-// using SparseMatrix = Matrix<SparseCore<_Tp, _rows, _cols>>;
-
-}  // namespace Sglty
-
-#endif  // SINGULARITY__HPP
-
-// Singularity/.hpp
+// Ops (grouped, or you could split if users want finer control)
+#include "Ops/Algebra/Trp.hpp"
+#include "Ops/Arithmetic/Add.hpp"
+#include "Ops/Arithmetic/Mul.hpp"
+#include "Ops/Arithmetic/Sub.hpp"

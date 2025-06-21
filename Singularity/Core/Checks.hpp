@@ -1,5 +1,4 @@
-#ifndef SINGULARITY_CORE_CHECKS_HPP
-#define SINGULARITY_CORE_CHECKS_HPP
+#pragma once
 
 #include <type_traits>
 
@@ -7,11 +6,7 @@
 #include "../Traits/Size.hpp"
 #include "../Traits/Type.hpp"
 
-namespace Sglty {
-
-using std::size_t;
-
-namespace Core {
+namespace Sglty::Core {
 
 template <typename, typename _enable = void>
 struct HasSizeTraits : std::false_type {};
@@ -137,10 +132,6 @@ template <typename _core_impl>
 constexpr bool is_valid_implementation_v =
     IsValidImplementation<_core_impl>::value;
 
-}  // namespace Core
-
-}  // namespace Sglty
-
-#endif  // SINGULARITY_CORE_CHECKS_HPP
+}  // namespace Sglty::Core
 
 // Singularity/Core/Checks.hpp

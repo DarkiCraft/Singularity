@@ -1,16 +1,15 @@
-#ifndef SINGULARITY_MATRIX_HPP
-#define SINGULARITY_MATRIX_HPP
+#pragma once
 
 #include <algorithm>
 #include <iostream>
 #include <type_traits>
 #include <utility>
 
-#include "Core/Checks.hpp"
-#include "Expr/Base.hpp"
-#include "Traits/Expr.hpp"
+#include "../Core/Checks.hpp"
+#include "../Expr/Base.hpp"
+#include "../Traits/Expr.hpp"
 
-namespace Sglty {
+namespace Sglty::Types {
 
 template <typename _core_impl>
 class Matrix : public Expr::Base<Matrix<_core_impl>> {
@@ -242,8 +241,6 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
   _core_impl _m_data;
 };
 
-}  // namespace Sglty
-
-#endif  // SINGULARITY_MATRIX_HPP
+}  // namespace Sglty::Types
 
 // Singularity/Matrix.hpp

@@ -1,17 +1,15 @@
-#ifndef SINGULARITY_CORE_DENSE_HPP
-#define SINGULARITY_CORE_DENSE_HPP
+#pragma once
 
 #include <array>
+#include <cstddef>
 #include <utility>
 #include <vector>
 
 #include "Checks.hpp"
 
-namespace Sglty {
+namespace Sglty::Core {
 
 using std::size_t;
-
-namespace Core {
 
 template <typename _Tp, size_t _rows, size_t _cols, Core::Order _core_order>
 class Dense {
@@ -71,10 +69,6 @@ class Dense {
   }
 };
 
-}  // namespace Core
-
-}  // namespace Sglty
-
-#endif  // SINGULARITY_CORE_DENSE_HPP
+}  // namespace Sglty::Core
 
 // Singularity/Core/Dense.hpp

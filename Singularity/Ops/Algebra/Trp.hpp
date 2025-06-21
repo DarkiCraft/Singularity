@@ -1,15 +1,8 @@
-#ifndef SINGULARITY_ALGEBRA_EXPR_TRP_HPP
-#define SINGULARITY_ALGEBRA_EXPR_TRP_HPP
+#pragma once
 
-#include <cstddef>
+#include "../../Expr/Base.hpp"
 
-#include "../Base.hpp"
-
-namespace Sglty {
-
-using std::size_t;
-
-namespace Expr {
+namespace Sglty::Expr {
 
 template <typename _lhs>
 struct Trp : public Expr::Base<Trp<_lhs>> {
@@ -27,10 +20,15 @@ struct Trp : public Expr::Base<Trp<_lhs>> {
   }
 };
 
-}  // namespace Expr
+}  // namespace Sglty::Expr
 
-}  // namespace Sglty
+namespace Sglty::Ops::Algebra {
 
-#endif  // SINGULARITY_ALGEBRA_EXPR_TRP_HPP
+template <typename _lhs>
+constexpr auto Trp(const _lhs& _l) {
+  return Expr::Trp<_lhs>(_l);
+}
 
-// Singularity/Algebra/Expr/Trp.hpp
+}  // namespace Sglty::Ops::Algebra
+
+// Singularity/Ops/Algebra/Trp.hpp
