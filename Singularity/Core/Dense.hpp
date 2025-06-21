@@ -59,6 +59,15 @@ class Dense {
                                     const size_type _col) {
     return const_cast<reference>(std::as_const(*this)._m_Get(_row, _col));
   }
+  /**
+   * @brief Returns a const reference to the element at the specified row and column.
+   *
+   * The element is accessed according to the matrix's storage order (row-major or column-major).
+   *
+   * @param _row Row index of the element.
+   * @param _col Column index of the element.
+   * @return const_reference Reference to the element at the given position.
+   */
   constexpr inline const_reference _m_Get(const size_type _row,
                                           const size_type _col) const {
     if (core_traits::core_order == Core::Order::RowMajor) {
