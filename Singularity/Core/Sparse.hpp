@@ -1,5 +1,4 @@
-#ifndef SINGULARITY_CORE_SPARSE_HPP
-#define SINGULARITY_CORE_SPARSE_HPP
+#pragma once
 
 // #include <unordered_map>
 // #include <utility>
@@ -72,7 +71,5 @@
 // // };
 
 // }  // namespace Sglty
-
-#endif  // SINGULARITY_CORE_SPARSE_HPP
 
 // Sinularity/Core/Sparse.hpp

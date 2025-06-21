@@ -1,15 +1,10 @@
-#ifndef SINGULARITY_TRAITS_SIZE_HPP
-#define SINGULARITY_TRAITS_SIZE_HPP
+#pragma once
 
 #include <type_traits>
 
-namespace Sglty {
+namespace Sglty::Traits {
 
-using std::size_t;
-
-namespace Traits {
-
-template <size_t _rows, size_t _cols, typename _size_type>
+template <std::size_t _rows, std::size_t _cols, typename _size_type>
 struct Size {
   static_assert(std::is_integral_v<_size_type>,
                 "Error: Non-integral type passed for _size_type");
@@ -18,10 +13,6 @@ struct Size {
   static constexpr _size_type cols = _cols;
 };
 
-}  // namespace Traits
-
-}  // namespace Sglty
-
-#endif  // SINGULARITY_TRAITS_SIZE_HPP
+}  // namespace Sglty::Traits
 
 // Singularity/Traits/Size.hpp

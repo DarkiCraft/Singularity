@@ -1,9 +1,9 @@
-#ifndef SINGULARITY_EXPR_BASE_HPP
-#define SINGULARITY_EXPR_BASE_HPP
+#pragma once
 
-namespace Sglty {
+#include <cstddef>
 
-namespace Expr {
+namespace Sglty::Expr {
+
 template <typename _derived>
 struct Base {
   constexpr const _derived& Derived() const {
@@ -18,10 +18,6 @@ struct Base {
   }
 };
 
-}  // namespace Expr
-
-}  // namespace Sglty
-
-#endif  // SINGULARITY_EXPR_BASE_HPP
+}  // namespace Sglty::Expr
 
 // Singularity/Expr/Base.hpp

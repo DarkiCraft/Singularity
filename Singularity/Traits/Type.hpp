@@ -1,12 +1,9 @@
-#ifndef SINGULARITY_TRAITS_TYPE_HPP
-#define SINGULARITY_TRAITS_TYPE_HPP
+#pragma once
 
 #include <cstddef>
 #include <memory>
 
-namespace Sglty {
-
-namespace Traits {
+namespace Sglty::Traits {
 
 template <typename _Tp, typename _Alloc = std::allocator<_Tp>>
 struct Type {
@@ -20,10 +17,6 @@ struct Type {
   using const_pointer   = typename std::allocator_traits<_Alloc>::const_pointer;
 };
 
-}  // namespace Traits
-
-}  // namespace Sglty
-
-#endif  // SINGULARITY_TRAITS_TYPE_HPP
+}  // namespace Sglty::Traits
 
 // Singularity/Traits/Type.hpp

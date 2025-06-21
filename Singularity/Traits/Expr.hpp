@@ -1,5 +1,4 @@
-#ifndef SINGULARITY_TRAITS_EXPR_HPP
-#define SINGULARITY_TRAITS_EXPR_HPP
+#pragma once
 
 #include <type_traits>
 
@@ -7,9 +6,6 @@
 // #include "../Matrix.hpp" // this breaks, using forward declaration for now
 
 namespace Sglty {
-
-template <typename _core>
-class Matrix;  // forward declaration
 
 template <typename _expr, typename = void>
 struct IsExpression : std::false_type {};
@@ -23,7 +19,16 @@ struct IsExpression<
 template <typename _expr>
 constexpr bool is_expression_v = IsExpression<_expr>::value;
 
-namespace Traits {
+}  // namespace Sglty
+
+namespace Sglty::Types {
+
+template <typename>
+class Matrix;  // forward declaration
+
+}  // namespace Sglty::Types
+
+namespace Sglty::Traits {
 
 template <typename, typename = void>
 struct HasLHSType : std::false_type {};
@@ -53,15 +58,15 @@ struct ExtractImpl {
 };
 
 template <typename _core>
-struct ExtractImpl<Sglty::Matrix<_core>, void> {
+struct ExtractImpl<Sglty::Types::Matrix<_core>, void> {
   using type = _core;
 };
 
 template <typename _expr>
 struct ExtractImpl<_expr,
-                   std::enable_if_t<is_expression_v<_expr> &&
-                                    (Traits::has_lhs_type_v<_expr> ||
-                                     Traits::has_rhs_type_v<_expr>)>> {
+                   std::enable_if_t<Sglty::is_expression_v<_expr> &&
+                                    (Sglty::Traits::has_lhs_type_v<_expr> ||
+                                     Sglty::Traits::has_rhs_type_v<_expr>)>> {
  private:
   using lhs_result = typename ExtractImpl<typename _expr::lhs_type>::type;
 
@@ -84,10 +89,6 @@ struct ExtractImpl<_expr,
 template <typename _expr>
 using Extract = typename ExtractImpl<_expr>::type;
 
-}  // namespace Traits
-
-}  // namespace Sglty
-
-#endif  // SINGULARITY_TRAITS_EXPR_HPP
+}  // namespace Sglty::Traits
 
 // Singularity/Traits/Expr.hpp

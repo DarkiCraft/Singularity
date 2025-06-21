@@ -1,15 +1,10 @@
-#ifndef SINGULARITY_TRAITS_CORE_HPP
-#define SINGULARITY_TRAITS_CORE_HPP
+#pragma once
 
 #include <type_traits>
 
 #include "../Core/Enums.hpp"
 
-namespace Sglty {
-
-using std::size_t;
-
-namespace Traits {
+namespace Sglty::Traits {
 
 template <Sglty::Core::Mode _core_mode, Sglty::Core::Order _core_order>
 struct Core {
@@ -33,10 +28,6 @@ struct IsValidCore<_core_traits,
 template <typename core_traits>
 constexpr bool is_valid_core_v = IsValidCore<core_traits>::value;
 
-}  // namespace Traits
-
-}  // namespace Sglty
-
-#endif  // SINGULARITY_TRAITS_CORE_HPP
+}  // namespace Sglty::Traits
 
 // Singularity/Traits/Core.hpp

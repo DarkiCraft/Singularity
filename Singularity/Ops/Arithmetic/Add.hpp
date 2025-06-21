@@ -1,15 +1,8 @@
-#ifndef SINGULARITY_ARITHMETIC_EXPR_ADD_HPP
-#define SINGULARITY_ARITHMETIC_EXPR_ADD_HPP
+#pragma once
 
-#include <cstddef>
+#include "../../Expr/Base.hpp"
 
-#include "../Base.hpp"
-
-namespace Sglty {
-
-using std::size_t;
-
-namespace Expr {
+namespace Sglty::Expr {
 
 template <typename _lhs, typename _rhs>
 struct Add : public Expr::Base<Add<_lhs, _rhs>> {
@@ -33,10 +26,24 @@ struct Add : public Expr::Base<Add<_lhs, _rhs>> {
   }
 };
 
-}  // namespace Expr
+}  // namespace Sglty::Expr
 
-}  // namespace Sglty
+namespace Sglty::Ops::Arithmetic {
 
-#endif  // SINGULARITY_ARITHMETIC_EXPR_ADD_HPP
+template <typename _lhs, typename _rhs>
+constexpr auto Add(const _lhs& _l, const _rhs& _r) {
+  return Expr::Add<_lhs, _rhs>(_l, _r);
+}
 
-// Singularity/Arithmetic/Expr/Add.hpp
+}  // namespace Sglty::Ops::Arithmetic
+
+namespace Sglty::Types {
+
+template <typename _lhs, typename _rhs>
+constexpr auto operator+(const _lhs& _l, const _rhs& _r) {
+  return Ops::Arithmetic::Add(_l, _r);
+}
+
+}  // namespace Sglty::Types
+
+// Singularity/Ops/Arithmetic/Add.hpp
