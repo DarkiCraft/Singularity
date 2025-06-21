@@ -8,6 +8,13 @@
 namespace Sglty::Expr {
 
 template <typename _expr>
+/**
+ * @brief Evaluates a matrix expression and returns the resulting matrix.
+ *
+ * Converts the given expression into a concrete matrix by computing each element using the expression's evaluation operator.
+ *
+ * @return A matrix containing the evaluated results of the expression.
+ */
 constexpr auto Evaluate(const _expr& _e) -> std::enable_if_t<
     is_expression_v<_expr>,
     Sglty::Types::Matrix<typename Sglty::Traits::Extract<
@@ -29,6 +36,13 @@ constexpr auto Evaluate(const _expr& _e) -> std::enable_if_t<
 }
 
 template <typename _core_ret, typename _expr>
+/**
+ * @brief Evaluates a matrix expression into a concrete matrix using a specified core type.
+ *
+ * Constructs and returns a matrix of the given core type, with dimensions matching the input expression, by evaluating each element of the expression.
+ *
+ * @return A matrix containing the evaluated results of the expression.
+ */
 constexpr auto Evaluate(const _expr& _e) -> std::enable_if_t<
     Core::is_valid_implementation_v<_core_ret> && Sglty::is_expression_v<_expr>,
     Sglty::Types::Matrix<
