@@ -21,7 +21,7 @@
 // #include "Types/Vector.hpp" // future
 
 // Ops (grouped, or you could split if users want finer control)
-#include "Ops/Algebra/Trp.hpp"
-#include "Ops/Arithmetic/Add.hpp"
-#include "Ops/Arithmetic/Mul.hpp"
-#include "Ops/Arithmetic/Sub.hpp"
+#include "Ops/Alg/Trp.hpp"
+#include "Ops/Arthm/Add.hpp"
+#include "Ops/Arthm/Mul.hpp"
+#include "Ops/Arthm/Sub.hpp"

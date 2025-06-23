@@ -13,7 +13,7 @@ struct Base {
   constexpr static size_t rows = _derived::rows;
   constexpr static size_t cols = _derived::cols;
 
-  constexpr auto operator()(size_t i, size_t j) {
+  constexpr auto operator()(size_t i, size_t j) const {
     return Derived()(i, j);
   }
 };

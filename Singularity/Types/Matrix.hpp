@@ -1,9 +1,7 @@
 #pragma once
 
-#include <algorithm>
 #include <iostream>
 #include <type_traits>
-#include <utility>
 
 #include "../Core/Checks.hpp"
 #include "../Expr/Base.hpp"
@@ -59,7 +57,7 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
 
   using core_type = _core_impl;
 
-  constexpr Matrix() : _m_data{} {
+  constexpr Matrix() {
     static_assert(std::is_default_constructible_v<_core_impl>,
                   "Error: attempting to default construct `_core_impl` which "
                   "is not default constructible.");
@@ -81,9 +79,13 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
   }
 
   template <typename _expr,
-            bool _enable = is_expression_v<std::decay_t<_expr>>,
+            bool _enable = Traits::is_expression_v<std::decay_t<_expr>>,
             typename     = std::enable_if_t<_enable>>
   constexpr Matrix(const _expr& _e) {
+    static_assert(
+        std::is_same_v<typename Matrix::core_type, typename _expr::core_type>,
+        "Error: `core_type` mismatch.");
+
     TraverseIndices([&](size_t i, size_t j) { (*this)(i, j) = _e(i, j); });
   }
 
@@ -96,8 +98,7 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
   constexpr Matrix& operator=(const Matrix<_core_other>& _other) {
     static_assert(Matrix<_core_impl>::rows == Matrix<_core_other>::rows &&
                       Matrix<_core_impl>::cols == Matrix<_core_other>::cols,
-                  "Error: dimension mismatch between `Matrix<_core_impl>` and "
-                  "`Matrix<_core_other>`.");
+                  "Error: dimension mismatch.");
 
     Matrix<_core_other> temp(_other);
 
@@ -107,11 +108,11 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
   }
 
   template <typename _expr,
-            bool _enable = is_expression_v<std::decay_t<_expr>>,
+            bool _enable = Traits::is_expression_v<std::decay_t<_expr>>,
             typename     = std::enable_if_t<_enable>>
   constexpr Matrix& operator=(const _expr& _e) {
     static_assert(rows == _expr::rows && cols == _expr::cols,
-                  "Error: dimension mismatch between `*this` and `_expr`.");
+                  "Error: dimension mismatch.");
 
     TraverseIndices([&](size_t i, size_t j) { (*this)(i, j) = _e(i, j); });
 
@@ -122,7 +123,7 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
             bool _enable = sizeof...(Args) != 0 &&
                            !(sizeof...(Args) == 1 &&
                              ((std::is_same_v<std::decay_t<Args>, Matrix> ||
-                               Sglty::is_expression_v<std::decay_t<Args>>) ||
+                               Traits::is_expression_v<std::decay_t<Args>>) ||
                               ...)),
             typename = std::enable_if_t<_enable>>
   constexpr explicit Matrix(Args&&... args)
@@ -201,7 +202,8 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
 
   template <typename _expr>
   constexpr Matrix& operator+=(const _expr& _e) {
-    static_assert(is_expression_v<_expr>, "Error: non-expression passed");
+    static_assert(Traits::is_expression_v<_expr>,
+                  "Error: non-expression passed");
     static_assert(Matrix::rows == _expr::rows && Matrix::cols == _expr::cols,
                   "Error: dimension mismatch.");
 
@@ -220,7 +222,8 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
 
   template <typename _expr>
   constexpr Matrix& operator-=(const _expr& _e) {
-    static_assert(is_expression_v<_expr>, "Error: non-expression passed");
+    static_assert(Traits::is_expression_v<_expr>,
+                  "Error: non-expression passed");
     static_assert(Matrix::rows == _expr::rows && Matrix::cols == _expr::cols,
                   "Error: dimension mismatch.");
 
