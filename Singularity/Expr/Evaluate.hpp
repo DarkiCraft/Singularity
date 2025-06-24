@@ -1,16 +1,21 @@
 #pragma once
 
+#include <cstddef>
+#include <type_traits>
+
 #include "../Traits/Expr.hpp"
 #include "../Types/Matrix.hpp"
 
 namespace Sglty::Expr {
 
-template <typename _expr,
-          bool _enable = Traits::is_expression_v<_expr>,
-          typename     = std::enable_if_t<_enable>>
+template <typename _expr>
 constexpr auto Evaluate(const _expr& _e) {
-  Sglty::Types::Matrix<typename _expr::core_type> ret;
-  ret.TraverseIndices([&](size_t i, size_t j) { ret(i, j) = _e(i, j); });
+  static_assert(Traits::is_expression_v<_expr>,
+                "Error: _expr is not an expression.");
+
+  Types::Matrix<typename _expr::core_type> ret;
+  ret.TraverseIndices(
+      [&](std::size_t i, std::size_t j) { ret(i, j) = _e(i, j); });
 
   return ret;
 }

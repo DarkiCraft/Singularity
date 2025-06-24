@@ -1,15 +1,17 @@
 #pragma once
 
+#include <cstddef>
+
 #include "../../Expr/Unary.hpp"
 
 namespace Sglty::Expr {
 
 struct Trp {
   template <typename _operand>
-  constexpr static size_t rows = _operand::cols;
+  constexpr static std::size_t rows = _operand::cols;
 
   template <typename _operand>
-  constexpr static size_t cols = _operand::rows;
+  constexpr static std::size_t cols = _operand::rows;
 
   template <typename _operand>
   using core_type =
@@ -17,7 +19,9 @@ struct Trp {
                                                          cols<_operand>>;
 
   template <typename _operand>
-  constexpr auto operator()(const _operand& op, size_t i, size_t j) const {
+  constexpr auto operator()(const _operand& op,
+                            std::size_t i,
+                            std::size_t j) const {
     return op(j, i);
   }
 };
@@ -28,7 +32,7 @@ namespace Sglty::Ops::Alg {
 
 template <typename _operand>
 constexpr auto Trp(const _operand& _o) {
-  return Sglty::Expr::Unary<_operand, Sglty::Expr::Trp>(_o);
+  return Expr::Unary<_operand, Expr::Trp>(_o);
 }
 
 }  // namespace Sglty::Ops::Alg

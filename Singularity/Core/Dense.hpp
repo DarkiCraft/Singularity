@@ -3,22 +3,19 @@
 #include <array>
 #include <cstddef>
 #include <utility>
-#include <vector>
-
-#include "Checks.hpp"
 
 namespace Sglty::Core {
 
-using std::size_t;
-
-template <typename _Tp, size_t _rows, size_t _cols, Core::Order _core_order>
+template <typename _Tp,
+          std::size_t _rows,
+          std::size_t _cols,
+          Core::Order _core_order>
 class Dense {
  public:
   using type_traits = Traits::Type<_Tp>;
 
   using size_type       = typename type_traits::size_type;
   using value_type      = typename type_traits::value_type;
-  using allocator_type  = typename type_traits::allocator_type;
   using difference_type = typename type_traits::difference_type;
   using reference       = typename type_traits::reference;
   using const_reference = typename type_traits::const_reference;
@@ -35,7 +32,13 @@ class Dense {
 
   using core_base = Dense<_Tp, 0, 0, core_traits::core_order>;
 
-  Dense() = default;
+  constexpr Dense() = default;
+
+  constexpr Dense(value_type val) : _m_data() {
+    for (size_type i = 0; i < _m_data.size(); i++) {
+      _m_data[i] = val;
+    }
+  }
 
   constexpr reference At(const size_type _row, const size_type _col) {
     return const_cast<reference>(std::as_const(*this).At(_row, _col));

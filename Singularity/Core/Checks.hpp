@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <type_traits>
 
 #include "../Traits/Core.hpp"
@@ -31,7 +32,6 @@ struct HasTypeTraits<
     std::void_t<typename _core_impl::type_traits,
                 typename _core_impl::type_traits::size_type,
                 typename _core_impl::type_traits::value_type,
-                typename _core_impl::type_traits::allocator_type,
                 typename _core_impl::type_traits::difference_type,
                 typename _core_impl::type_traits::reference,
                 typename _core_impl::type_traits::const_reference,
@@ -80,9 +80,10 @@ template <typename _core_impl>
 struct HasMemberFunctions<
     _core_impl,
     std::void_t<HasTypeTraits<_core_impl>,
-                decltype(std::declval<_core_impl&>().At(size_t{}, size_t{})),
-                decltype(std::declval<const _core_impl&>().At(size_t{},
-                                                              size_t{})),
+                decltype(std::declval<_core_impl&>().At(std::size_t{},
+                                                        std::size_t{})),
+                decltype(std::declval<const _core_impl&>().At(std::size_t{},
+                                                              std::size_t{})),
                 decltype(std::declval<_core_impl&>().Data()),
                 decltype(std::declval<const _core_impl&>().Data())>> {
  private:
@@ -95,13 +96,13 @@ struct HasMemberFunctions<
   using const_pointer   = typename _core_impl::const_pointer;
 
   static constexpr bool _m_At_nonconst_returns_ref =
-      std::is_same_v<decltype(std::declval<_core_impl&>().At(size_t{},
-                                                             size_t{})),
+      std::is_same_v<decltype(std::declval<_core_impl&>().At(std::size_t{},
+                                                             std::size_t{})),
                      reference>;
 
   static constexpr bool _m_At_const_returns_cref =
-      std::is_same_v<decltype(std::declval<const _core_impl&>().At(size_t{},
-                                                                   size_t{})),
+      std::is_same_v<decltype(std::declval<const _core_impl&>().At(
+                         std::size_t{}, std::size_t{})),
                      const_reference>;
 
   static constexpr bool _m_Data_nonconst_returns_ptr =
