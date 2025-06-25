@@ -41,26 +41,6 @@ struct IsExpression<_expr,
 template <typename _expr>
 constexpr bool is_expression_v = IsExpression<_expr>::value;
 
-template <typename, typename = void>
-struct HasLHSType : std::false_type {};
-
-template <typename _expr>
-struct HasLHSType<_expr, std::void_t<typename _expr::lhs_type>>
-    : std::true_type {};
-
-template <typename _expr>
-constexpr bool has_lhs_type_v = HasLHSType<_expr>::value;
-
-template <typename, typename = void>
-struct HasRHSType : std::false_type {};
-
-template <typename _expr>
-struct HasRHSType<_expr, std::void_t<typename _expr::rhs_type>>
-    : std::true_type {};
-
-template <typename _expr>
-constexpr bool has_rhs_type_v = HasRHSType<_expr>::value;
-
 template <typename _op, typename = void>
 struct IsValidOp : std::false_type {};
 

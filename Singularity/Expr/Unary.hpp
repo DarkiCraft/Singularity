@@ -21,7 +21,7 @@ struct Unary : Tag {
 
   using core_type = typename op_type::core_type<operand_type>;
 
-  static_assert(Core::is_valid_implementation_v<core_type>,
+  static_assert(Core::has_required_traits_v<core_type>,
                 "Error: operand_type produces invalid core_type.");
 
   constexpr static std::size_t rows = op_type::template rows<operand_type>;

@@ -4,7 +4,7 @@ namespace Sglty::Core {
 
 enum class Mode { Dense, Sparse };
 
-enum class Order { RowMajor, ColMajor, Undefined };
+enum class Major { Row, Col, Undefined };
 
 }  // namespace Sglty::Core
 

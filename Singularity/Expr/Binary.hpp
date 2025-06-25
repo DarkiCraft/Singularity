@@ -24,7 +24,7 @@ struct Binary : Tag {
 
   using core_type = typename op_type::core_type<lhs_type, rhs_type>;
 
-  static_assert(Core::is_valid_implementation_v<core_type>,
+  static_assert(Core::has_required_traits_v<core_type>,
                 "Error: lhs_type and rhs_type produce invalid core_type.");
 
   constexpr static std::size_t rows =

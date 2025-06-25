@@ -56,7 +56,7 @@ class Matrix : public Expr::Tag {
   using core_traits = typename _core_impl::core_traits;
 
   constexpr static auto core_mode  = core_traits::core_mode;
-  constexpr static auto core_order = core_traits::core_order;
+  constexpr static auto core_major = core_traits::core_major;
 
   using core_type = _core_impl;
 
@@ -150,8 +150,8 @@ class Matrix : public Expr::Tag {
   constexpr Sglty::Core::Mode Mode() const {
     return core_mode;
   }
-  constexpr Sglty::Core::Order Order() const {
-    return core_order;
+  constexpr Sglty::Core::Major Major() const {
+    return core_major;
   }
 
   constexpr reference operator()(const size_type _row, const size_type _col) {
@@ -170,7 +170,7 @@ class Matrix : public Expr::Tag {
 
   template <typename Func>
   constexpr void TraverseIndices(Func&& fn) const {
-    if constexpr (Order() == Core::Order::RowMajor) {
+    if constexpr (Major() == Core::Major::Row) {
       for (std::size_t i = 0; i < Rows(); i++) {
         for (std::size_t j = 0; j < Cols(); j++) {
           fn(i, j);
@@ -192,7 +192,7 @@ class Matrix : public Expr::Tag {
 
   template <typename Func>
   constexpr void TraverseValues(Func&& fn) const {
-    if constexpr (Order() == Core::Order::RowMajor) {
+    if constexpr (Major() == Core::Major::Row) {
       for (std::size_t i = 0; i < Rows(); i++) {
         for (std::size_t j = 0; j < Cols(); j++) {
           fn((*this)(i, j));

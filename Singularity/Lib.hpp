@@ -1,6 +1,5 @@
 #pragma once
 
-// clang-format off
 #include "Expr/Evaluate.hpp"
 
 #include "Core/Enums.hpp"
@@ -13,6 +12,5 @@
 #include "Ops/Arthm/Neg.hpp"
 #include "Ops/Arthm/Sub.hpp"
 #include "Ops/Cmp/Eql.hpp"
-// clang-format on
 
 // Singularity/Lib.hpp
