@@ -1,22 +1,23 @@
 #pragma once
 
-#include "../Core/Dummy.hpp"
-#include "../Ops/Dummy.hpp"
+#include <cstddef>
+
 #include "Tag.hpp"
+#include "../Core/Dummy.hpp"
 
 namespace Sglty::Expr {
 
 struct Dummy : Tag {
-  static constexpr size_t rows = 0;
-  static constexpr size_t cols = 0;
+  static constexpr std::size_t rows = 0;
+  static constexpr std::size_t cols = 0;
 
   using core_type = Core::Dummy;
 
-  constexpr auto operator()(size_t, size_t) const {
-    return Ops::Dummy{}(Dummy(), Dummy(), 0, 0);
-  }
+  constexpr auto operator()(std::size_t, std::size_t) const;
 };
 
 }  // namespace Sglty::Expr
+
+#include "Impl/Dummy.tpp"
 
 // Singularity/Expr/Dummy.hpp

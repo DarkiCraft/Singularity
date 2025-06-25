@@ -2,9 +2,9 @@
 
 #include <cstddef>
 
-#include "../Core/Checks.hpp"
-#include "../Traits/Expr.hpp"
 #include "Tag.hpp"
+#include "../Traits/Expr.hpp"
+#include "../Core/Checks.hpp"
 
 namespace Sglty::Expr {
 
@@ -32,16 +32,16 @@ struct Binary : Tag {
   constexpr static std::size_t cols =
       op_type::template cols<lhs_type, rhs_type>;
 
-  constexpr Binary(const lhs_type& _l, const rhs_type& _r) : _l(_l), _r(_r) {}
+  constexpr Binary(const lhs_type& _l, const rhs_type& _r);
 
-  constexpr auto operator()(std::size_t i, std::size_t j) const {
-    return op_type{}(_l, _r, i, j);
-  }
+  constexpr auto operator()(std::size_t i, std::size_t j) const;
 
   const lhs_type _l;
   const rhs_type _r;
 };
 
 }  // namespace Sglty::Expr
+
+#include "Impl/Binary.tpp"
 
 // Singularity/Expr/Binary.hpp

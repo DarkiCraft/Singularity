@@ -27,15 +27,15 @@ struct Unary : Tag {
   constexpr static std::size_t rows = op_type::template rows<operand_type>;
   constexpr static std::size_t cols = op_type::template cols<operand_type>;
 
-  constexpr Unary(const operand_type& _o) : _o(_o) {}
+  constexpr Unary(const operand_type& _o);
 
-  constexpr auto operator()(std::size_t i, std::size_t j) const {
-    return op_type{}(_o, i, j);
-  }
+  constexpr auto operator()(std::size_t i, std::size_t j) const;
 
   const operand_type _o;
 };
 
 }  // namespace Sglty::Expr
+
+#include "Impl/Unary.tpp"
 
 // Singularity/Expr/Unary.hpp
