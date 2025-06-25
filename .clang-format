@@ -8,3 +8,4 @@ AllowAllParametersOfDeclarationOnNextLine: true
 BinPackArguments: false
 BinPackParameters: OnePerLine
 AlignConsecutiveAssignments: Consecutive
+SortIncludes: false
