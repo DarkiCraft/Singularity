@@ -1,28 +1,18 @@
-#ifndef SINGULARITY__HPP
-#define SINGULARITY__HPP
+#pragma once
 
-#include "Lib/Algebra.hpp"
-#include "Lib/Arithmetic.hpp"
-#include "Lib/Core.hpp"
-#include "Lib/Expr.hpp"
-#include "Lib/Matrix.hpp"
-#include "Lib/Traits.hpp"
+// clang-format off
+#include "Expr/Evaluate.hpp"
 
-namespace Sglty {
+#include "Core/Enums.hpp"
+#include "Core/Dense.hpp"
+#include "Types/Matrix.hpp"
 
-using std::size_t;
+#include "Ops/Alg/Trp.hpp"
+#include "Ops/Arthm/Add.hpp"
+#include "Ops/Arthm/Mul.hpp"
+#include "Ops/Arthm/Neg.hpp"
+#include "Ops/Arthm/Sub.hpp"
+#include "Ops/Cmp/Eql.hpp"
+// clang-format on
 
-template <typename _Tp,
-          size_t _rows,
-          size_t _cols,
-          Core::Order _core_order = Core::Order::RowMajor>
-using DenseMatrix = Matrix<Core::Dense<_Tp, _rows, _cols, _core_order>>;
-
-// template <typename _Tp, size_t _rows, size_t _cols>
-// using SparseMatrix = Matrix<SparseCore<_Tp, _rows, _cols>>;
-
-}  // namespace Sglty
-
-#endif  // SINGULARITY__HPP
-
-// Singularity/.hpp
+// Singularity/Lib.hpp
