@@ -23,9 +23,8 @@ struct Dummy {
   };
 
   struct core_traits {
-    static constexpr Sglty::Core::Mode core_mode = Sglty::Core::Mode::Dense;
-    static constexpr Sglty::Core::Order core_order =
-        Sglty::Core::Order::RowMajor;
+    static constexpr Sglty::Core::Mode core_mode   = Sglty::Core::Mode::Dense;
+    static constexpr Sglty::Core::Major core_major = Sglty::Core::Major::Row;
   };
 
   using core_base = Dummy;
@@ -33,26 +32,18 @@ struct Dummy {
   template <std::size_t, std::size_t>
   using core_rebind = Dummy;
 
-  int& At(std::size_t, std::size_t) {
-    return val;
-  }
+  int& At(std::size_t, std::size_t);
+  const int& At(std::size_t, std::size_t) const;
 
-  const int& At(std::size_t, std::size_t) const {
-    return val;
-  }
-
-  int* Data() {
-    return &val;
-  }
-
-  const int* Data() const {
-    return &val;
-  }
+  int* Data();
+  const int* Data() const;
 
  private:
   int val{};
 };
 
 }  // namespace Sglty::Core
+
+#include "Impl/Dummy.tpp"
 
 // Singularity/Core/Dummy.hpp
