@@ -4,12 +4,12 @@
 
 #include "../Core/Checks.hpp"
 #include "../Traits/Expr.hpp"
-#include "Base.hpp"
+#include "Tag.hpp"
 
 namespace Sglty::Expr {
 
 template <typename _operand, typename _op>
-struct Unary : Base<Unary<_operand, _op>> {
+struct Unary : Tag {
   using operand_type = _operand;
 
   static_assert(Traits::is_expression_v<operand_type>,

@@ -16,11 +16,17 @@ struct Neg {
   template <typename _operand>
   using core_type = typename _operand::core_type;
 
+  template <typename>
+  constexpr static bool is_valid_core_type = true;
+
+  template <typename>
+  constexpr static bool is_valid_dimension = true;
+
   template <typename _operand>
   constexpr auto operator()(const _operand& op,
                             std::size_t i,
                             std::size_t j) const {
-    return op(i, j) * -1;
+    return -op(i, j);
   }
 };
 
@@ -44,4 +50,4 @@ constexpr auto operator-(const _operand& _o) {
 
 }  // namespace Sglty::Types
 
-// Singularity/Ops/Alg/Neg.hpp
+// Singularity/Ops/Arthm/Neg.hpp

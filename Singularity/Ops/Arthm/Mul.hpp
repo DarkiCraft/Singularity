@@ -40,24 +40,22 @@ struct MulMatrix {
                                                      cols<_lhs, _rhs>>;
 
   template <typename _lhs, typename _rhs>
-  constexpr static bool is_valid_core_types = std::is_same_v<
+  constexpr static bool is_valid_core_type = std::is_same_v<
       typename _lhs::core_type::template core_rebind<rows<_lhs, _rhs>,
                                                      cols<_lhs, _rhs>>,
       typename _rhs::core_type::template core_rebind<rows<_lhs, _rhs>,
                                                      cols<_lhs, _rhs>>>;
 
   template <typename _lhs, typename _rhs>
-  constexpr static bool is_valid_dimensions = (_lhs::cols == _rhs::rows);
+  constexpr static bool is_valid_dimension = (_lhs::cols == _rhs::rows);
 
   template <typename _lhs, typename _rhs>
   constexpr auto operator()(const _lhs& _l,
                             const _rhs& _r,
                             std::size_t i,
                             std::size_t j) const {
-    static_assert(is_valid_core_types<_lhs, _rhs>,
-                  "Error: core_type mismatch.");
-    static_assert(is_valid_dimensions<_lhs, _rhs>,
-                  "Error: invalid dimensions.");
+    static_assert(is_valid_core_type<_lhs, _rhs>, "Error: core_type mismatch.");
+    static_assert(is_valid_dimension<_lhs, _rhs>, "Error: invalid dimensions.");
 
     using value_type = decltype(std::declval<const _lhs&>()(0, 0) *
                                 std::declval<const _rhs&>()(0, 0));

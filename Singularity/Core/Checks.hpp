@@ -89,11 +89,11 @@ struct HasMemberFunctions<
  private:
   using type_traits = typename _core_impl::type_traits;
 
-  using value_type      = typename _core_impl::value_type;
-  using reference       = typename _core_impl::reference;
-  using const_reference = typename _core_impl::const_reference;
-  using pointer         = typename _core_impl::pointer;
-  using const_pointer   = typename _core_impl::const_pointer;
+  using value_type      = typename type_traits::value_type;
+  using reference       = typename type_traits::reference;
+  using const_reference = typename type_traits::const_reference;
+  using pointer         = typename type_traits::pointer;
+  using const_pointer   = typename type_traits::const_pointer;
 
   static constexpr bool _m_At_nonconst_returns_ref =
       std::is_same_v<decltype(std::declval<_core_impl&>().At(std::size_t{},

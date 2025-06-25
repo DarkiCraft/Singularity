@@ -4,12 +4,12 @@
 
 #include "../Core/Checks.hpp"
 #include "../Traits/Expr.hpp"
-#include "Base.hpp"
+#include "Tag.hpp"
 
 namespace Sglty::Expr {
 
 template <typename _lhs, typename _rhs, typename _op>
-struct Binary : Base<Binary<_lhs, _rhs, _op>> {
+struct Binary : Tag {
   using lhs_type = _lhs;
   using rhs_type = _rhs;
 

@@ -13,7 +13,7 @@ constexpr auto Evaluate(const _expr& _e) {
   static_assert(Traits::is_expression_v<_expr>,
                 "Error: _expr is not an expression.");
 
-  Types::Matrix<typename _expr::core_type> ret;
+  Types::Matrix<typename _expr::core_type> ret(0);
   ret.TraverseIndices(
       [&](std::size_t i, std::size_t j) { ret(i, j) = _e(i, j); });
 
@@ -22,4 +22,4 @@ constexpr auto Evaluate(const _expr& _e) {
 
 }  // namespace Sglty::Expr
 
-// Singularity/Expr/Evaluator.hpp
+// Singularity/Expr/Evaluate.hpp

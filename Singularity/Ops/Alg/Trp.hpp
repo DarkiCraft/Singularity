@@ -18,6 +18,12 @@ struct Trp {
       typename _operand::core_type::template core_rebind<rows<_operand>,
                                                          cols<_operand>>;
 
+  template <typename>
+  constexpr static bool is_valid_core_type = true;
+
+  template <typename>
+  constexpr static bool is_valid_dimension = true;
+
   template <typename _operand>
   constexpr auto operator()(const _operand& op,
                             std::size_t i,

@@ -3,15 +3,17 @@
 #include <cstddef>
 #include <iostream>
 #include <type_traits>
+#include <utility>
 
 #include "../Core/Checks.hpp"
-#include "../Expr/Base.hpp"
+#include "../Expr/Tag.hpp"
+#include "../Ops/Arthm/Neg.hpp"
 #include "../Traits/Expr.hpp"
 
 namespace Sglty::Types {
 
 template <typename _core_impl>
-class Matrix : public Expr::Base<Matrix<_core_impl>> {
+class Matrix : public Expr::Tag {
   static_assert(Core::has_size_traits_v<_core_impl>,
                 "Error: `_core_impl` must define nested type `size_traits`.");
 
@@ -58,7 +60,7 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
 
   using core_type = _core_impl;
 
-  constexpr Matrix() : _m_data() {
+  Matrix() {
     static_assert(std::is_default_constructible_v<_core_impl>,
                   "Error: attempting to default construct `_core_impl` which "
                   "is not default constructible.");
@@ -234,7 +236,7 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
     static_assert(Matrix::rows == _expr::rows && Matrix::cols == _expr::cols,
                   "Error: dimension mismatch.");
 
-    return (*this) += _e * -1;
+    return (*this) += -_e;
   }
 
   // temporary for tests
@@ -253,4 +255,4 @@ class Matrix : public Expr::Base<Matrix<_core_impl>> {
 
 }  // namespace Sglty::Types
 
-// Singularity/Matrix.hpp
+// Singularity/Types/Matrix.hpp
