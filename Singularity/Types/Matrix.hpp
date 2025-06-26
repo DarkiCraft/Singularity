@@ -8,6 +8,7 @@
 #include "../Core/Checks.hpp"
 #include "../Expr/Tag.hpp"
 #include "../Ops/Arthm/Neg.hpp"
+#include "../Traits/Core.hpp"
 #include "../Traits/Expr.hpp"
 
 namespace Sglty::Types {
