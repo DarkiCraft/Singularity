@@ -25,9 +25,7 @@ struct Neg {
   template <typename _operand>
   constexpr auto operator()(const _operand& op,
                             std::size_t i,
-                            std::size_t j) const {
-    return -op(i, j);
-  }
+                            std::size_t j) const;
 };
 
 }  // namespace Sglty::Expr
@@ -35,19 +33,17 @@ struct Neg {
 namespace Sglty::Ops::Arthm {
 
 template <typename _operand>
-constexpr auto Neg(const _operand& _o) {
-  return Expr::Unary<_operand, Expr::Neg>(_o);
-}
+constexpr auto Neg(const _operand& _o);
 
 }  // namespace Sglty::Ops::Arthm
 
 namespace Sglty::Types {
 
 template <typename _operand>
-constexpr auto operator-(const _operand& _o) {
-  return Ops::Arthm::Neg(_o);
-}
+constexpr auto operator-(const _operand& _o);
 
 }  // namespace Sglty::Types
+
+#include "Impl/Neg.tpp"
 
 // Singularity/Ops/Arthm/Neg.hpp

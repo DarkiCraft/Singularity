@@ -1,9 +1,6 @@
 #pragma once
 
 #include <cstddef>
-#include <type_traits>
-
-#include "../../Expr/Binary.hpp"
 
 namespace Sglty::Expr {
 
@@ -29,11 +26,7 @@ struct Sub {
   constexpr auto operator()(const _lhs& _l,
                             const _rhs& _r,
                             std::size_t i,
-                            std::size_t j) const {
-    static_assert(is_valid_core_type<_lhs, _rhs>, "Error: core_type mismatch.");
-    static_assert(is_valid_dimension<_lhs, _rhs>, "Error: invalid dimensions.");
-    return _l(i, j) - _r(i, j);
-  }
+                            std::size_t j) const;
 };
 
 }  // namespace Sglty::Expr
@@ -41,19 +34,17 @@ struct Sub {
 namespace Sglty::Ops::Arthm {
 
 template <typename _lhs, typename _rhs>
-constexpr auto Sub(const _lhs& _l, const _rhs& _r) {
-  return Expr::Binary<_lhs, _rhs, Expr::Sub>(_l, _r);
-}
+constexpr auto Sub(const _lhs& _l, const _rhs& _r);
 
 }  // namespace Sglty::Ops::Arthm
 
 namespace Sglty::Types {
 
 template <typename _lhs, typename _rhs>
-constexpr auto operator-(const _lhs& _l, const _rhs& _r) {
-  return Ops::Arthm::Sub(_l, _r);
-}
+constexpr auto operator-(const _lhs& _l, const _rhs& _r);
 
 }  // namespace Sglty::Types
+
+#include "Impl/Sub.tpp"
 
 // Singularity/Ops/Arthm/Sub.hpp
