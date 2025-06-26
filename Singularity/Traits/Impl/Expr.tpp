@@ -22,7 +22,7 @@ struct IsExpression<_expr,
   struct Check<T,
                std::void_t<decltype(static_cast<std::size_t>(T::rows)),
                            decltype(static_cast<std::size_t>(T::cols)),
-                           typename T::core_type,
+                           typename T::core_impl,
                            decltype(std::declval<T const&>()(
                                std::declval<std::size_t>(),
                                std::declval<std::size_t>()))>>
@@ -44,7 +44,7 @@ struct IsValidOp<
     std::void_t<  // overload for binary ops
         decltype(_op::template rows<Expr::Dummy, Expr::Dummy>),
         decltype(_op::template cols<Expr::Dummy, Expr::Dummy>),
-        typename _op::template core_type<Expr::Dummy, Expr::Dummy>,
+        typename _op::template core_impl<Expr::Dummy, Expr::Dummy>,
         decltype(_op::template is_valid_core_type<Expr::Dummy, Expr::Dummy>),
         decltype(_op::template is_valid_dimension<Expr::Dummy, Expr::Dummy>),
         decltype(std::declval<_op>().operator()(
@@ -59,7 +59,7 @@ struct IsValidOp<
     std::void_t<  // overload for unary ops
         decltype(_op::template rows<Expr::Dummy>),
         decltype(_op::template cols<Expr::Dummy>),
-        typename _op::template core_type<Expr::Dummy>,
+        typename _op::template core_impl<Expr::Dummy>,
         decltype(_op::template is_valid_core_type<Expr::Dummy>),
         decltype(_op::template is_valid_dimension<Expr::Dummy>),
         decltype(std::declval<_op>().operator()(

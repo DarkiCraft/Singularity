@@ -12,11 +12,11 @@ struct Sub {
   constexpr static std::size_t cols = _lhs::cols;  // = _rhs::cols
 
   template <typename _lhs, typename _rhs>
-  using core_type = typename _lhs::core_type;  // = _rhs::core_type
+  using core_impl = typename _lhs::core_impl;  // = _rhs::core_impl
 
   template <typename _lhs, typename _rhs>
   constexpr static bool is_valid_core_type =
-      std::is_same_v<typename _lhs::core_type, typename _rhs::core_type>;
+      std::is_same_v<typename _lhs::core_impl, typename _rhs::core_impl>;
 
   template <typename _lhs, typename _rhs>
   constexpr static bool is_valid_dimension =

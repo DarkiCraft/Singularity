@@ -48,8 +48,8 @@ template <typename _core_impl>
 struct HasCoreTraits<
     _core_impl,
     std::enable_if_t<
-        std::is_same_v<decltype(_core_impl::core_traits::core_mode),
-                       const Core::Mode> &&
+        std::is_same_v<decltype(_core_impl::core_traits::core_type),
+                       const Core::Type> &&
         std::is_same_v<decltype(_core_impl::core_traits::core_major),
                        const Core::Major>>> : std::true_type {};
 

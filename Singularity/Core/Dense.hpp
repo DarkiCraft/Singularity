@@ -28,7 +28,7 @@ class Dense {
 
   using size_traits = Traits::Size<_rows, _cols, size_type>;
 
-  using core_traits = Traits::Core<Core::Mode::Dense, _core_major>;
+  using core_traits = Traits::Core<Core::Type::Dense, _core_major>;
 
   template <size_type _rebind_rows, size_type _rebind_cols>
   using core_rebind =

@@ -11,7 +11,7 @@ struct Dummy : Tag {
   static constexpr std::size_t rows = 0;
   static constexpr std::size_t cols = 0;
 
-  using core_type = Core::Dummy;
+  using core_impl = Core::Dummy;
 
   constexpr auto operator()(std::size_t, std::size_t) const;
 };

@@ -22,7 +22,7 @@ constexpr auto MulMatrix::operator()(const _lhs& _l,
                                      const _rhs& _r,
                                      std::size_t i,
                                      std::size_t j) const {
-  static_assert(is_valid_core_type<_lhs, _rhs>, "Error: core_type mismatch.");
+  static_assert(is_valid_core_type<_lhs, _rhs>, "Error: core_impl mismatch.");
   static_assert(is_valid_dimension<_lhs, _rhs>, "Error: invalid dimensions.");
 
   using value_type = decltype(std::declval<const _lhs&>()(0, 0) *

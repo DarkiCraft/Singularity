@@ -2,7 +2,7 @@
 
 namespace Sglty::Traits {
 
-template <typename _core>
+template <typename _core_impl>
 struct IsMatrix;
 
 }  // namespace Sglty::Traits

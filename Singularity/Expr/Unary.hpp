@@ -19,10 +19,10 @@ struct Unary : Tag {
 
   static_assert(Traits::is_valid_op_v<op_type>, "Error: op_type is invalid.");
 
-  using core_type = typename op_type::core_type<operand_type>;
+  using core_impl = typename op_type::core_impl<operand_type>;
 
-  static_assert(Core::has_required_traits_v<core_type>,
-                "Error: operand_type produces invalid core_type.");
+  static_assert(Core::has_required_traits_v<core_impl>,
+                "Error: operand_type produces invalid core_impl.");
 
   constexpr static std::size_t rows = op_type::template rows<operand_type>;
   constexpr static std::size_t cols = op_type::template cols<operand_type>;

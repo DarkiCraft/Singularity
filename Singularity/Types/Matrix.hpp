@@ -52,10 +52,10 @@ class Matrix : public Expr::Tag {
 
   using core_traits = typename _core_impl::core_traits;
 
-  constexpr static auto core_mode  = core_traits::core_mode;
+  constexpr static auto core_type  = core_traits::core_type;
   constexpr static auto core_major = core_traits::core_major;
 
-  using core_type = _core_impl;
+  using core_impl = _core_impl;
 
   Matrix();
 
@@ -97,7 +97,7 @@ class Matrix : public Expr::Tag {
   constexpr size_type Rows() const;
   constexpr size_type Cols() const;
 
-  constexpr Sglty::Core::Mode Mode() const;
+  constexpr Sglty::Core::Type Type() const;
   constexpr Sglty::Core::Major Major() const;
 
   constexpr reference operator()(const size_type _row, const size_type _col);

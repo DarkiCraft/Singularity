@@ -12,7 +12,7 @@ struct Dummy {
   static constexpr size_t cols = 0;
 
   template <typename, typename>
-  using core_type = Core::Dummy;
+  using core_impl = Core::Dummy;
 
   template <typename, typename>
   constexpr static bool is_valid_core_type = true;

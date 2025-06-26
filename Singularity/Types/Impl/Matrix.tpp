@@ -34,8 +34,8 @@ template <typename _core_impl>
 template <typename _expr, bool _enable, typename>
 constexpr Matrix<_core_impl>::Matrix(const _expr& _e) : _m_data() {
   static_assert(
-      std::is_same_v<typename Matrix::core_type, typename _expr::core_type>,
-      "Error: `core_type` mismatch.");
+      std::is_same_v<typename Matrix::core_impl, typename _expr::core_impl>,
+      "Error: `core_impl` mismatch.");
 
   TraverseIndices(
       [&](std::size_t i, std::size_t j) { (*this)(i, j) = _e(i, j); });
@@ -91,8 +91,8 @@ constexpr typename Matrix<_core_impl>::size_type Matrix<_core_impl>::Cols()
 }
 
 template <typename _core_impl>
-constexpr Sglty::Core::Mode Matrix<_core_impl>::Mode() const {
-  return core_mode;
+constexpr Sglty::Core::Type Matrix<_core_impl>::Type() const {
+  return core_type;
 }
 
 template <typename _core_impl>

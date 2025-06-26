@@ -13,7 +13,7 @@ struct MulScalar {
   constexpr static std::size_t cols = _lhs::cols;
 
   template <typename _lhs, typename _rhs>
-  using core_type = typename _lhs::core_type;
+  using core_impl = typename _lhs::core_impl;
 
   template <typename _lhs, typename _rhs>
   constexpr auto operator()(const _lhs& _l,
@@ -30,15 +30,15 @@ struct MulMatrix {
   constexpr static std::size_t cols = _rhs::cols;
 
   template <typename _lhs, typename _rhs>
-  using core_type =
-      typename _lhs::core_type::template core_rebind<rows<_lhs, _rhs>,
+  using core_impl =
+      typename _lhs::core_impl::template core_rebind<rows<_lhs, _rhs>,
                                                      cols<_lhs, _rhs>>;
 
   template <typename _lhs, typename _rhs>
   constexpr static bool is_valid_core_type = std::is_same_v<
-      typename _lhs::core_type::template core_rebind<rows<_lhs, _rhs>,
+      typename _lhs::core_impl::template core_rebind<rows<_lhs, _rhs>,
                                                      cols<_lhs, _rhs>>,
-      typename _rhs::core_type::template core_rebind<rows<_lhs, _rhs>,
+      typename _rhs::core_impl::template core_rebind<rows<_lhs, _rhs>,
                                                      cols<_lhs, _rhs>>>;
 
   template <typename _lhs, typename _rhs>

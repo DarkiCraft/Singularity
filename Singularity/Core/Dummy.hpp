@@ -23,7 +23,7 @@ struct Dummy {
   };
 
   struct core_traits {
-    static constexpr Sglty::Core::Mode core_mode   = Sglty::Core::Mode::Dense;
+    static constexpr Sglty::Core::Type core_type   = Sglty::Core::Type::Dense;
     static constexpr Sglty::Core::Major core_major = Sglty::Core::Major::Row;
   };
 

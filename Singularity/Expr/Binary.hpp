@@ -22,10 +22,10 @@ struct Binary : Tag {
 
   static_assert(Traits::is_valid_op_v<op_type>, "Error: op_type is invalid.");
 
-  using core_type = typename op_type::core_type<lhs_type, rhs_type>;
+  using core_impl = typename op_type::core_impl<lhs_type, rhs_type>;
 
-  static_assert(Core::has_required_traits_v<core_type>,
-                "Error: lhs_type and rhs_type produce invalid core_type.");
+  static_assert(Core::has_required_traits_v<core_impl>,
+                "Error: lhs_type and rhs_type produce invalid core_impl.");
 
   constexpr static std::size_t rows =
       op_type::template rows<lhs_type, rhs_type>;

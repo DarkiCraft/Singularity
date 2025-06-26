@@ -12,8 +12,8 @@ struct Trp {
   constexpr static std::size_t cols = _operand::rows;
 
   template <typename _operand>
-  using core_type =
-      typename _operand::core_type::template core_rebind<rows<_operand>,
+  using core_impl =
+      typename _operand::core_impl::template core_rebind<rows<_operand>,
                                                          cols<_operand>>;
 
   template <typename>

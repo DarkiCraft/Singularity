@@ -14,7 +14,7 @@ struct Neg {
   constexpr static std::size_t cols = _operand::cols;
 
   template <typename _operand>
-  using core_type = typename _operand::core_type;
+  using core_impl = typename _operand::core_impl;
 
   template <typename>
   constexpr static bool is_valid_core_type = true;
