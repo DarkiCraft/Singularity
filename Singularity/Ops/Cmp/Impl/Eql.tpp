@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Eql.hpp"
+
 #include <cstddef>
 
 namespace Sglty::Ops::Cmp {
