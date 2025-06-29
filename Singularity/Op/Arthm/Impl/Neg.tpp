@@ -16,22 +16,22 @@ constexpr auto Neg::operator()(const _operand& op,
 
 }  // namespace Sglty::Expr
 
-namespace Sglty::Ops::Arthm {
+namespace Sglty::Op::Arthm {
 
 template <typename _operand>
 constexpr auto Neg(const _operand& _o) {
   return Expr::Unary<_operand, Expr::Neg>(_o);
 }
 
-}  // namespace Sglty::Ops::Arthm
+}  // namespace Sglty::Op::Arthm
 
 namespace Sglty::Types {
 
 template <typename _operand>
 constexpr auto operator-(const _operand& _o) {
-  return Ops::Arthm::Neg(_o);
+  return Op::Arthm::Neg(_o);
 }
 
 }  // namespace Sglty::Types
 
-// Singularity/Ops/Alg/Impl/Neg.tpp
+// Singularity/Op/Alg/Impl/Neg.tpp

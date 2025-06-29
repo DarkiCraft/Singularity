@@ -40,7 +40,7 @@ constexpr auto MulMatrix::operator()(const _lhs& _l,
 
 }  // namespace Sglty::Expr
 
-namespace Sglty::Ops::Arthm {
+namespace Sglty::Op::Arthm {
 
 template <typename _lhs, typename _rhs>
 constexpr auto Mul(const _lhs& _l, const _rhs& _r)
@@ -66,7 +66,7 @@ constexpr auto Mul(const _lhs& _l, const _rhs& _r)
   return Expr::Binary<_lhs, _rhs, Expr::MulMatrix>(_l, _r);
 }
 
-}  // namespace Sglty::Ops::Arthm
+}  // namespace Sglty::Op::Arthm
 
 namespace Sglty::Types {
 
@@ -74,10 +74,10 @@ template <typename _lhs, typename _rhs>
 constexpr auto operator*(const _lhs& _l, const _rhs& _r)
     -> std::enable_if_t<Traits::is_expression_v<_lhs> ||
                             Traits::is_expression_v<_rhs>,
-                        decltype(Ops::Arthm::Mul(_l, _r))> {
-  return Ops::Arthm::Mul(_l, _r);
+                        decltype(Op::Arthm::Mul(_l, _r))> {
+  return Op::Arthm::Mul(_l, _r);
 }
 
 }  // namespace Sglty::Types
 
-// Singularity/Ops/Arthm/Impl/Mul.hpp
+// Singularity/Op/Arthm/Impl/Mul.hpp

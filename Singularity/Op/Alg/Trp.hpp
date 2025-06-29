@@ -2,19 +2,19 @@
 
 #include <cstddef>
 
-#include "../../Expr/Unary.hpp"
-
 namespace Sglty::Expr {
 
-struct Neg {
+struct Trp {
   template <typename _operand>
-  constexpr static std::size_t rows = _operand::rows;
+  constexpr static std::size_t rows = _operand::cols;
 
   template <typename _operand>
-  constexpr static std::size_t cols = _operand::cols;
+  constexpr static std::size_t cols = _operand::rows;
 
   template <typename _operand>
-  using core_impl = typename _operand::core_impl;
+  using core_impl =
+      typename _operand::core_impl::template core_rebind<rows<_operand>,
+                                                         cols<_operand>>;
 
   template <typename>
   constexpr static bool is_valid_core_type = true;
@@ -30,20 +30,13 @@ struct Neg {
 
 }  // namespace Sglty::Expr
 
-namespace Sglty::Ops::Arthm {
+namespace Sglty::Op::Alg {
 
 template <typename _operand>
-constexpr auto Neg(const _operand& _o);
+constexpr auto Trp(const _operand& _o);
 
-}  // namespace Sglty::Ops::Arthm
+}  // namespace Sglty::Op::Alg
 
-namespace Sglty::Types {
+#include "Impl/Trp.tpp"
 
-template <typename _operand>
-constexpr auto operator-(const _operand& _o);
-
-}  // namespace Sglty::Types
-
-#include "Impl/Neg.tpp"
-
-// Singularity/Ops/Arthm/Neg.hpp
+// Singularity/Op/Alg/Trp.hpp

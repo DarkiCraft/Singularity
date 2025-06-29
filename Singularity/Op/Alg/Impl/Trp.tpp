@@ -16,13 +16,13 @@ constexpr auto Trp::operator()(const _operand& op,
 
 }  // namespace Sglty::Expr
 
-namespace Sglty::Ops::Alg {
+namespace Sglty::Op::Alg {
 
 template <typename _operand>
 constexpr auto Trp(const _operand& _o) {
   return Expr::Unary<_operand, Expr::Trp>(_o);
 }
 
-}  // namespace Sglty::Ops::Alg
+}  // namespace Sglty::Op::Alg
 
-// Singularity/Ops/Alg/Impl/Trp.tpp
+// Singularity/Op/Alg/Impl/Trp.tpp

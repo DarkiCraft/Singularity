@@ -31,12 +31,12 @@ struct Add {
 
 }  // namespace Sglty::Expr
 
-namespace Sglty::Ops::Arthm {
+namespace Sglty::Op::Arthm {
 
 template <typename _lhs, typename _rhs>
 constexpr auto Add(const _lhs& _l, const _rhs& _r);
 
-}  // namespace Sglty::Ops::Arthm
+}  // namespace Sglty::Op::Arthm
 
 namespace Sglty::Types {
 
@@ -47,4 +47,4 @@ constexpr auto operator+(const _lhs& _l, const _rhs& _r);
 
 #include "Impl/Add.tpp"
 
-// Singularity/Ops/Arthm/Add.hpp
+// Singularity/Op/Arthm/Add.hpp

@@ -7,7 +7,7 @@
 #include <utility>
 
 #include "../../Traits/Expr.hpp"
-#include "../../Ops/Arthm/Neg.hpp"
+#include "../../Op/Arthm/Neg.hpp"
 
 namespace Sglty::Types {
 

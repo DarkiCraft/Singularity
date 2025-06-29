@@ -2,7 +2,7 @@
 
 #include "../Core/Dummy.hpp"
 
-namespace Sglty::Ops {
+namespace Sglty::Op {
 
 struct Dummy {
   template <typename, typename>
@@ -26,6 +26,6 @@ struct Dummy {
   }
 };
 
-}  // namespace Sglty::Ops
+}  // namespace Sglty::Op
 
-// Singularity/Ops/Dummy.hpp
+// Singularity/Op/Dummy.hpp

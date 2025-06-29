@@ -4,12 +4,12 @@
 
 #include <cstddef>
 
-#include "../../Ops/Dummy.hpp"
+#include "../../Op/Dummy.hpp"
 
 namespace Sglty::Expr {
 
 constexpr auto Dummy::operator()(std::size_t i, std::size_t j) const {
-  return Ops::Dummy{}(Dummy{}, Dummy{}, i, j);
+  return Op::Dummy{}(Dummy{}, Dummy{}, i, j);
 }
 
 }  // namespace Sglty::Expr

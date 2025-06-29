@@ -31,12 +31,12 @@ struct Sub {
 
 }  // namespace Sglty::Expr
 
-namespace Sglty::Ops::Arthm {
+namespace Sglty::Op::Arthm {
 
 template <typename _lhs, typename _rhs>
 constexpr auto Sub(const _lhs& _l, const _rhs& _r);
 
-}  // namespace Sglty::Ops::Arthm
+}  // namespace Sglty::Op::Arthm
 
 namespace Sglty::Types {
 
@@ -47,4 +47,4 @@ constexpr auto operator-(const _lhs& _l, const _rhs& _r);
 
 #include "Impl/Sub.tpp"
 
-// Singularity/Ops/Arthm/Sub.hpp
+// Singularity/Op/Arthm/Sub.hpp

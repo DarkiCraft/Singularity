@@ -41,7 +41,7 @@ struct IsValidOp : std::false_type {};
 template <typename _op>
 struct IsValidOp<
     _op,
-    std::void_t<  // overload for binary ops
+    std::void_t<  // overload for binary op
         decltype(_op::template rows<Expr::Dummy, Expr::Dummy>),
         decltype(_op::template cols<Expr::Dummy, Expr::Dummy>),
         typename _op::template core_impl<Expr::Dummy, Expr::Dummy>,
@@ -56,7 +56,7 @@ struct IsValidOp<
 template <typename _op>
 struct IsValidOp<
     _op,
-    std::void_t<  // overload for unary ops
+    std::void_t<  // overload for unary op
         decltype(_op::template rows<Expr::Dummy>),
         decltype(_op::template cols<Expr::Dummy>),
         typename _op::template core_impl<Expr::Dummy>,
