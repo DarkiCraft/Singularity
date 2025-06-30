@@ -155,6 +155,22 @@ constexpr Matrix<_core_impl>& Matrix<_core_impl>::operator-=(const _expr& _e) {
 }
 
 template <typename _core_impl>
+constexpr Matrix<_core_impl> Matrix<_core_impl>::Zero() {
+  return Matrix<_core_impl>(0);
+}
+
+template <typename _core_impl>
+constexpr Matrix<_core_impl> Matrix<_core_impl>::Identity() {
+  static_assert(Matrix<_core_impl>::rows == Matrix<_core_impl>::cols,
+                "Error: an Identity matrix must be a square matrix.");
+  auto result = Matrix<_core_impl>::Zero();
+  for (size_type i = 0; i < Matrix<_core_impl>::rows; i++) {
+    result(i, i) = Matrix<_core_impl>::value_type(1);
+  }
+  return result;
+}
+
+template <typename _core_impl>
 void Matrix<_core_impl>::Print() const {
   for (size_type i = 0; i < Rows(); i++) {
     for (size_type j = 0; j < Cols(); j++) {

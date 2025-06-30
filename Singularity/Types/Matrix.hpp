@@ -109,6 +109,10 @@ class Matrix : public Expr::Tag {
   template <typename _expr>
   constexpr Matrix& operator-=(const _expr& _e);
 
+  constexpr static Matrix Zero();
+
+  constexpr static Matrix Identity();
+
   // temporary for tests
   void Print() const;
 
