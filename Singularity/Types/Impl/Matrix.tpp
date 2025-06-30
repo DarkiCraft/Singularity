@@ -22,13 +22,17 @@ template <typename _core_impl>
 template <typename _core_other, bool _enable, typename>
 constexpr Matrix<_core_impl>::Matrix(const Matrix<_core_other>& _other)
     : _m_data(0) {
-  static_assert(Matrix<_core_impl>::rows == Matrix<_core_other>::rows &&
-                    Matrix<_core_impl>::cols == Matrix<_core_other>::cols,
-                "Error: dimension mismatch between `Matrix<_core_impl>` and "
-                "`Matrix<_core_other>`.");
+  static_assert(std::is_convertible_v<typename _core_other::value_type,
+                                      typename core_impl::value_type>,
+                "Error: cannot convert `_core_other::value_type` to "
+                "`_core_impl::value_type`.");
+  static_assert(
+      Matrix<_core_impl>::rows == Matrix<_core_other>::rows &&
+          Matrix<_core_impl>::cols == Matrix<_core_other>::cols,
+      "Error: dimension mismatch between `_core_impl` and `_core_other`.");
 
-  TraverseIndices(
-      [&](std::size_t i, std::size_t j) { (*this)(i, j) = _other(i, j); });
+  Traverse(*this,
+           [&](std::size_t i, std::size_t j) { (*this)(i, j) = _other(i, j); });
 }
 
 template <typename _core_impl>
@@ -38,8 +42,8 @@ constexpr Matrix<_core_impl>::Matrix(const _expr& _e) : _m_data(0) {
       std::is_same_v<typename Matrix::core_impl, typename _expr::core_impl>,
       "Error: `core_impl` mismatch.");
 
-  TraverseIndices(
-      [&](std::size_t i, std::size_t j) { (*this)(i, j) = _e(i, j); });
+  Traverse(*this,
+           [&](std::size_t i, std::size_t j) { (*this)(i, j) = _e(i, j); });
 }
 
 template <typename _core_impl>
@@ -52,8 +56,8 @@ constexpr Matrix<_core_impl>& Matrix<_core_impl>::operator=(
 
   Matrix<_core_other> temp(_other);
 
-  TraverseIndices(
-      [&](std::size_t i, std::size_t j) { (*this)(i, j) = temp(i, j); });
+  Traverse(*this,
+           [&](std::size_t i, std::size_t j) { (*this)(i, j) = temp(i, j); });
 
   return *this;
 }
@@ -64,8 +68,8 @@ constexpr Matrix<_core_impl>& Matrix<_core_impl>::operator=(const _expr& _e) {
   static_assert(rows == _expr::rows && cols == _expr::cols,
                 "Error: dimension mismatch.");
 
-  TraverseIndices(
-      [&](std::size_t i, std::size_t j) { (*this)(i, j) = _e(i, j); });
+  Traverse(*this,
+           [&](std::size_t i, std::size_t j) { (*this)(i, j) = _e(i, j); });
 
   return *this;
 }
@@ -115,58 +119,10 @@ Matrix<_core_impl>::operator()(const size_type _row,
 }
 
 template <typename _core_impl>
-template <typename Func>
-constexpr void Matrix<_core_impl>::TraverseIndices(Func&& fn) {
-  std::as_const(*this).TraverseIndices(
-      [&](size_type i, size_type j) { fn(i, j); });
-}
-
-template <typename _core_impl>
-template <typename Func>
-constexpr void Matrix<_core_impl>::TraverseIndices(Func&& fn) const {
-  if constexpr (Major() == Core::Major::Row) {
-    for (std::size_t i = 0; i < Rows(); i++) {
-      for (std::size_t j = 0; j < Cols(); j++) {
-        fn(i, j);
-      }
-    }
-  } else {
-    for (std::size_t j = 0; j < Cols(); j++) {
-      for (std::size_t i = 0; i < Rows(); i++) {
-        fn(i, j);
-      }
-    }
-  }
-}
-
-template <typename _core_impl>
-template <typename Func>
-constexpr void Matrix<_core_impl>::TraverseValues(Func&& fn) {
-  std::as_const(*this).TraverseValues([&](value_type val) { fn(val); });
-}
-
-template <typename _core_impl>
-template <typename Func>
-constexpr void Matrix<_core_impl>::TraverseValues(Func&& fn) const {
-  if constexpr (Major() == Core::Major::Row) {
-    for (std::size_t i = 0; i < Rows(); i++) {
-      for (std::size_t j = 0; j < Cols(); j++) {
-        fn((*this)(i, j));
-      }
-    }
-  } else {
-    for (std::size_t j = 0; j < Cols(); j++) {
-      for (std::size_t i = 0; i < Rows(); i++) {
-        fn((*this)(i, j));
-      }
-    }
-  }
-}
-
-template <typename _core_impl>
 template <typename _expr>
 constexpr Matrix<_core_impl>& Matrix<_core_impl>::operator+=(const _expr& _e) {
-  static_assert(Traits::is_expression_v<_expr>, "Error: non-expression passed");
+  static_assert(Traits::Expr::is_valid_v<_expr>,
+                "Error: non-expression passed");
   static_assert(Matrix::rows == _expr::rows && Matrix::cols == _expr::cols,
                 "Error: dimension mismatch.");
 
@@ -190,7 +146,8 @@ constexpr Matrix<_core_impl>& Matrix<_core_impl>::operator*=(
 template <typename _core_impl>
 template <typename _expr>
 constexpr Matrix<_core_impl>& Matrix<_core_impl>::operator-=(const _expr& _e) {
-  static_assert(Traits::is_expression_v<_expr>, "Error: non-expression passed");
+  static_assert(Traits::Expr::is_valid_v<_expr>,
+                "Error: non-expression passed");
   static_assert(Matrix::rows == _expr::rows && Matrix::cols == _expr::cols,
                 "Error: dimension mismatch.");
 
@@ -205,6 +162,40 @@ void Matrix<_core_impl>::Print() const {
     }
     std::cout << '\n';
   }
+}
+
+namespace Impl {
+
+template <typename Func>
+constexpr void Traverse(std::size_t rows,
+                        std::size_t cols,
+                        Func&& fn,
+                        Core::Major major) {
+  if (major == Core::Major::Row) {
+    for (std::size_t i = 0; i < rows; i++) {
+      for (std::size_t j = 0; j < cols; j++) {
+        fn(i, j);
+      }
+    }
+  } else {
+    for (std::size_t j = 0; j < cols; j++) {
+      for (std::size_t i = 0; i < rows; i++) {
+        fn(i, j);
+      }
+    }
+  }
+}
+
+}  // namespace Impl
+
+template <typename _core_impl, typename Func>
+constexpr void Traverse(Matrix<_core_impl>& mat, Func&& fn) {
+  Impl::Traverse(mat.Rows(), mat.Cols(), std::forward<Func>(fn), mat.Major());
+}
+
+template <typename _core_impl, typename Func>
+constexpr void Traverse(const Matrix<_core_impl>& mat, Func&& fn) {
+  Impl::Traverse(mat.Rows(), mat.Cols(), std::forward<Func>(fn), mat.Major());
 }
 
 }  // namespace Sglty::Types

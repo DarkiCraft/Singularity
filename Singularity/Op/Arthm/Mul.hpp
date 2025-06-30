@@ -35,7 +35,7 @@ struct MulMatrix {
                                                      cols<_lhs, _rhs>>;
 
   template <typename _lhs, typename _rhs>
-  constexpr static bool is_valid_core_type = std::is_same_v<
+  constexpr static bool is_valid_core_impl = std::is_same_v<
       typename _lhs::core_impl::template core_rebind<rows<_lhs, _rhs>,
                                                      cols<_lhs, _rhs>>,
       typename _rhs::core_impl::template core_rebind<rows<_lhs, _rhs>,
@@ -57,19 +57,19 @@ namespace Sglty::Op::Arthm {
 
 template <typename _lhs, typename _rhs>
 constexpr auto Mul(const _lhs& _l, const _rhs& _r)
-    -> std::enable_if_t<Traits::is_expression_v<_lhs> &&
+    -> std::enable_if_t<Traits::Expr::is_valid_v<_lhs> &&
                             std::is_arithmetic_v<_rhs>,
                         Expr::Binary<_lhs, _rhs, Expr::MulScalar>>;
 template <typename _lhs, typename _rhs>
 constexpr auto Mul(const _lhs& _l, const _rhs& _r)
-    -> std::enable_if_t<Traits::is_expression_v<_rhs> &&
+    -> std::enable_if_t<Traits::Expr::is_valid_v<_rhs> &&
                             std::is_arithmetic_v<_lhs>,
                         Expr::Binary<_rhs, _lhs, Expr::MulScalar>>;
 
 template <typename _lhs, typename _rhs>
 constexpr auto Mul(const _lhs& _l, const _rhs& _r)
-    -> std::enable_if_t<Traits::is_expression_v<_lhs> &&
-                            Traits::is_expression_v<_rhs>,
+    -> std::enable_if_t<Traits::Expr::is_valid_v<_lhs> &&
+                            Traits::Expr::is_valid_v<_rhs>,
                         Expr::Binary<_lhs, _rhs, Expr::MulMatrix>>;
 
 }  // namespace Sglty::Op::Arthm
@@ -78,8 +78,8 @@ namespace Sglty::Types {
 
 template <typename _lhs, typename _rhs>
 constexpr auto operator*(const _lhs& _l, const _rhs& _r)
-    -> std::enable_if_t<Traits::is_expression_v<_lhs> ||
-                            Traits::is_expression_v<_rhs>,
+    -> std::enable_if_t<Traits::Expr::is_valid_v<_lhs> ||
+                            Traits::Expr::is_valid_v<_rhs>,
                         decltype(Op::Arthm::Mul(_l, _r))>;
 
 }  // namespace Sglty::Types

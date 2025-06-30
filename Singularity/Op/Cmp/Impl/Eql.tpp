@@ -1,15 +1,18 @@
 #pragma once
 
 #include "../Eql.hpp"
+#include "../../../Expr/Evaluate.hpp"
 
 #include <cstddef>
+#include <type_traits>
 
 namespace Sglty::Op::Cmp {
 
 template <typename _lhs, typename _rhs>
 constexpr bool IsEqual(const _lhs& _l, const _rhs& _r) {
-  static_assert(_lhs::rows == _rhs::rows && _lhs::cols == _rhs::cols,
-                "Error: dimension mismatch.");
+  static_assert(std::is_same_v<_lhs, _rhs>,
+                "Error: `_lhs` and `_rhs` have different dimensions.");
+
   for (std::size_t i = 0; i < _lhs::rows; i++) {
     for (std::size_t j = 0; j < _lhs::cols; j++) {
       if (_l(i, j) != _r(i, j)) {

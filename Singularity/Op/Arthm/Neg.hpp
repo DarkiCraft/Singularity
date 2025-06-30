@@ -17,7 +17,7 @@ struct Neg {
   using core_impl = typename _operand::core_impl;
 
   template <typename>
-  constexpr static bool is_valid_core_type = true;
+  constexpr static bool is_valid_core_impl = true;
 
   template <typename>
   constexpr static bool is_valid_dimension = true;

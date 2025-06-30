@@ -13,8 +13,11 @@ constexpr auto Sub::operator()(const _lhs& _l,
                                const _rhs& _r,
                                std::size_t i,
                                std::size_t j) const {
-  static_assert(is_valid_core_type<_lhs, _rhs>, "Error: core_impl mismatch.");
-  static_assert(is_valid_dimension<_lhs, _rhs>, "Error: invalid dimensions.");
+  static_assert(is_valid_core_impl<_lhs, _rhs>,
+                "Error: `_lhs` and `_rhs` have different `core_impl` types.");
+  static_assert(is_valid_dimension<_lhs, _rhs>,
+                "Error: `_lhs` and `_rhs` have incompatible dimensions.");
+
   return _l(i, j) - _r(i, j);
 }
 

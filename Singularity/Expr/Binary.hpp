@@ -4,7 +4,8 @@
 
 #include "Tag.hpp"
 #include "../Traits/Expr.hpp"
-#include "../Core/Checks.hpp"
+#include "../Traits/Op.hpp"
+#include "../Traits/Core.hpp"
 
 namespace Sglty::Expr {
 
@@ -13,19 +14,20 @@ struct Binary : Tag {
   using lhs_type = _lhs;
   using rhs_type = _rhs;
 
-  static_assert(Traits::is_expression_v<lhs_type>,
-                "Error: lhs_type is not an expression type.");
-  static_assert(Traits::is_expression_v<rhs_type>,
-                "Error: rhs_type is not an expression type.");
+  static_assert(Traits::Expr::is_valid_v<lhs_type>,
+                "Error: `_lhs` is not a valid expression type.");
+  static_assert(Traits::Expr::is_valid_v<rhs_type>,
+                "Error: `_rhs` is not a valid expression type.");
 
   using op_type = _op;
 
-  static_assert(Traits::is_valid_op_v<op_type>, "Error: op_type is invalid.");
+  static_assert(Traits::Op::is_valid_v<op_type>,
+                "Error: `_op` is not a valid operation type.");
 
   using core_impl = typename op_type::core_impl<lhs_type, rhs_type>;
 
-  static_assert(Core::has_required_traits_v<core_impl>,
-                "Error: lhs_type and rhs_type produce invalid core_impl.");
+  static_assert(Traits::Core::is_valid_v<core_impl>,
+                "Error: `_lhs` and `_rhs` produces invalid `core_impl` type.");
 
   constexpr static std::size_t rows =
       op_type::template rows<lhs_type, rhs_type>;

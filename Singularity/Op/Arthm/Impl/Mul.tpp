@@ -22,8 +22,10 @@ constexpr auto MulMatrix::operator()(const _lhs& _l,
                                      const _rhs& _r,
                                      std::size_t i,
                                      std::size_t j) const {
-  static_assert(is_valid_core_type<_lhs, _rhs>, "Error: core_impl mismatch.");
-  static_assert(is_valid_dimension<_lhs, _rhs>, "Error: invalid dimensions.");
+  static_assert(is_valid_core_impl<_lhs, _rhs>,
+                "Error: `_lhs` and `_rhs` have different `core_impl` types.");
+  static_assert(is_valid_dimension<_lhs, _rhs>,
+                "Error: `_lhs` and `_rhs` have incompatible dimensions.");
 
   using value_type = decltype(std::declval<const _lhs&>()(0, 0) *
                               std::declval<const _rhs&>()(0, 0));
@@ -44,7 +46,7 @@ namespace Sglty::Op::Arthm {
 
 template <typename _lhs, typename _rhs>
 constexpr auto Mul(const _lhs& _l, const _rhs& _r)
-    -> std::enable_if_t<Traits::is_expression_v<_lhs> &&
+    -> std::enable_if_t<Traits::Expr::is_valid_v<_lhs> &&
                             std::is_arithmetic_v<_rhs>,
                         Expr::Binary<_lhs, _rhs, Expr::MulScalar>> {
   return Expr::Binary<_lhs, _rhs, Expr::MulScalar>(_l, _r);
@@ -52,7 +54,7 @@ constexpr auto Mul(const _lhs& _l, const _rhs& _r)
 
 template <typename _lhs, typename _rhs>
 constexpr auto Mul(const _lhs& _l, const _rhs& _r)
-    -> std::enable_if_t<Traits::is_expression_v<_rhs> &&
+    -> std::enable_if_t<Traits::Expr::is_valid_v<_rhs> &&
                             std::is_arithmetic_v<_lhs>,
                         Expr::Binary<_rhs, _lhs, Expr::MulScalar>> {
   return Expr::Binary<_rhs, _lhs, Expr::MulScalar>(_r, _l);
@@ -60,8 +62,8 @@ constexpr auto Mul(const _lhs& _l, const _rhs& _r)
 
 template <typename _lhs, typename _rhs>
 constexpr auto Mul(const _lhs& _l, const _rhs& _r)
-    -> std::enable_if_t<Traits::is_expression_v<_lhs> &&
-                            Traits::is_expression_v<_rhs>,
+    -> std::enable_if_t<Traits::Expr::is_valid_v<_lhs> &&
+                            Traits::Expr::is_valid_v<_rhs>,
                         Expr::Binary<_lhs, _rhs, Expr::MulMatrix>> {
   return Expr::Binary<_lhs, _rhs, Expr::MulMatrix>(_l, _r);
 }
@@ -72,8 +74,8 @@ namespace Sglty::Types {
 
 template <typename _lhs, typename _rhs>
 constexpr auto operator*(const _lhs& _l, const _rhs& _r)
-    -> std::enable_if_t<Traits::is_expression_v<_lhs> ||
-                            Traits::is_expression_v<_rhs>,
+    -> std::enable_if_t<Traits::Expr::is_valid_v<_lhs> ||
+                            Traits::Expr::is_valid_v<_rhs>,
                         decltype(Op::Arthm::Mul(_l, _r))> {
   return Op::Arthm::Mul(_l, _r);
 }

@@ -15,7 +15,7 @@ struct Sub {
   using core_impl = typename _lhs::core_impl;  // = _rhs::core_impl
 
   template <typename _lhs, typename _rhs>
-  constexpr static bool is_valid_core_type =
+  constexpr static bool is_valid_core_impl =
       std::is_same_v<typename _lhs::core_impl, typename _rhs::core_impl>;
 
   template <typename _lhs, typename _rhs>

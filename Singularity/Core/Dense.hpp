@@ -16,7 +16,7 @@ template <typename _Tp,
           Core::Major _core_major>
 class Dense {
  public:
-  using type_traits = Traits::Type<_Tp>;
+  using type_traits = Traits::Type::Get<_Tp>;
 
   using size_type       = typename type_traits::size_type;
   using value_type      = typename type_traits::value_type;
@@ -26,9 +26,9 @@ class Dense {
   using pointer         = typename type_traits::pointer;
   using const_pointer   = typename type_traits::const_pointer;
 
-  using size_traits = Traits::Size<_rows, _cols, size_type>;
+  using size_traits = Traits::Size::Get<_rows, _cols, size_type>;
 
-  using core_traits = Traits::Core<Core::Type::Dense, _core_major>;
+  using core_traits = Traits::Core::Get<Core::Type::Dense, _core_major>;
 
   template <size_type _rebind_rows, size_type _rebind_cols>
   using core_rebind =

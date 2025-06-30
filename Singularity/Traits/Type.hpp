@@ -2,10 +2,10 @@
 
 #include <cstddef>
 
-namespace Sglty::Traits {
+namespace Sglty::Traits::Type {
 
 template <typename _Tp>
-struct Type {
+struct Get {
   using size_type       = std::size_t;
   using value_type      = _Tp;
   using difference_type = std::ptrdiff_t;
@@ -15,6 +15,6 @@ struct Type {
   using const_pointer   = const value_type*;
 };
 
-}  // namespace Sglty::Traits
+}  // namespace Sglty::Traits::Type
 
 // Singularity/Traits/Type.hpp

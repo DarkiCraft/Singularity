@@ -1,20 +1,11 @@
 #pragma once
 
-namespace Sglty::Expr {
-
-struct Tag;  // forward declaration to prevent circular includes
-
-}  // namespace Sglty::Expr
-
-namespace Sglty::Traits {
+namespace Sglty::Traits::Expr::Impl {
 
 template <typename _expr, typename _enable>
-struct IsExpression;
+struct IsValid;
 
-template <typename _op, typename _enable>
-struct IsValidOp;
-
-}  // namespace Sglty::Traits
+}  // namespace Sglty::Traits::Expr::Impl
 
 #include "Impl/Expr.tpp"
 

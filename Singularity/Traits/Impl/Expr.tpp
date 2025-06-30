@@ -3,72 +3,50 @@
 #include "../Expr.hpp"
 
 #include <type_traits>
+#include <cstddef>
 
-#include "../../Expr/Dummy.hpp"
+namespace Sglty::Expr {
 
-namespace Sglty::Traits {
+struct Tag;  // forward declaration
+
+}  // namespace Sglty::Expr
+
+namespace Sglty::Traits::Expr {
+
+namespace Impl {
 
 template <typename _expr, typename _enable = void>
-struct IsExpression : std::false_type {};
+struct HasTagBase
+    : std::bool_constant<std::is_base_of_v<Sglty::Expr::Tag, _expr>> {};
+
+template <typename _expr, typename _enable = void>
+struct HasInterface : std::false_type {};
 
 template <typename _expr>
-struct IsExpression<_expr,
-                    std::enable_if_t<std::is_base_of_v<Expr::Tag, _expr>>> {
- private:
-  template <typename T, typename = void>
-  struct Check : std::false_type {};
+struct HasInterface<
+    _expr,
+    std::void_t<decltype(static_cast<std::size_t>(_expr::rows)),
+                decltype(static_cast<std::size_t>(_expr::cols)),
+                typename _expr::core_impl,
+                decltype(std::declval<_expr const&>()(
+                    std::declval<std::size_t>(), std::declval<std::size_t>()))
 
-  template <typename T>
-  struct Check<T,
-               std::void_t<decltype(static_cast<std::size_t>(T::rows)),
-                           decltype(static_cast<std::size_t>(T::cols)),
-                           typename T::core_impl,
-                           decltype(std::declval<T const&>()(
-                               std::declval<std::size_t>(),
-                               std::declval<std::size_t>()))>>
-      : std::true_type {};
+                >> : std::true_type {};
 
- public:
-  static constexpr bool value = Check<_expr>::value;
-};
+template <typename _expr, typename _enable = void>
+struct IsValid : std::conjunction<HasTagBase<_expr>, HasInterface<_expr>> {};
+
+}  // namespace Impl
 
 template <typename _expr>
-constexpr bool is_expression_v = IsExpression<_expr>::value;
+constexpr bool has_tag_base_v = Impl::HasTagBase<_expr>::value;
 
-template <typename _op, typename _enable = void>
-struct IsValidOp : std::false_type {};
+template <typename _expr>
+constexpr bool has_interface_v = Impl::HasInterface<_expr>::value;
 
-template <typename _op>
-struct IsValidOp<
-    _op,
-    std::void_t<  // overload for binary op
-        decltype(_op::template rows<Expr::Dummy, Expr::Dummy>),
-        decltype(_op::template cols<Expr::Dummy, Expr::Dummy>),
-        typename _op::template core_impl<Expr::Dummy, Expr::Dummy>,
-        decltype(_op::template is_valid_core_type<Expr::Dummy, Expr::Dummy>),
-        decltype(_op::template is_valid_dimension<Expr::Dummy, Expr::Dummy>),
-        decltype(std::declval<_op>().operator()(
-            std::declval<const Expr::Dummy&>(),
-            std::declval<const Expr::Dummy&>(),
-            std::size_t{},
-            std::size_t{}))>> : std::true_type {};
+template <typename _expr>
+constexpr bool is_valid_v = Impl::IsValid<_expr>::value;
 
-template <typename _op>
-struct IsValidOp<
-    _op,
-    std::void_t<  // overload for unary op
-        decltype(_op::template rows<Expr::Dummy>),
-        decltype(_op::template cols<Expr::Dummy>),
-        typename _op::template core_impl<Expr::Dummy>,
-        decltype(_op::template is_valid_core_type<Expr::Dummy>),
-        decltype(_op::template is_valid_dimension<Expr::Dummy>),
-        decltype(std::declval<_op>().operator()(
-            std::declval<const Expr::Dummy&>(), std::size_t{}, std::size_t{}))>>
-    : std::true_type {};
-
-template <typename _op>
-constexpr bool is_valid_op_v = IsValidOp<_op>::value;
-
-}  // namespace Sglty::Traits
+}  // namespace Sglty::Traits::Expr
 
 // Singularity/Traits/Impl/Expr.tpp

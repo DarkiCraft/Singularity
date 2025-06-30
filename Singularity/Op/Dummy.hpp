@@ -15,7 +15,7 @@ struct Dummy {
   using core_impl = Core::Dummy;
 
   template <typename, typename>
-  constexpr static bool is_valid_core_type = true;
+  constexpr static bool is_valid_core_impl = true;
 
   template <typename, typename>
   constexpr static bool is_valid_dimension = true;
