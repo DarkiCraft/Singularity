@@ -47,7 +47,7 @@ struct IsValid<
 }  // namespace Impl
 
 template <typename _op>
-constexpr bool is_valid_v = Impl::IsValid<_op>::value;
+constexpr inline bool is_valid_v = Impl::IsValid<_op>::value;
 
 }  // namespace Sglty::Traits::Op
 

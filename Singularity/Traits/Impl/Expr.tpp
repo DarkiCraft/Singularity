@@ -39,13 +39,13 @@ struct IsValid : std::conjunction<HasTagBase<_expr>, HasInterface<_expr>> {};
 }  // namespace Impl
 
 template <typename _expr>
-constexpr bool has_tag_base_v = Impl::HasTagBase<_expr>::value;
+constexpr inline bool has_tag_base_v = Impl::HasTagBase<_expr>::value;
 
 template <typename _expr>
-constexpr bool has_interface_v = Impl::HasInterface<_expr>::value;
+constexpr inline bool has_interface_v = Impl::HasInterface<_expr>::value;
 
 template <typename _expr>
-constexpr bool is_valid_v = Impl::IsValid<_expr>::value;
+constexpr inline bool is_valid_v = Impl::IsValid<_expr>::value;
 
 }  // namespace Sglty::Traits::Expr
 
