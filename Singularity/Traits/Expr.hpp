@@ -1,11 +1,17 @@
 #pragma once
 
-namespace Sglty::Traits::Expr::Impl {
+namespace Sglty::Traits::Expr {
 
-template <typename _expr, typename _enable>
-struct IsValid;
+template <typename _expr>
+extern const bool has_tag_base_v;
 
-}  // namespace Sglty::Traits::Expr::Impl
+template <typename _expr>
+extern const bool has_interface_v;
+
+template <typename _expr>
+extern const bool is_valid_v;
+
+}  // namespace Sglty::Traits::Expr
 
 #include "Impl/Expr.tpp"
 

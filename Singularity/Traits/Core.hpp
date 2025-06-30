@@ -9,27 +9,24 @@ struct Get;
 
 }  // namespace Sglty::Traits::Core
 
-namespace Sglty::Traits::Core::Impl {
-
-template <typename _core_impl, typename _enable>
-struct HasSizeTraits;
-
-template <typename _core_impl, typename _enable>
-struct HasTypeTraits;
-
-template <typename _core_impl, typename _enable>
-struct HasCoreTraits;
-
-template <typename _core_impl, typename _enable>
-struct HasRebindTraits;
-
-template <typename _core_impl, typename _enable>
-struct HasMemberFunctions;
+namespace Sglty::Traits::Core {
 
 template <typename _core_impl>
-struct IsValid;
+extern const bool has_size_traits_v;
 
-}  // namespace Sglty::Traits::Core::Impl
+template <typename _core_impl>
+extern const bool has_type_traits_v;
+
+template <typename _core_impl>
+extern const bool has_core_traits_v;
+
+template <typename _core_impl>
+extern const bool has_member_functions_v;
+
+template <typename _core_impl>
+extern const bool is_valid_v;
+
+}  // namespace Sglty::Traits::Core
 
 #include "Impl/Core.tpp"
 
