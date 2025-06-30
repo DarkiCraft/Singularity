@@ -36,7 +36,7 @@ class Dense {
 
   using core_base = Dense<_Tp, 0, 0, core_traits::core_major>;
 
-  constexpr Dense();
+  Dense();
   constexpr Dense(value_type val);
 
   constexpr reference At(const size_type _row, const size_type _col);

@@ -11,7 +11,7 @@ template <typename _Tp,
           std::size_t _rows,
           std::size_t _cols,
           Core::Major _core_major>
-constexpr Dense<_Tp, _rows, _cols, _core_major>::Dense() = default;
+Dense<_Tp, _rows, _cols, _core_major>::Dense() = default;
 
 template <typename _Tp,
           std::size_t _rows,
