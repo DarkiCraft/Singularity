@@ -20,23 +20,12 @@ class Matrix;
 
 namespace Sglty {
 
-template <typename _Tp>
-using Mat2x2R = Types::Matrix<Core::Dense<_Tp, 2, 2, Core::Major::Row>>;
-
-template <typename _Tp>
-using Mat3x3R = Types::Matrix<Core::Dense<_Tp, 3, 3, Core::Major::Row>>;
-
-template <typename _Tp>
-using Mat4x4R = Types::Matrix<Core::Dense<_Tp, 4, 4, Core::Major::Row>>;
-
-template <typename _Tp>
-using Mat2x2C = Types::Matrix<Core::Dense<_Tp, 2, 2, Core::Major::Col>>;
-
-template <typename _Tp>
-using Mat3x3C = Types::Matrix<Core::Dense<_Tp, 3, 3, Core::Major::Col>>;
-
-template <typename _Tp>
-using Mat4x4C = Types::Matrix<Core::Dense<_Tp, 4, 4, Core::Major::Col>>;
+template <typename _Tp,
+          std::size_t _rows,
+          std::size_t _cols,
+          Core::Major _core_major = Core::Major::Row>
+using DenseMat =
+    Sglty::Types::Matrix<Sglty::Core::Dense<_Tp, _rows, _cols, _core_major>>;
 
 }  // namespace Sglty
 
