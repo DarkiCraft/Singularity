@@ -20,7 +20,8 @@ Matrix<_core_impl>::Matrix() {
 
 template <typename _core_impl>
 template <typename _core_other, bool _enable, typename>
-constexpr Matrix<_core_impl>::Matrix(const Matrix<_core_other>& _other) {
+constexpr Matrix<_core_impl>::Matrix(const Matrix<_core_other>& _other)
+    : _m_data(0) {
   static_assert(Matrix<_core_impl>::rows == Matrix<_core_other>::rows &&
                     Matrix<_core_impl>::cols == Matrix<_core_other>::cols,
                 "Error: dimension mismatch between `Matrix<_core_impl>` and "
@@ -32,7 +33,7 @@ constexpr Matrix<_core_impl>::Matrix(const Matrix<_core_other>& _other) {
 
 template <typename _core_impl>
 template <typename _expr, bool _enable, typename>
-constexpr Matrix<_core_impl>::Matrix(const _expr& _e) : _m_data() {
+constexpr Matrix<_core_impl>::Matrix(const _expr& _e) : _m_data(0) {
   static_assert(
       std::is_same_v<typename Matrix::core_impl, typename _expr::core_impl>,
       "Error: `core_impl` mismatch.");
