@@ -15,8 +15,8 @@ struct Get {
       (core_type == Sglty::Core::Type::Dense &&
        (core_major == Sglty::Core::Major::Row ||
         core_major == Sglty::Core::Major::Col)) ||
-          core_type == Sglty::Core::Type::Sparse &&
-              core_major == Sglty::Core::Major::Undefined,
+          (core_type == Sglty::Core::Type::Sparse &&
+           core_major == Sglty::Core::Major::Undefined),
       "Error: Invalid combination of `_core_type` and `_core_major` passed.");
 };
 
@@ -62,20 +62,15 @@ struct HasCoreTraits<
                        const Sglty::Core::Major>>> : std::true_type {};
 
 template <typename _core_impl, typename _enable = void>
-struct HasRebindTraits : std::false_type {};
+struct HasRebindSizeTraits : std::false_type {};
 
 template <typename _core_impl>
-struct HasRebindTraits<
+struct HasRebindSizeTraits<
     _core_impl,
     std::void_t<typename _core_impl::core_base,
-                decltype(std::declval<
-                         typename _core_impl::template core_rebind<0, 0>>())>>
-    : std::bool_constant<
-          std::is_same_v<typename _core_impl::core_base,
-                         typename _core_impl::template core_rebind<0, 0>>> {};
-
-template <typename _core_impl>
-constexpr bool has_rebind_traits_v = HasRebindTraits<_core_impl>::value;
+                decltype(std::declval<typename _core_impl::
+                                          template core_rebind_size<0, 0>>())>>
+    : std::true_type {};
 
 template <typename _core_impl, typename _enable = void>
 struct HasMemberFunctions : std::false_type {};
