@@ -106,6 +106,56 @@ constexpr Sglty::Core::Major Matrix<_core_impl>::Major() const {
 }
 
 template <typename _core_impl>
+template <typename _Up>
+constexpr Matrix<typename _core_impl::core_rebind_value<_Up>>
+Matrix<_core_impl>::Cast() const {
+  static_assert(std::is_arithmetic_v<_Up>,
+                "Error: cannot cast to a non-arithmetic type.");
+
+  using result_core = typename _core_impl::core_rebind_value<_Up>;
+
+  Matrix<result_core> result(0);
+  Traverse(result, [&](std::size_t i, std::size_t j) {
+    result(i, j) = static_cast<_Up>((*this)(i, j));
+  });
+  return result;
+}
+
+template <typename _core_impl>
+template <Core::Major _major>
+constexpr Matrix<typename _core_impl::core_rebind_major<_major>>
+Matrix<_core_impl>::Reorder() const {
+  {
+    Traits::Core::Get<core_type,
+                      _major>
+        _;  // to assert correctness of new major
+  }
+
+  using result_core = typename _core_impl::core_rebind_major<_major>;
+
+  Matrix<result_core> result(0);
+  Traverse(result,
+           [&](std::size_t i, std::size_t j) { result(i, j) = (*this)(i, j); });
+  return result;
+}
+
+template <typename _core_impl>
+constexpr Matrix<_core_impl> Matrix<_core_impl>::Zero() {
+  return Matrix<_core_impl>(0);
+}
+
+template <typename _core_impl>
+constexpr Matrix<_core_impl> Matrix<_core_impl>::Identity() {
+  static_assert(Matrix<_core_impl>::rows == Matrix<_core_impl>::cols,
+                "Error: an Identity matrix must be a square matrix.");
+  auto result = Matrix<_core_impl>::Zero();
+  for (size_type i = 0; i < Matrix<_core_impl>::rows; i++) {
+    result(i, i) = Matrix<_core_impl>::value_type(1);
+  }
+  return result;
+}
+
+template <typename _core_impl>
 constexpr typename Matrix<_core_impl>::reference Matrix<_core_impl>::operator()(
     const size_type _row, const size_type _col) {
   return const_cast<reference>(std::as_const(*this).operator()(_row, _col));
@@ -152,22 +202,6 @@ constexpr Matrix<_core_impl>& Matrix<_core_impl>::operator-=(const _expr& _e) {
                 "Error: dimension mismatch.");
 
   return (*this) += -_e;
-}
-
-template <typename _core_impl>
-constexpr Matrix<_core_impl> Matrix<_core_impl>::Zero() {
-  return Matrix<_core_impl>(0);
-}
-
-template <typename _core_impl>
-constexpr Matrix<_core_impl> Matrix<_core_impl>::Identity() {
-  static_assert(Matrix<_core_impl>::rows == Matrix<_core_impl>::cols,
-                "Error: an Identity matrix must be a square matrix.");
-  auto result = Matrix<_core_impl>::Zero();
-  for (size_type i = 0; i < Matrix<_core_impl>::rows; i++) {
-    result(i, i) = Matrix<_core_impl>::value_type(1);
-  }
-  return result;
 }
 
 template <typename _core_impl>
