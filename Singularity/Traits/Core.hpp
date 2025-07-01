@@ -21,6 +21,9 @@ template <typename _core_impl>
 extern const bool has_core_traits_v;
 
 template <typename _core_impl>
+extern const bool has_rebind_traits_v;
+
+template <typename _core_impl>
 extern const bool has_member_functions_v;
 
 template <typename _core_impl>
