@@ -126,7 +126,7 @@ template <typename _core_impl>
 struct IsValid : std::conjunction<HasSizeTraits<_core_impl>,
                                   HasTypeTraits<_core_impl>,
                                   HasCoreTraits<_core_impl>,
-                                  HasRebindTraits<_core_impl>,
+                                  HasRebindSizeTraits<_core_impl>,
                                   HasMemberFunctions<_core_impl>> {};
 
 }  // namespace Impl
