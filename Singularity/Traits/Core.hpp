@@ -20,8 +20,11 @@ namespace Sglty::Traits::Core {
  * ```
  *
  * Valid combinations are:
+ *
  * - Dense + Row
+ *
  * - Dense + Col
+ *
  * - Sparse + Undefined
  *
  * @tparam _core_type  Enum for core category
@@ -114,9 +117,11 @@ extern const bool has_core_traits_v;
  * pair.
  *
  * A valid rebind trait must satisfy the following:
+ *
  * - The core must define a nested `core_base` type
+ *
  * - The expression `core_rebind<0, 0>` must be valid and return the same type
- * as `core_base`
+ *   as `core_base`
  *
  * Expected form:
  * ```
@@ -130,8 +135,6 @@ extern const bool has_core_traits_v;
  * dimensions, while preserving type information and behavioral guarantees.
  *
  * @tparam _core_impl Core implementation type being inspected.
- *
- * Required by all valid core types for matrix resizing or transformation
  *
  * @see Sglty::Core::is_valid_v
  */
@@ -164,11 +167,16 @@ extern const bool has_member_functions_v;
  * @brief Checks whether a core satisfies all required traits and behaviors.
  *
  * Combines:
- * - `has_size_traits_v`
- * - `has_type_traits_v`
- * - `has_core_traits_v`
- * - `has_rebind_traits_v`
- * - `has_member_functions_v`
+ *
+ * - `Sglty::Traits::Core::has_size_traits_v`
+ *
+ * - `Sglty::Traits::Core::has_type_traits_v`
+ *
+ * - `Sglty::Traits::Core::has_core_traits_v`
+ *
+ * - `Sglty::Traits::Core::has_rebind_traits_v`
+ *
+ * - `Sglty::Traits::Core::has_member_functions_v`
  *
  * Required for all core implementations used.
  *

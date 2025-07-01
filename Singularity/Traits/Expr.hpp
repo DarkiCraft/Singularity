@@ -36,7 +36,7 @@ extern const bool has_tag_base_v;
  *
  * @tparam _expr Expression type being inspected.
  *
- * @see Sglty::Expr::is_valid_v
+ * @see Sglty::Traits::Expr::is_valid_v
  */
 template <typename _expr>
 extern const bool has_interface_v;
@@ -46,15 +46,19 @@ extern const bool has_interface_v;
  * semantics.
  *
  * Combines:
- * - `has_tag_base_v`
- * - `has_interface_v`
+ *
+ * - `Sglty::Traits::Expr::has_tag_base_v`
+ *
+ * - `Sglty::Traits::Expr::has_interface_v`
  *
  * Required for all expression types used.
  *
  * @tparam _expr Expression type being validated.
  *
- * @see Sglty::Expr::has_tag_base_v
- * @see Sglty::Expr::has_interface_v
+ * Note that `static_asserts` may be present to validate passed Operations
+ *
+ * @see Sglty::Traits::Expr::has_tag_base_v
+ * @see Sglty::Traits::Expr::has_interface_v
  */
 template <typename _expr>
 extern const bool is_valid_v;
