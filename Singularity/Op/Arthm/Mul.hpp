@@ -31,15 +31,13 @@ struct MulMatrix {
 
   template <typename _lhs, typename _rhs>
   using core_impl =
-      typename _lhs::core_impl::template core_rebind<rows<_lhs, _rhs>,
-                                                     cols<_lhs, _rhs>>;
+      typename _lhs::core_impl::template core_rebind_size<rows<_lhs, _rhs>,
+                                                          cols<_lhs, _rhs>>;
 
   template <typename _lhs, typename _rhs>
-  constexpr static bool is_valid_core_impl = std::is_same_v<
-      typename _lhs::core_impl::template core_rebind<rows<_lhs, _rhs>,
-                                                     cols<_lhs, _rhs>>,
-      typename _rhs::core_impl::template core_rebind<rows<_lhs, _rhs>,
-                                                     cols<_lhs, _rhs>>>;
+  constexpr static bool is_valid_core_impl =
+      std::is_same_v<typename _lhs::core_impl::core_base,
+                     typename _rhs::core_impl::core_base>;
 
   template <typename _lhs, typename _rhs>
   constexpr static bool is_valid_dimension = (_lhs::cols == _rhs::rows);

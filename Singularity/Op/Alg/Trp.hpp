@@ -13,8 +13,8 @@ struct Trp {
 
   template <typename _operand>
   using core_impl =
-      typename _operand::core_impl::template core_rebind<rows<_operand>,
-                                                         cols<_operand>>;
+      typename _operand::core_impl::template core_rebind_size<rows<_operand>,
+                                                              cols<_operand>>;
 
   template <typename>
   constexpr static bool is_valid_core_impl = true;
