@@ -11,12 +11,6 @@ template <typename _Tp,
           std::size_t _rows,
           std::size_t _cols,
           Core::Major _core_major>
-Dense<_Tp, _rows, _cols, _core_major>::Dense() = default;
-
-template <typename _Tp,
-          std::size_t _rows,
-          std::size_t _cols,
-          Core::Major _core_major>
 constexpr Dense<_Tp, _rows, _cols, _core_major>::Dense(value_type val)
     : _m_data() {
   for (size_type i = 0; i < _m_data.size(); i++) {
@@ -66,7 +60,7 @@ template <typename _Tp,
           std::size_t _rows,
           std::size_t _cols,
           Core::Major _core_major>
-constexpr inline typename Dense<_Tp, _rows, _cols, _core_major>::reference
+constexpr typename Dense<_Tp, _rows, _cols, _core_major>::reference
 Dense<_Tp, _rows, _cols, _core_major>::_m_Get(const size_type _row,
                                               const size_type _col) {
   return const_cast<reference>(std::as_const(*this)._m_Get(_row, _col));
@@ -76,7 +70,7 @@ template <typename _Tp,
           std::size_t _rows,
           std::size_t _cols,
           Core::Major _core_major>
-constexpr inline typename Dense<_Tp, _rows, _cols, _core_major>::const_reference
+constexpr typename Dense<_Tp, _rows, _cols, _core_major>::const_reference
 Dense<_Tp, _rows, _cols, _core_major>::_m_Get(const size_type _row,
                                               const size_type _col) const {
   if (core_traits::core_major == Core::Major::Row) {

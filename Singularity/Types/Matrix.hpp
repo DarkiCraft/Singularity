@@ -34,7 +34,9 @@ class Matrix : public Expr::Tag {
   friend class Matrix;
 
  public:
-  using type_traits = typename _core_impl::type_traits;
+  using core_impl = _core_impl;
+
+  using type_traits = typename core_impl::type_traits;
 
   using size_type       = typename type_traits::size_type;
   using value_type      = typename type_traits::value_type;
@@ -54,9 +56,7 @@ class Matrix : public Expr::Tag {
   constexpr static auto core_type  = core_traits::core_type;
   constexpr static auto core_major = core_traits::core_major;
 
-  using core_impl = _core_impl;
-
-  Matrix();
+  constexpr Matrix() = default;
 
   constexpr Matrix(const Matrix& _other)     = default;
   constexpr Matrix(Matrix&& _other) noexcept = default;
@@ -126,7 +126,7 @@ class Matrix : public Expr::Tag {
   void Print() const;
 
  private:
-  _core_impl _m_data;
+  core_impl _m_data{};
 };
 
 template <typename _core_impl, typename Func>

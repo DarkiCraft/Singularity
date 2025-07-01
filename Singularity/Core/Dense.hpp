@@ -43,7 +43,7 @@ class Dense {
 
   using core_base = Dense<_Tp, 0, 0, core_traits::core_major>;
 
-  Dense();
+  constexpr Dense() = default;
   constexpr Dense(value_type val);
 
   constexpr reference At(const size_type _row, const size_type _col);
@@ -54,11 +54,11 @@ class Dense {
   constexpr const_pointer Data() const;
 
  private:
-  std::array<_Tp, _rows * _cols> _m_data;
+  std::array<_Tp, _rows * _cols> _m_data{};
 
-  constexpr inline reference _m_Get(const size_type _row, const size_type _col);
-  constexpr inline const_reference _m_Get(const size_type _row,
-                                          const size_type _col) const;
+  constexpr reference _m_Get(const size_type _row, const size_type _col);
+  constexpr const_reference _m_Get(const size_type _row,
+                                   const size_type _col) const;
 };
 
 }  // namespace Sglty::Core

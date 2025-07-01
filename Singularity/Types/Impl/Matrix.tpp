@@ -12,16 +12,8 @@
 namespace Sglty::Types {
 
 template <typename _core_impl>
-Matrix<_core_impl>::Matrix() {
-  static_assert(std::is_default_constructible_v<_core_impl>,
-                "Error: attempting to default construct `_core_impl` which "
-                "is not default constructible.");
-}
-
-template <typename _core_impl>
 template <typename _core_other, bool _enable, typename>
-constexpr Matrix<_core_impl>::Matrix(const Matrix<_core_other>& _other)
-    : _m_data(0) {
+constexpr Matrix<_core_impl>::Matrix(const Matrix<_core_other>& _other) {
   static_assert(std::is_convertible_v<typename _core_other::value_type,
                                       typename core_impl::value_type>,
                 "Error: cannot convert `_core_other::value_type` to "
@@ -37,7 +29,7 @@ constexpr Matrix<_core_impl>::Matrix(const Matrix<_core_other>& _other)
 
 template <typename _core_impl>
 template <typename _expr, bool _enable, typename>
-constexpr Matrix<_core_impl>::Matrix(const _expr& _e) : _m_data(0) {
+constexpr Matrix<_core_impl>::Matrix(const _expr& _e) {
   static_assert(
       std::is_same_v<typename Matrix::core_impl, typename _expr::core_impl>,
       "Error: `core_impl` mismatch.");
@@ -114,7 +106,7 @@ Matrix<_core_impl>::Cast() const {
 
   using result_core = typename _core_impl::core_rebind_value<_Up>;
 
-  Matrix<result_core> result(0);
+  Matrix<result_core> result;
   Traverse(result, [&](std::size_t i, std::size_t j) {
     result(i, j) = static_cast<_Up>((*this)(i, j));
   });
@@ -141,7 +133,9 @@ Matrix<_core_impl>::Reorder() const {
 
 template <typename _core_impl>
 constexpr Matrix<_core_impl> Matrix<_core_impl>::Zero() {
-  return Matrix<_core_impl>(0);
+  Matrix<_core_impl> result;
+  Traverse(result, [&](std::size_t i, std::size_t j) { result(i, j) = 0; });
+  return result;
 }
 
 template <typename _core_impl>
