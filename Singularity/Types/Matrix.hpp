@@ -10,6 +10,9 @@ namespace Sglty::Types {
 
 template <typename _core_impl>
 class Matrix : public Expr::Tag {
+  static_assert(std::is_default_constructible_v<_core_impl>,
+                "Error: `_core_impl` must be default constructible.");
+
   static_assert(Traits::Core::has_size_traits_v<_core_impl>,
                 "Error: `_core_impl` must define nested type `size_traits`.");
 
