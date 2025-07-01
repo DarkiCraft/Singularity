@@ -144,6 +144,10 @@ constexpr inline bool has_core_traits_v =
     Impl::HasCoreTraits<_core_impl>::value;
 
 template <typename _core_impl>
+constexpr bool has_rebind_size_traits_v =
+    Impl::HasRebindSizeTraits<_core_impl>::value;
+
+template <typename _core_impl>
 constexpr inline bool has_member_functions_v =
     Impl::HasMemberFunctions<_core_impl>::value;
 

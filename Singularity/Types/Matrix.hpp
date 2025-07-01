@@ -23,6 +23,9 @@ class Matrix : public Expr::Tag {
       _core_impl::size_traits::rows > 0 && _core_impl::size_traits::cols > 0,
       "Error: `size_traits::rows` and `size_traits:cols` must be positive.");
 
+  static_assert(Traits::Core::has_rebind_size_traits_v<_core_impl>,
+                "Error: `_core_impl` must define rebinding traits.");
+
   static_assert(Traits::Core::has_member_functions_v<_core_impl>,
                 "Error: `_core_impl` must provide member functions `At()` and "
                 "`Data()` with correct signatures and return types.");
@@ -96,6 +99,16 @@ class Matrix : public Expr::Tag {
   constexpr Sglty::Core::Type Type() const;
   constexpr Sglty::Core::Major Major() const;
 
+  template <typename _Up>
+  constexpr Matrix<typename _core_impl::core_rebind_value<_Up>> Cast() const;
+
+  template <Core::Major _major>
+  constexpr Matrix<typename _core_impl::core_rebind_major<_major>> Reorder()
+      const;
+
+  constexpr static Matrix Zero();
+  constexpr static Matrix Identity();
+
   constexpr reference operator()(const size_type _row, const size_type _col);
   constexpr const_reference operator()(const size_type _row,
                                        const size_type _col) const;
@@ -108,10 +121,6 @@ class Matrix : public Expr::Tag {
 
   template <typename _expr>
   constexpr Matrix& operator-=(const _expr& _e);
-
-  constexpr static Matrix Zero();
-
-  constexpr static Matrix Identity();
 
   // temporary for tests
   void Print() const;

@@ -30,7 +30,7 @@ struct Dummy {
   using core_base = Dummy;
 
   template <std::size_t, std::size_t>
-  using core_rebind = Dummy;
+  using core_rebind_size = Dummy;
 
   int& At(std::size_t, std::size_t);
   const int& At(std::size_t, std::size_t) const;

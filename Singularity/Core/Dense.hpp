@@ -31,7 +31,7 @@ class Dense {
   using core_traits = Traits::Core::Get<Core::Type::Dense, _core_major>;
 
   template <size_type _rebind_rows, size_type _rebind_cols>
-  using core_rebind =
+  using core_rebind_size =
       Dense<_Tp, _rebind_rows, _rebind_cols, core_traits::core_major>;
 
   using core_base = Dense<_Tp, 0, 0, core_traits::core_major>;

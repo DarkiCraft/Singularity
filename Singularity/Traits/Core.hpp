@@ -114,22 +114,22 @@ template <typename _core_impl>
 extern const bool has_core_traits_v;
 
 /**
- * @brief Checks whether a core exposes a valid `core_rebind` + `core_base`
+ * @brief Checks whether a core exposes a valid `core_rebind_size` + `core_base`
  * pair.
  *
  * A valid rebind trait must satisfy the following:
  *
  * - The core must define a nested `core_base` type
  *
- * - The expression `core_rebind<0, 0>` must be valid and return the same type
- *   as `core_base`
+ * - The expression `core_rebind_size<0, 0>` must be valid and return the same
+ * type as `core_base`
  *
  * Expected form:
  * ```
  * using core_base = // some core impl //;
  *
  * template <std::size_t NewRows, std::size_t NewCols>
- * using core_rebind = // some specialization of core_base //;
+ * using core_rebind_size = // some specialization of core_base //;
  * ```
  *
  * This enables compile-time construction of a new core with different
@@ -140,7 +140,7 @@ extern const bool has_core_traits_v;
  * @see Sglty::Core::is_valid_v
  */
 template <typename _core_impl>
-extern const bool has_rebind_traits_v;
+extern const bool has_rebind_size_traits_v;
 
 /**
  * @brief Checks whether a core exposes valid `At()` and `Data()` member
@@ -175,7 +175,7 @@ extern const bool has_member_functions_v;
  *
  * - `Sglty::Traits::Core::has_core_traits_v`
  *
- * - `Sglty::Traits::Core::has_rebind_traits_v`
+ * - `Sglty::Traits::Core::has_rebind_size_traits_v`
  *
  * - `Sglty::Traits::Core::has_member_functions_v`
  *
@@ -186,7 +186,7 @@ extern const bool has_member_functions_v;
  * @see `Sglty::Traits::Core::has_size_traits_v`
  * @see `Sglty::Traits::Core::has_type_traits_v`
  * @see `Sglty::Traits::Core::has_core_traits_v`
- * @see `Sglty::Traits::Core::has_rebind_traits_v`
+ * @see `Sglty::Traits::Core::has_rebind_size_traits_v`
  * @see `Sglty::Traits::Core::has_member_functions_v`
  */
 template <typename _core_impl>
