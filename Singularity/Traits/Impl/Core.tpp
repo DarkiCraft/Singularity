@@ -15,7 +15,8 @@ struct Get {
       (core_type == Sglty::Core::Type::Dense &&
        (core_major == Sglty::Core::Major::Row ||
         core_major == Sglty::Core::Major::Col)) ||
-          core_type == Sglty::Core::Type::Sparse,
+          core_type == Sglty::Core::Type::Sparse &&
+              core_major == Sglty::Core::Major::Undefined,
       "Error: Invalid combination of `_core_type` and `_core_major` passed.");
 };
 
@@ -92,19 +93,20 @@ struct HasMemberFunctions<
  private:
   using type_traits = typename _core_impl::type_traits;
 
+  using size_type       = typename type_traits::size_type;
   using reference       = typename type_traits::reference;
   using const_reference = typename type_traits::const_reference;
   using pointer         = typename type_traits::pointer;
   using const_pointer   = typename type_traits::const_pointer;
 
   static constexpr bool _m_At_nonconst_returns_ref =
-      std::is_same_v<decltype(std::declval<_core_impl&>().At(std::size_t{},
-                                                             std::size_t{})),
+      std::is_same_v<decltype(std::declval<_core_impl&>().At(size_type{},
+                                                             size_type{})),
                      reference>;
 
   static constexpr bool _m_At_const_returns_cref =
       std::is_same_v<decltype(std::declval<const _core_impl&>().At(
-                         std::size_t{}, std::size_t{})),
+                         size_type{}, size_type{})),
                      const_reference>;
 
   static constexpr bool _m_Data_nonconst_returns_ptr =
