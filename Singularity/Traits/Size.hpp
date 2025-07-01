@@ -15,7 +15,7 @@ namespace Sglty::Traits::Size {
  * Example Usage:
  * ```
  * using size_traits = Sglty::Traits::Size::Get<3, 4, std::size_t>;
- * // The generated struct will contain:
+ * //! The generated struct will contain:
  * static constexpr std::size_t rows = 3;
  * static constexpr std::size_t cols = 4;
  * ```

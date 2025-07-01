@@ -13,7 +13,7 @@ namespace Sglty::Traits::Type {
  * Example Usage:
  * ```
  * using type_traits = Sglty::Traits::Type::Get<float>;
- * // The generated struct will contain:
+ * //! The generated struct will contain:
  * using value_type      = float;
  * using size_type       = std::size_t;
  * using difference_type = std::ptrdiff_t;

@@ -17,7 +17,7 @@ namespace Sglty::Traits::Core {
  *   Sglty::Core::Type::Dense,
  *   Sglty::Core::Major::Row
  * >;
- * // Constructs a group for a Dense-type, Row-major core.
+ * //! Constructs a group for a Dense, Row-major core.
  * ```
  *
  * Valid combinations are:
