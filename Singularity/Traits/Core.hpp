@@ -11,12 +11,13 @@ namespace Sglty::Traits::Core {
  * Specializations of this struct group metadata for a specific core under one
  * unified type.
  *
- * Usage:
+ * Example Usage:
  * ```
  * using core_traits = Sglty::Traits::Core::Get<
  *   Sglty::Core::Type::Dense,
  *   Sglty::Core::Major::Row
  * >;
+ * // Constructs a group for a Dense-type, Row-major core.
  * ```
  *
  * Valid combinations are:
