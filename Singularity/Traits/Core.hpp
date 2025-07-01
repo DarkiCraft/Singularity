@@ -29,6 +29,8 @@ namespace Sglty::Traits::Core {
  *
  * This struct is required during matrix construction and is validated
  * accordingly
+ *
+ * @see Sglty::Core::is_valid_v
  */
 template <Sglty::Core::Type _core_type, Sglty::Core::Major _core_major>
 struct Get;
@@ -53,6 +55,8 @@ namespace Sglty::Traits::Core {
  *
  * A convenience struct is also provided whichalways produces a valid
  * `size_traits` definition. @see `Sglty::Traits::Size::Get`
+ *
+ * @see Sglty::Core::is_valid_v
  */
 template <typename _core_impl>
 extern const bool has_size_traits_v;
@@ -78,6 +82,8 @@ extern const bool has_size_traits_v;
  *
  * A convenience struct is also provided whichalways produces a valid
  * `size_traits` definition. @see `Sglty::Traits::Type::Get`
+ *
+ * @see Sglty::Core::is_valid_v
  */
 template <typename _core_impl>
 extern const bool has_type_traits_v;
@@ -97,6 +103,8 @@ extern const bool has_type_traits_v;
  *
  * A convenience struct is also provided whichalways produces a valid
  * `size_traits` definition. @see `Sglty::Traits::Core::Get`
+ *
+ * @see Sglty::Core::is_valid_v
  */
 template <typename _core_impl>
 extern const bool has_core_traits_v;
@@ -124,6 +132,8 @@ extern const bool has_core_traits_v;
  * @tparam _core_impl Core implementation type being inspected.
  *
  * Required by all valid core types for matrix resizing or transformation
+ *
+ * @see Sglty::Core::is_valid_v
  */
 template <typename _core_impl>
 extern const bool has_rebind_traits_v;
@@ -144,6 +154,8 @@ extern const bool has_rebind_traits_v;
  * @tparam _core_impl Core implementation type being inspected.
  *
  * `type_traits` must also be present and valid for this to be meaningful
+ *
+ * @see Sglty::Core::is_valid_v
  */
 template <typename _core_impl>
 extern const bool has_member_functions_v;
@@ -151,12 +163,14 @@ extern const bool has_member_functions_v;
 /**
  * @brief Checks whether a core satisfies all required traits and behaviors.
  *
- * This combines all individual checks:
+ * Combines:
  * - `has_size_traits_v`
  * - `has_type_traits_v`
  * - `has_core_traits_v`
  * - `has_rebind_traits_v`
  * - `has_member_functions_v`
+ *
+ * Required for all core implementations used.
  *
  * @tparam _core_impl Core implementation type being validated.
  *
