@@ -17,11 +17,11 @@ constexpr Matrix<_core_impl>::Matrix(const Matrix<_core_other>& _other) {
   static_assert(std::is_convertible_v<typename _core_other::value_type,
                                       typename core_impl::value_type>,
                 "Error: cannot convert `_core_other::value_type` to "
-                "`_core_impl::value_type`.");
+                "`core_impl::value_type`.");
   static_assert(
-      Matrix<_core_impl>::rows == Matrix<_core_other>::rows &&
-          Matrix<_core_impl>::cols == Matrix<_core_other>::cols,
-      "Error: dimension mismatch between `_core_impl` and `_core_other`.");
+      Matrix<core_impl>::rows == Matrix<_core_other>::rows &&
+          Matrix<core_impl>::cols == Matrix<_core_other>::cols,
+      "Error: dimension mismatch between `core_impl` and `_core_other`.");
 
   Traverse(*this,
            [&](std::size_t i, std::size_t j) { (*this)(i, j) = _other(i, j); });
@@ -42,8 +42,8 @@ template <typename _core_impl>
 template <typename _core_other, bool _enable, typename>
 constexpr Matrix<_core_impl>& Matrix<_core_impl>::operator=(
     const Matrix<_core_other>& _other) {
-  static_assert(Matrix<_core_impl>::rows == Matrix<_core_other>::rows &&
-                    Matrix<_core_impl>::cols == Matrix<_core_other>::cols,
+  static_assert(Matrix<core_impl>::rows == Matrix<_core_other>::rows &&
+                    Matrix<core_impl>::cols == Matrix<_core_other>::cols,
                 "Error: dimension mismatch.");
 
   Matrix<_core_other> temp(_other);
@@ -71,8 +71,8 @@ template <typename... Args, bool _enable, typename>
 constexpr Matrix<_core_impl>::Matrix(Args&&... args)
     : _m_data(std::forward<Args>(args)...) {
   static_assert(
-      std::is_constructible_v<_core_impl, Args&&...>,
-      "Error: `_core_impl` is not constructible with the passed arguments.");
+      std::is_constructible_v<core_impl, Args&&...>,
+      "Error: `core_impl` is not constructible with the passed arguments.");
 }
 
 template <typename _core_impl>
@@ -104,7 +104,7 @@ Matrix<_core_impl>::Cast() const {
   static_assert(std::is_arithmetic_v<_Up>,
                 "Error: cannot cast to a non-arithmetic type.");
 
-  using result_core = typename _core_impl::core_rebind_value<_Up>;
+  using result_core = typename core_impl::core_rebind_value<_Up>;
 
   Matrix<result_core> result;
   Traverse(result, [&](std::size_t i, std::size_t j) {
@@ -123,9 +123,9 @@ Matrix<_core_impl>::Reorder() const {
         _;  // to assert correctness of new major
   }
 
-  using result_core = typename _core_impl::core_rebind_major<_major>;
+  using result_core = typename core_impl::core_rebind_major<_major>;
 
-  Matrix<result_core> result(0);
+  Matrix<result_core> result;
   Traverse(result,
            [&](std::size_t i, std::size_t j) { result(i, j) = (*this)(i, j); });
   return result;
@@ -140,11 +140,11 @@ constexpr Matrix<_core_impl> Matrix<_core_impl>::Zero() {
 
 template <typename _core_impl>
 constexpr Matrix<_core_impl> Matrix<_core_impl>::Identity() {
-  static_assert(Matrix<_core_impl>::rows == Matrix<_core_impl>::cols,
+  static_assert(Matrix<core_impl>::rows == Matrix<core_impl>::cols,
                 "Error: an Identity matrix must be a square matrix.");
-  auto result = Matrix<_core_impl>::Zero();
-  for (size_type i = 0; i < Matrix<_core_impl>::rows; i++) {
-    result(i, i) = Matrix<_core_impl>::value_type(1);
+  Matrix<core_impl> result;
+  for (size_type i = 0; i < Matrix<core_impl>::rows; i++) {
+    result(i, i) = Matrix<core_impl>::value_type(1);
   }
   return result;
 }
