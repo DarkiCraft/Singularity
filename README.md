@@ -31,7 +31,7 @@ int main() {
   constexpr Sglty::DenseMat<int, 2, 2> x     = e;            // constructs directly from e
   constexpr auto y /* decltype(y) inferred*/ = Evaluate(e);  // finds Expr::Evaluate() by ADL
 
-  // element access via operatior()(i, j)
+  // element access via operator()(i, j)
   static_assert(x(0, 0) == 6);
   static_assert(x(0, 1) == 6);
   static_assert(x(1, 0) == 6);
