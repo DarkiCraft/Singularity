@@ -1,12 +1,12 @@
 
-#Singularity
+# Singularity
 
 (I CAN FINALLY WORK ON THIS AGAIN IN THE SUMMERS WOOHOOO!!!)
 
 Singularity is a C++ header-only Linear Algebra library heavily inspired by [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page) with a focus on compile-time metaprogramming. It’s built as a hobby project to learn and experiment with advanced C++ techniques.
 
 ## Goals:
-- Provide linear algebra operations on matrices, vectors, and fields.
+- Provide linear algebra operations. (Rethinking this part, honestly.......)
 - Enable pluggable user-defined storage backends ("Cores") with full operation support.
 - Serve as a learning ground for exploring template metaprogramming and library design.
 
@@ -56,7 +56,7 @@ int main() {
   - This is by design: Singularity is built for static, type-safe, minimal-overhead linear algebra operations.
 
 ## Status:
-Foundations are now in place... gonna take a 1 day break and go on... general operations I think :)
+This project is on hold for now. I added the documentation everywhere I could. Hoping to come back to it soon!
 
 ---
 
