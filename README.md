@@ -28,6 +28,8 @@ int main() {
 
   constexpr auto e /* Expr::Binary */ = a.Cast<int>() * b.Reorder<Major::Row>();
 
+  // Expr:: types are not computed until they are assigned, or Evaluate() is called on them
+
   constexpr Sglty::DenseMat<int, 2, 2> x     = e;            // constructs directly from e
   constexpr auto y /* decltype(y) inferred*/ = Evaluate(e);  // finds Expr::Evaluate() by ADL
 
